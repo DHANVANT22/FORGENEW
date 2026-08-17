@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Sora:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-primary-fixed-variant": "#930019",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#e0dde2",
+                        "surface-container-high": "#2a2a2b",
+                        "on-tertiary": "#303034",
+                        "surface-container-highest": "#353436",
+                        "tertiary-container": "#626166",
+                        "inverse-surface": "#e5e2e3",
+                        "outline-variant": "#5b403e",
+                        "on-surface-variant": "#e4bdbb",
+                        "on-surface": "#e5e2e3",
+                        "surface-dim": "#131314",
+                        "on-secondary": "#680010",
+                        "error": "#ffb4ab",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-fixed": "#410006",
+                        "secondary-container": "#cd022a",
+                        "primary-fixed-dim": "#ffb3af",
+                        "primary": "#ffb3af",
+                        "primary-container": "#c0182a",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "on-primary-fixed": "#410006",
+                        "surface-container": "#201f20",
+                        "tertiary-fixed": "#e4e1e7",
+                        "outline": "#ab8886",
+                        "inverse-on-surface": "#313031",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "on-secondary-container": "#ffdcda",
+                        "surface-container-low": "#1c1b1c",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#ffb3af",
+                        "surface-bright": "#3a393a",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "surface": "#131314",
+                        "surface-variant": "#353436",
+                        "secondary": "#ffb3b0",
+                        "on-primary": "#68000e",
+                        "primary-fixed": "#ffdad8",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#ffdad8",
+                        "inverse-primary": "#bb1327",
+                        "on-tertiary-fixed-variant": "#47464b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Sora"],
+                        "headline-lg-mobile": ["Sora"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "display-sm": ["Sora"],
+                        "mono-label": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row min-h-screen antialiased bg-surface">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex flex-col w-[248px] h-screen fixed left-0 top-0 bg-surface-dim border-r border-outline-variant py-base gap-2 z-40">
+<div class="px-6 py-4 flex flex-col gap-1">
+<h1 class="font-headline-lg text-primary tracking-tighter">Admin Console</h1>
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase">HaizoTech HQ</p>
+</div>
+<div class="px-4 mb-4">
+<button class="w-full bg-primary-container text-on-primary-container font-mono-label text-mono-label py-3 rounded-lg hover:bg-secondary-container transition-colors shadow-[0_0_20px_rgba(192,24,42,0.2)]">
+                New Project
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto px-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container/10 text-primary border-r-2 border-primary shadow-[0_0_15px_rgba(192,24,42,0.3)] scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined filled" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings_applications">settings_applications</span>
+                Operations
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+                Insights
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="article">article</span>
+                Content
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+                Business
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+                Forge
+            </a>
+</div>
+<div class="mt-auto px-4 pt-4 border-t border-outline-variant/20 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Support
+            </a>
+<div class="mt-4 flex items-center gap-3 px-4 py-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="A macro photography style extreme close-up portrait of a professional system administrator in a dramatic, low-key lighting environment. Deep shadows contrast with a cool blue rim light, emphasizing intense focus and technological expertise. High resolution, stark cinematic look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-eET5RKUSKQ0F0-5H4-qmPRwv0uUnYxw8VCGVE1Bm6HZCvSutSuHCT1A7lxfBKQHPL8S-ESQlhKR5x5bi3Ge0YcW06O4bdi3Av9W5rrOf48y5QqPXZDDflUOPVtAX9oyUxwPJx4zSSMgBK2S_ciMRwPlr1hQar4NxYuNv1xC_QOG9L65eZeuqd3Bi_voFcdOKkJbqY5ktyG6GLoo514VdjNrwwvKvCcEJjZ7P2Cn-0cBab5YuXvTR0Q"/>
+</div>
+<div class="flex flex-col">
+<span class="font-mono-label text-mono-label text-on-surface">Alex Mercer</span>
+<span class="text-xs text-on-surface-variant font-mono-label">System Admin</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 md:ml-[248px] min-h-screen flex flex-col">
+<!-- TopNavBar (from JSON) -->
+<header class="h-[60px] sticky top-0 z-30 bg-surface-container-low border-b border-outline-variant flex items-center justify-between px-6 w-full font-mono-label text-mono-label">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span>Admin</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary">Dashboard</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface border border-outline-variant/30 transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span>
+<span>Search...</span>
+<kbd class="ml-2 px-1.5 py-0.5 rounded bg-surface-dim text-xs font-mono">⌘K</kbd>
+</button>
+<div class="flex items-center gap-4">
+<button class="relative text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-primary-container shadow-[0_0_10px_rgba(192,24,42,0.5)]"></span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop bg-surface/50 overflow-y-auto flex flex-col gap-gutter">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Good morning, Alex.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Here's the pulse of HaizoTech operations today.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-lg border border-outline-variant text-on-surface font-mono-label text-mono-label hover:border-primary hover:text-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                        Export
+                    </button>
+<button class="px-4 py-2 rounded-lg bg-primary-container text-on-primary-container font-mono-label text-mono-label hover:bg-secondary-container transition-colors shadow-[0_0_20px_rgba(192,24,42,0.2)] flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                        New Project
+                    </button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Stat Card 1 -->
+<div class="bg-[#16161A] border border-[#242428] rounded-xl p-5 hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<span class="font-mono-label text-mono-label text-on-surface-variant">New Inquiries</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="mail">mail</span>
+</div>
+<div class="flex items-end justify-between relative z-10">
+<span class="font-display-sm text-display-sm text-on-surface">24</span>
+<span class="flex items-center text-sm font-mono-label text-[#81c995] bg-[#81c995]/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span> +12%
+                        </span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-[#16161A] border border-[#242428] rounded-xl p-5 hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<span class="font-mono-label text-mono-label text-on-surface-variant">Active Projects</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="work">work</span>
+</div>
+<div class="flex items-end justify-between relative z-10">
+<span class="font-display-sm text-display-sm text-on-surface">18</span>
+<span class="flex items-center text-sm font-mono-label text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="remove">remove</span> 0%
+                        </span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-[#16161A] border border-[#242428] rounded-xl p-5 hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<span class="font-mono-label text-mono-label text-on-surface-variant">Tasks Due</span>
+<span class="material-symbols-outlined text-primary" data-icon="assignment_late">assignment_late</span>
+</div>
+<div class="flex items-end justify-between relative z-10">
+<span class="font-display-sm text-display-sm text-primary">7</span>
+<span class="flex items-center text-sm font-mono-label text-primary bg-primary-container/20 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_down">trending_down</span> Action Req
+                        </span>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-[#16161A] border border-[#242428] rounded-xl p-5 hover:border-primary transition-colors group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<span class="font-mono-label text-mono-label text-on-surface-variant">Avg Response</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="timer">timer</span>
+</div>
+<div class="flex items-end justify-between relative z-10">
+<span class="font-display-sm text-display-sm text-on-surface">1.2<span class="text-2xl text-on-surface-variant">h</span></span>
+<span class="flex items-center text-sm font-mono-label text-[#81c995] bg-[#81c995]/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_down">trending_down</span> -0.4h
+                        </span>
+</div>
+</div>
+</div>
+<!-- Main Panels Area -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+<!-- Left Panel: Recent Inquiries (Takes 2 cols) -->
+<div class="lg:col-span-2 bg-[#16161A] border border-[#242428] rounded-xl overflow-hidden flex flex-col">
+<div class="p-5 border-b border-[#242428] flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-headline-lg text-lg text-on-surface">Recent Inquiries</h3>
+<button class="text-primary font-mono-label text-xs hover:underline flex items-center">
+                            View All <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left font-body-md text-body-md">
+<thead class="bg-surface-dim font-mono-label text-xs text-on-surface-variant uppercase tracking-wider">
+<tr>
+<th class="px-5 py-3 font-medium">Client</th>
+<th class="px-5 py-3 font-medium">Type</th>
+<th class="px-5 py-3 font-medium">Date</th>
+<th class="px-5 py-3 font-medium">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#242428]">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-5 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-primary font-bold">N</div>
+<div>
+<div class="text-on-surface font-medium">Nexus Dynamics</div>
+<div class="text-xs text-on-surface-variant">Enterprise Systems</div>
+</div>
+</div>
+</td>
+<td class="px-5 py-4 text-on-surface-variant">Architecture Review</td>
+<td class="px-5 py-4 text-on-surface-variant font-mono-label text-sm">Today, 09:42</td>
+<td class="px-5 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded text-xs font-mono-label bg-primary-container/20 text-primary border border-primary/30">
+                                            New
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-5 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-on-surface font-bold">A</div>
+<div>
+<div class="text-on-surface font-medium">Aether Corp</div>
+<div class="text-xs text-on-surface-variant">Fintech Solutions</div>
+</div>
+</div>
+</td>
+<td class="px-5 py-4 text-on-surface-variant">Security Audit</td>
+<td class="px-5 py-4 text-on-surface-variant font-mono-label text-sm">Yesterday</td>
+<td class="px-5 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded text-xs font-mono-label bg-[#fbbc04]/10 text-[#fbbc04] border border-[#fbbc04]/30">
+                                            In Review
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-5 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-on-surface font-bold">V</div>
+<div>
+<div class="text-on-surface font-medium">Vanguard Labs</div>
+<div class="text-xs text-on-surface-variant">AI Research</div>
+</div>
+</div>
+</td>
+<td class="px-5 py-4 text-on-surface-variant">Cloud Migration</td>
+<td class="px-5 py-4 text-on-surface-variant font-mono-label text-sm">Oct 24, 2024</td>
+<td class="px-5 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded text-xs font-mono-label bg-[#81c995]/10 text-[#81c995] border border-[#81c995]/30">
+                                            Replied
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Panel: Notification Feed -->
+<div class="bg-[#16161A] border border-[#242428] rounded-xl flex flex-col h-[400px]">
+<div class="p-5 border-b border-[#242428] bg-surface-container-lowest">
+<h3 class="font-headline-lg text-lg text-on-surface">System Feed</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+<div class="flex gap-3 items-start">
+<div class="w-2 h-2 rounded-full bg-primary mt-2 shadow-[0_0_8px_rgba(192,24,42,0.6)]"></div>
+<div class="flex-1">
+<div class="text-sm font-medium text-on-surface">Server Load Critical</div>
+<div class="text-xs text-on-surface-variant mt-1">US-East-1 reporting 92% capacity. Auto-scaling initiated.</div>
+<div class="text-xs font-mono-label text-on-surface-variant/50 mt-1">10m ago</div>
+</div>
+</div>
+<div class="flex gap-3 items-start opacity-70">
+<div class="w-2 h-2 rounded-full bg-[#81c995] mt-2"></div>
+<div class="flex-1">
+<div class="text-sm font-medium text-on-surface">Backup Complete</div>
+<div class="text-xs text-on-surface-variant mt-1">Daily DB snapshot verified and stored in Glacier.</div>
+<div class="text-xs font-mono-label text-on-surface-variant/50 mt-1">2h ago</div>
+</div>
+</div>
+<div class="flex gap-3 items-start opacity-70">
+<div class="w-2 h-2 rounded-full bg-on-surface-variant mt-2"></div>
+<div class="flex-1">
+<div class="text-sm font-medium text-on-surface">New User Added</div>
+<div class="text-xs text-on-surface-variant mt-1">S. Carter granted 'Editor' access to Project Forge.</div>
+<div class="text-xs font-mono-label text-on-surface-variant/50 mt-1">5h ago</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Forge Summary Band -->
+<div class="mt-4 bg-surface-container-lowest border border-[#242428] rounded-xl p-6 relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-6">
+<!-- Decorative background elements -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary-container/10 rounded-full blur-[80px] pointer-events-none"></div>
+<div class="flex flex-col gap-1 z-10 w-full md:w-auto">
+<h3 class="font-headline-lg text-xl text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="architecture">architecture</span>
+                        Forge Activity
+                    </h3>
+<p class="font-body-md text-sm text-on-surface-variant">Overview of infrastructure deployments.</p>
+</div>
+<div class="flex flex-wrap md:flex-nowrap gap-6 md:gap-12 w-full md:w-auto flex-1 justify-around z-10 border-y md:border-y-0 md:border-x border-[#242428]/50 py-4 md:py-0 md:px-8">
+<div class="flex flex-col items-center">
+<span class="font-mono-label text-xs text-on-surface-variant uppercase tracking-wider mb-1">Submissions</span>
+<span class="font-display-sm text-3xl text-on-surface">142</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-mono-label text-xs text-on-surface-variant uppercase tracking-wider mb-1">Snapshots</span>
+<span class="font-display-sm text-3xl text-on-surface">89</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-mono-label text-xs text-on-surface-variant uppercase tracking-wider mb-1">Portals</span>
+<span class="font-display-sm text-3xl text-on-surface">12</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-mono-label text-xs text-on-surface-variant uppercase tracking-wider mb-1">Pulse Links</span>
+<span class="font-display-sm text-3xl text-primary drop-shadow-[0_0_8px_rgba(192,24,42,0.5)]">4</span>
+</div>
+</div>
+<div class="z-10 w-full md:w-auto text-right">
+<a class="inline-flex items-center gap-2 text-primary font-mono-label text-sm hover:text-on-primary-container transition-colors group" href="#">
+                        View Forge
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - About</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Sora:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#ffb3b0",
+                        "on-secondary-container": "#ffdcda",
+                        "on-primary-fixed-variant": "#930019",
+                        "tertiary-container": "#626166",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-container": "#e0dde2",
+                        "inverse-on-surface": "#313031",
+                        "on-background": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "inverse-primary": "#bb1327",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e3",
+                        "outline": "#ab8886",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#680010",
+                        "primary": "#ffb3af",
+                        "inverse-surface": "#e5e2e3",
+                        "on-primary-fixed": "#410006",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "surface-variant": "#353436",
+                        "on-primary": "#68000e",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed": "#410006",
+                        "on-tertiary": "#303034",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#e4bdbb",
+                        "secondary-container": "#cd022a",
+                        "surface-dim": "#131314",
+                        "surface-bright": "#3a393a",
+                        "primary-container": "#c0182a",
+                        "outline-variant": "#5b403e",
+                        "surface-tint": "#ffb3af",
+                        "surface-container-low": "#1c1b1c",
+                        "surface-container": "#201f20",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-container": "#ffd3d0",
+                        "primary-fixed": "#ffdad8",
+                        "surface": "#131314",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "background": "#131314",
+                        "surface-container-lowest": "#0e0e0f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-sm": ["Sora"],
+                        "display-lg": ["Sora"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #131314; color: #e5e2e3; }
+        .red-glow { box-shadow: 0 0 20px rgba(192, 24, 42, 0.2); }
+        .glass-panel { background: rgba(22, 22, 26, 0.7); backdrop-filter: blur(12px); border: 1px solid #242428; }
+    </style>
+</head>
+<body class="font-body-lg text-body-lg min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md fixed w-full top-0 z-50 border-b border-outline-variant/20">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface tracking-tighter">
+                HaizoTech
+            </div>
+<nav class="hidden md:flex gap-8 items-center font-mono-label text-mono-label">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Solutions</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Work</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 shadow-[0_0_10px_rgba(192,24,42,0.2)] opacity-80" href="#">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Services</a>
+</nav>
+<button class="bg-primary-container text-white px-6 py-2 rounded font-mono-label text-mono-label hover:bg-secondary-container transition-colors duration-300 hidden md:block">
+                Consultation
+            </button>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-grow pt-[100px] pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Hero Section -->
+<section class="mb-32 mt-16 text-center md:text-left">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-6">Engineered for Precision.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl md:ml-0 mx-auto">
+                We are a high-end software services agency dedicated to forging technological solutions with authoritative accuracy and disciplined craftsmanship.
+            </p>
+</section>
+<!-- Team Section -->
+<section class="mb-32">
+<div class="mb-12 border-b border-[#242428] pb-4">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Leadership Core</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+<!-- Avatar 1 -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-32 h-32 rounded-full bg-surface-container-high flex items-center justify-center mb-6 border border-[#242428] group-hover:border-primary-container group-hover:shadow-[0_0_20px_rgba(192,24,42,0.2)] transition-all duration-300">
+<span class="font-headline-lg text-headline-lg text-on-surface-variant group-hover:text-primary transition-colors">AM</span>
+</div>
+<h3 class="font-headline-lg text-[24px] font-semibold text-on-surface mb-1">Alex Mercer</h3>
+<p class="font-mono-label text-mono-label text-primary">Chief Architect</p>
+</div>
+<!-- Avatar 2 -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-32 h-32 rounded-full bg-surface-container-high flex items-center justify-center mb-6 border border-[#242428] group-hover:border-primary-container group-hover:shadow-[0_0_20px_rgba(192,24,42,0.2)] transition-all duration-300">
+<span class="font-headline-lg text-headline-lg text-on-surface-variant group-hover:text-primary transition-colors">SK</span>
+</div>
+<h3 class="font-headline-lg text-[24px] font-semibold text-on-surface mb-1">Sarah Kwon</h3>
+<p class="font-mono-label text-mono-label text-primary">Head of Engineering</p>
+</div>
+<!-- Avatar 3 -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-32 h-32 rounded-full bg-surface-container-high flex items-center justify-center mb-6 border border-[#242428] group-hover:border-primary-container group-hover:shadow-[0_0_20px_rgba(192,24,42,0.2)] transition-all duration-300">
+<span class="font-headline-lg text-headline-lg text-on-surface-variant group-hover:text-primary transition-colors">RN</span>
+</div>
+<h3 class="font-headline-lg text-[24px] font-semibold text-on-surface mb-1">Ravi Patel</h3>
+<p class="font-mono-label text-mono-label text-primary">Lead Designer</p>
+</div>
+<!-- Avatar 4 -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-32 h-32 rounded-full bg-surface-container-high flex items-center justify-center mb-6 border border-[#242428] group-hover:border-primary-container group-hover:shadow-[0_0_20px_rgba(192,24,42,0.2)] transition-all duration-300">
+<span class="font-headline-lg text-headline-lg text-on-surface-variant group-hover:text-primary transition-colors">TH</span>
+</div>
+<h3 class="font-headline-lg text-[24px] font-semibold text-on-surface mb-1">Taylor Hayes</h3>
+<p class="font-mono-label text-mono-label text-primary">Director of Ops</p>
+</div>
+</div>
+</section>
+<!-- Engineering Values Grid -->
+<section class="mb-32">
+<div class="mb-12 border-b border-[#242428] pb-4">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Engineering Values</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Value 1 -->
+<div class="glass-panel p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container group-hover:w-2 transition-all duration-300"></div>
+<h4 class="font-headline-lg text-[20px] font-bold text-on-surface mb-4 ml-4">Architectural Integrity</h4>
+<p class="font-body-md text-body-md text-on-surface-variant ml-4">
+                        We build resilient systems designed to withstand scale and complexity, prioritizing solid foundations over quick fixes.
+                    </p>
+</div>
+<!-- Value 2 -->
+<div class="glass-panel p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container group-hover:w-2 transition-all duration-300"></div>
+<h4 class="font-headline-lg text-[20px] font-bold text-on-surface mb-4 ml-4">Algorithmic Precision</h4>
+<p class="font-body-md text-body-md text-on-surface-variant ml-4">
+                        Every line of code is optimized for performance and resource efficiency, ensuring lightning-fast execution.
+                    </p>
+</div>
+<!-- Value 3 -->
+<div class="glass-panel p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container group-hover:w-2 transition-all duration-300"></div>
+<h4 class="font-headline-lg text-[20px] font-bold text-on-surface mb-4 ml-4">Operational Security</h4>
+<p class="font-body-md text-body-md text-on-surface-variant ml-4">
+                        Security is embedded into our deployment pipelines from day one, safeguarding data with enterprise-grade encryption protocols.
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom CTA Band -->
+<section class="bg-primary-container py-16 px-margin-mobile md:px-margin-desktop w-full relative overflow-hidden">
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent opacity-50"></div>
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
+<div class="mb-8 md:mb-0 text-center md:text-left">
+<h2 class="font-display-sm text-display-sm text-white mb-2">Ready to Forge Ahead?</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container">Initiate a technical consultation with our lead architects.</p>
+</div>
+<button class="bg-[#0A0A0B] text-white px-8 py-4 rounded font-mono-label text-mono-label hover:bg-[#16161A] transition-colors border border-[#242428] hover:border-primary-container flex items-center gap-2">
+                Commence Project <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1 mb-8 md:mb-0">
+<div class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-4 tracking-tighter">
+                    HaizoTech
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    © 2024 HaizoTech. Engineered for Precision.
+                </p>
+</div>
+<div class="col-span-1">
+<h4 class="font-mono-label text-mono-label text-on-surface mb-4">Legal</h4>
+<ul class="flex flex-col gap-2 font-body-md text-body-md">
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-mono-label text-mono-label text-on-surface mb-4">Platform</h4>
+<ul class="flex flex-col gap-2 font-body-md text-body-md">
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Operations</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Insights</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Content</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-mono-label text-mono-label text-on-surface mb-4">Company</h4>
+<ul class="flex flex-col gap-2 font-body-md text-body-md">
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Business</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Forge</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

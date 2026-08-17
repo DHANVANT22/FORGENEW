@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - Client Delivery Pulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#930019",
+                        "on-secondary-container": "#ffdcda",
+                        "surface-container-highest": "#353436",
+                        "surface-container-lowest": "#0e0e0f",
+                        "surface-dim": "#131314",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-surface-variant": "#e4bdbb",
+                        "on-primary-fixed": "#410006",
+                        "tertiary-container": "#626166",
+                        "on-primary": "#68000e",
+                        "on-primary-container": "#ffd3d0",
+                        "inverse-surface": "#e5e2e3",
+                        "surface-variant": "#353436",
+                        "inverse-on-surface": "#313031",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#680010",
+                        "on-background": "#e5e2e3",
+                        "primary": "#ffb3af",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "background": "#131314",
+                        "on-tertiary": "#303034",
+                        "surface-container": "#201f20",
+                        "secondary-fixed": "#ffdad8",
+                        "surface-bright": "#3a393a",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2a2a2b",
+                        "on-error": "#690005",
+                        "outline": "#ab8886",
+                        "on-surface": "#e5e2e3",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "on-secondary-fixed": "#410006",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "secondary": "#ffb3b0",
+                        "surface": "#131314",
+                        "primary-container": "#c0182a",
+                        "tertiary": "#c8c5cb",
+                        "outline-variant": "#5b403e",
+                        "surface-container-low": "#1c1b1c",
+                        "inverse-primary": "#bb1327",
+                        "tertiary-fixed": "#e4e1e7",
+                        "secondary-container": "#cd022a",
+                        "primary-fixed": "#ffdad8",
+                        "on-tertiary-container": "#e0dde2",
+                        "surface-tint": "#ffb3af"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-sm": ["Sora"],
+                        "display-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "headline-lg": ["Sora"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #111113;
+            color: #e5e2e3;
+        }
+        .bg-card-surface {
+            background-color: #16161A;
+        }
+        .border-subtle {
+            border-color: #242428;
+        }
+        .glow-active {
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.2);
+        }
+        .glass-panel {
+            background: rgba(22, 22, 26, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(36, 36, 40, 0.8);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- Top Navigation Placeholder - Logic dictated suppression as it's a specific transactional pulse page, but requirements ask for Top section HaizoTech logo. Building a specific focused header. -->
+<header class="w-full py-8 px-margin-mobile md:px-margin-desktop flex items-center justify-between z-10 border-b border-subtle">
+<div class="flex items-center gap-4">
+<span class="font-display-sm text-on-surface tracking-tighter text-[24px]">HaizoTech</span>
+<div class="h-6 w-px bg-outline-variant/30 hidden md:block"></div>
+<span class="font-body-lg text-on-surface-variant hidden md:block">Client Delivery Pulse</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+<span class="material-symbols-outlined text-emerald-400 text-sm" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-mono-label text-mono-label text-emerald-400 text-xs">This page is private to your project.</span>
+</div>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col gap-12 z-10">
+<!-- Header Section -->
+<section class="flex flex-col gap-4">
+<h1 class="font-display-sm text-on-surface">Project Alpha Genesis</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl">Real-time telemetry and delivery status for your ongoing engagement. Last synced: just now.</p>
+</section>
+<!-- Stats Row -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Stat 1 -->
+<div class="bg-card-surface border border-subtle rounded-xl p-6 flex flex-col gap-4 hover:border-primary-container hover:-translate-y-0.5 transition-all duration-300 group">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider text-xs">Tasks Completed</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary-container transition-colors" style="font-variation-settings: 'FILL' 0;">task_alt</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-headline-lg text-on-surface">34</span>
+<span class="font-body-md text-on-surface-variant pb-1">/ 51</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-card-surface border border-subtle rounded-xl p-6 flex flex-col gap-4 hover:border-primary-container hover:-translate-y-0.5 transition-all duration-300 group relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider text-xs">Current Phase</span>
+<span class="material-symbols-outlined text-primary-container glow-active rounded-full" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div class="flex items-end gap-2 relative z-10">
+<span class="font-headline-lg text-primary-container">Build</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="bg-card-surface border border-subtle rounded-xl p-6 flex flex-col gap-4 hover:border-primary-container hover:-translate-y-0.5 transition-all duration-300 group">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider text-xs">Timeline</span>
+<span class="material-symbols-outlined text-emerald-400" style="font-variation-settings: 'FILL' 0;">schedule</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+<span class="font-headline-lg text-on-surface">On track</span>
+</div>
+</div>
+</section>
+<!-- Progress Bars Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-card-surface border border-subtle rounded-xl p-8 relative overflow-hidden">
+<!-- Background element -->
+<div class="absolute -right-32 -top-32 w-96 h-96 bg-primary-container/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="flex flex-col gap-6 relative z-10">
+<div class="flex justify-between items-end">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface text-[24px]">Overall progress</h3>
+<span class="font-mono-label text-primary-container text-lg">67%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full glow-active w-[67%] relative">
+<div class="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_2s_infinite]"></div>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm">Tracking steadily against milestone 3 deliverables.</p>
+</div>
+<div class="flex flex-col gap-6 relative z-10">
+<div class="flex justify-between items-end">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface text-[24px]">Budget consumed</h3>
+<span class="font-mono-label text-amber-500 text-lg">58%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 rounded-full w-[58%]"></div>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm">Resource utilization is well within projected bounds.</p>
+</div>
+</section>
+<!-- Phase Chips Row -->
+<section class="flex flex-col gap-6">
+<h3 class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider text-sm">Engagement Roadmap</h3>
+<div class="flex flex-wrap gap-4 items-center">
+<!-- Discovery -->
+<div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-mono-label text-mono-label text-sm">Discovery</span>
+</div>
+<div class="w-8 h-px bg-outline-variant/30"></div>
+<!-- Architecture -->
+<div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-mono-label text-mono-label text-sm">Architecture</span>
+</div>
+<div class="w-8 h-px bg-outline-variant/30"></div>
+<!-- Build (Active) -->
+<div class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container/20 border-2 border-primary-container text-primary glow-active relative overflow-hidden group cursor-default">
+<div class="absolute inset-0 bg-primary-container/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+<span class="material-symbols-outlined text-sm relative z-10" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+<span class="font-mono-label text-mono-label text-sm font-bold relative z-10">Build</span>
+</div>
+<div class="w-8 h-px bg-outline-variant/30"></div>
+<!-- UAT -->
+<div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container border border-subtle text-on-surface-variant opacity-70">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">radio_button_unchecked</span>
+<span class="font-mono-label text-mono-label text-sm">UAT</span>
+</div>
+<div class="w-8 h-px bg-outline-variant/30"></div>
+<!-- Handoff -->
+<div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container border border-subtle text-on-surface-variant opacity-70">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">radio_button_unchecked</span>
+<span class="font-mono-label text-mono-label text-sm">Handoff</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer CTA -->
+<footer class="w-full mt-auto py-12 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest border-t border-subtle flex flex-col items-center justify-center text-center">
+<div class="max-w-xl flex flex-col items-center gap-4">
+<span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 0;">support_agent</span>
+<p class="font-body-lg text-on-surface text-lg">
+                Want to message the team directly? 
+                <a class="text-primary-container hover:text-primary transition-colors duration-300 font-semibold underline underline-offset-4 decoration-primary-container/30 hover:decoration-primary" href="#">Ask us to set up your Client Portal.</a>
+</p>
+</div>
+</footer>
+<style>
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+</body></html>

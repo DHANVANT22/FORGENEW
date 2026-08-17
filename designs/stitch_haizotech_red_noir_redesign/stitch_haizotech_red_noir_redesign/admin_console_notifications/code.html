@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Notifications - HaizoTech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Sora:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#e4bdbb",
+                        "tertiary-container": "#626166",
+                        "inverse-primary": "#bb1327",
+                        "primary-container": "#c0182a",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-primary-fixed-variant": "#930019",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "secondary": "#ffb3b0",
+                        "on-tertiary": "#303034",
+                        "on-secondary-fixed": "#410006",
+                        "surface-container": "#201f20",
+                        "inverse-surface": "#e5e2e3",
+                        "on-background": "#e5e2e3",
+                        "tertiary": "#c8c5cb",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-secondary": "#680010",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-surface": "#e5e2e3",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "surface-tint": "#ffb3af",
+                        "surface-variant": "#353436",
+                        "surface-dim": "#131314",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-fixed": "#410006",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "primary-fixed": "#ffdad8",
+                        "outline": "#ab8886",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "primary": "#ffb3af",
+                        "inverse-on-surface": "#313031",
+                        "on-secondary-container": "#ffdcda",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2a2a2b",
+                        "outline-variant": "#5b403e",
+                        "surface": "#131314",
+                        "surface-container-low": "#1c1b1c",
+                        "secondary-container": "#cd022a",
+                        "on-tertiary-container": "#e0dde2",
+                        "on-primary": "#68000e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "display-sm": ["Sora"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .unread-indicator {
+            box-shadow: -3px 0 0 0 #c0182a;
+        }
+        .bg-tint-2 {
+            background-color: rgba(192, 24, 42, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex">
+<!-- SideNavBar (from JSON) -->
+<nav class="bg-surface-dim text-primary font-body-md text-body-md w-[248px] h-screen fixed left-0 top-0 border-r border-outline-variant flex flex-col h-full py-base gap-2 z-40 hidden md:flex">
+<div class="px-6 py-8 border-b border-outline-variant/30 mb-4">
+<h1 class="font-headline-lg text-primary tracking-tighter">Admin Console</h1>
+<p class="text-on-surface-variant mt-1 text-sm">HaizoTech HQ</p>
+</div>
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings_applications">settings_applications</span>
+<span>Operations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span>Insights</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="article">article</span>
+<span>Content</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span>Business</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+<span>Forge</span>
+</a>
+<!-- Active state conceptually linked to Notifications/Operations, but explicit active tab logic dictates closest match. As none perfectly match 'Notifications', leaving them inactive per prompt 'Admin Notifications feed'. -->
+</div>
+<div class="px-4 mt-auto space-y-1 border-t border-outline-variant/30 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+</div>
+<div class="px-4 pb-4 pt-2">
+<button class="w-full bg-primary-container text-white py-3 rounded-lg font-mono-label text-mono-label hover:bg-[#a01422] transition-colors shadow-[0_0_20px_rgba(192,24,42,0.2)]">New Project</button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-h-screen md:ml-[248px] w-full">
+<!-- TopNavBar (from JSON) -->
+<header class="bg-surface-container-low text-primary font-mono-label text-mono-label h-[60px] sticky top-0 border-b border-outline-variant flex items-center justify-between px-6 w-full z-30">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-on-surface tracking-tighter">Admin Console</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Notifications icon is active based on context -->
+<button class="text-primary font-bold shadow-[0_0_10px_rgba(192,24,42,0.2)] relative opacity-80 transition-colors duration-300">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary-container rounded-full animate-pulse"></span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full p-1 focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<img class="w-8 h-8 rounded-full border border-outline-variant object-cover hidden md:block" data-alt="A professional headshot of an administrator in a dark, high-tech control room environment, dramatic lighting, sharp focus, desaturated tones with a hint of red accent light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJYYFvSTjyX8Iehf4K1sxsFbiDm-y9Sg8y0FJh3FVq4Ibbw8-XTjMEpVmDELNAoHSrOqA5HS2CdP1Nvjo0F07VxLBpheMEGTWGVJ-m8IK9KXRULWtMBcOVWfxAbSwEbswexG99iKwj07Eldzf_KWFgafefZDCVx5SI-dfWJhIJ8lMJSsonwNda9BEOcFuYvjLbkWLIDei1DLJYk0R-wR3EOWcu90syVPlA8xSV3jDeGag7MGTzWztYTg"/>
+</div>
+</header>
+<!-- Notifications Content -->
+<main class="flex-1 px-margin-mobile md:px-margin-desktop py-12 max-w-container-max mx-auto w-full">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<h2 class="font-display-sm text-display-sm text-on-surface">Notifications</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">System alerts, user activity, and critical updates.</p>
+</div>
+<button class="bg-transparent border border-outline-variant text-on-surface px-6 py-2 rounded-lg font-mono-label text-mono-label hover:border-[#E8243A] hover:text-[#E8243A] transition-colors">
+                    Mark all as read
+                </button>
+</div>
+<!-- Notifications List -->
+<div class="space-y-4">
+<!-- Unread Notification 1 -->
+<div class="bg-surface-container rounded-lg border border-outline-variant/50 p-6 flex items-start gap-4 hover:border-primary-container transition-colors unread-indicator bg-tint-2 relative overflow-hidden group cursor-pointer">
+<div class="absolute inset-0 bg-gradient-to-r from-primary-container/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="bg-surface-container-high p-3 rounded-full shrink-0 border border-outline-variant/30 text-primary-container z-10">
+<span class="material-symbols-outlined" data-icon="error">error</span>
+</div>
+<div class="flex-1 z-10">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-lg-mobile md:text-headline-lg text-on-surface text-lg">System Outage Detected</h3>
+<span class="font-mono-label text-mono-label text-on-surface-variant text-xs">Just now</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Database cluster eu-west-1a is experiencing high latency. Immediate investigation required.</p>
+<div class="mt-4 flex gap-3">
+<button class="bg-primary-container text-white px-4 py-1.5 rounded font-mono-label text-mono-label text-xs hover:bg-[#a01422] transition-colors">Investigate</button>
+</div>
+</div>
+</div>
+<!-- Unread Notification 2 -->
+<div class="bg-surface-container rounded-lg border border-outline-variant/50 p-6 flex items-start gap-4 hover:border-primary-container transition-colors unread-indicator bg-tint-2 relative overflow-hidden group cursor-pointer">
+<div class="absolute inset-0 bg-gradient-to-r from-primary-container/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="bg-surface-container-high p-3 rounded-full shrink-0 border border-outline-variant/30 text-secondary z-10">
+<span class="material-symbols-outlined" data-icon="group_add">group_add</span>
+</div>
+<div class="flex-1 z-10">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-lg-mobile md:text-headline-lg text-on-surface text-lg">New Client Registration Spike</h3>
+<span class="font-mono-label text-mono-label text-on-surface-variant text-xs">15 min ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Unusual volume of enterprise registrations originating from APAC region. Flagged for review.</p>
+</div>
+</div>
+<!-- Read Notification 1 -->
+<div class="bg-surface rounded-lg border border-outline-variant/30 p-6 flex items-start gap-4 hover:border-outline-variant transition-colors group cursor-pointer">
+<div class="bg-surface-container-low p-3 rounded-full shrink-0 border border-outline-variant/20 text-on-surface-variant z-10">
+<span class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
+</div>
+<div class="flex-1 z-10 opacity-70 group-hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-lg-mobile md:text-headline-lg text-on-surface text-lg">Deployment Successful</h3>
+<span class="font-mono-label text-mono-label text-on-surface-variant text-xs">2 hours ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Release v4.2.0 deployed to production environment without errors.</p>
+</div>
+</div>
+<!-- Read Notification 2 -->
+<div class="bg-surface rounded-lg border border-outline-variant/30 p-6 flex items-start gap-4 hover:border-outline-variant transition-colors group cursor-pointer">
+<div class="bg-surface-container-low p-3 rounded-full shrink-0 border border-outline-variant/20 text-on-surface-variant z-10">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="flex-1 z-10 opacity-70 group-hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-lg-mobile md:text-headline-lg text-on-surface text-lg">Weekly Analytics Report</h3>
+<span class="font-mono-label text-mono-label text-on-surface-variant text-xs">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">The weekly operations and insights report is ready for download.</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="bg-surface-container border border-outline-variant text-on-surface px-6 py-2 rounded-lg font-mono-label text-mono-label hover:bg-surface-container-high transition-colors">
+                    Load More
+                </button>
+</div>
+</main>
+</div>
+</body></html>

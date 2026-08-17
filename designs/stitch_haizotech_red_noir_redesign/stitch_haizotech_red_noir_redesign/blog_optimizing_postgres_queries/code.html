@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blog Post Detail - HaizoTech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#313031",
+                        "outline-variant": "#5b403e",
+                        "secondary-container": "#cd022a",
+                        "on-surface": "#e5e2e3",
+                        "on-tertiary-container": "#e0dde2",
+                        "secondary-fixed": "#ffdad8",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-container": "#ffdcda",
+                        "surface-container-lowest": "#0e0e0f",
+                        "surface-dim": "#131314",
+                        "on-primary-fixed-variant": "#930019",
+                        "tertiary-fixed": "#e4e1e7",
+                        "tertiary-container": "#626166",
+                        "surface-bright": "#3a393a",
+                        "on-secondary-fixed": "#410006",
+                        "surface-container-low": "#1c1b1c",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "outline": "#ab8886",
+                        "on-primary": "#68000e",
+                        "surface-variant": "#353436",
+                        "inverse-primary": "#bb1327",
+                        "primary-fixed": "#ffdad8",
+                        "on-secondary": "#680010",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "on-error": "#690005",
+                        "surface-container": "#201f20",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#ffb3b0",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "surface": "#131314",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-surface-variant": "#e4bdbb",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "primary-container": "#c0182a",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "on-primary-fixed": "#410006",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#303034",
+                        "primary": "#ffb3af",
+                        "surface-tint": "#ffb3af",
+                        "surface-container-highest": "#353436"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "margin-desktop": "64px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "display-sm": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "display-lg": ["Sora"],
+                        "body-md": ["Inter"],
+                        "mono-label": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["28px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+                        "display-sm": ["48px", { lineHeight: "1.1", letterSpacing: "-0.03em", fontWeight: "700" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "display-lg": ["72px", { lineHeight: "1.1", letterSpacing: "-0.04em", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+                        "mono-label": ["14px", { lineHeight: "1.4", letterSpacing: "0.05em", fontWeight: "500" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- TopNavBar -->
+<nav class="fixed w-full top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20 hidden md:flex justify-between items-center px-margin-desktop py-4">
+<div class="font-headline-lg text-on-surface tracking-tighter">HaizoTech</div>
+<ul class="flex gap-gutter items-center">
+<li><a class="font-headline-lg text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Solutions</a></li>
+<li><a class="font-headline-lg text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Work</a></li>
+<li><a class="font-headline-lg text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a></li>
+<li><a class="font-headline-lg text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Services</a></li>
+</ul>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded font-body-md hover:bg-primary transition-colors">Consultation</button>
+</nav>
+<nav class="fixed w-full top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20 flex md:hidden justify-between items-center px-margin-mobile py-4">
+<div class="font-headline-lg-mobile text-on-surface tracking-tighter">HaizoTech</div>
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</nav>
+<!-- Main Content -->
+<main class="pt-[100px] pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Header -->
+<header class="mb-12">
+<h1 class="font-display-sm text-display-sm md:font-display-lg md:text-display-lg mb-6 max-w-4xl">Optimizing Query Performance at Scale</h1>
+<div class="flex items-center gap-4 font-mono-label text-mono-label text-on-surface-variant">
+<span>By Engineering Team</span>
+<span>•</span>
+<span>Oct 24, 2024</span>
+<span>•</span>
+<span class="bg-surface-container-high px-2 py-1 rounded text-primary">Database</span>
+</div>
+</header>
+<!-- Prose Content -->
+<article class="font-body-lg text-body-lg max-w-3xl text-on-surface-variant space-y-6 mb-12">
+<p>
+                As our data footprint grew, we started noticing significant degradation in our core analytical queries. What used to take milliseconds was suddenly taking seconds, blocking critical rendering paths on our dashboards. The root cause was a series of complex joins on tables that had recently crossed the billion-row threshold without appropriate indexing strategies.
+            </p>
+<p>
+                We needed a systematic approach to identify the bottlenecks. We utilized PostgreSQL's `EXPLAIN ANALYZE` to visualize the execution plan. The immediate finding was a glaring sequential scan dominating the execution time, paired with an inefficient nested loop join.
+            </p>
+<!-- Query Plan Diagram Component -->
+<div class="my-12 bg-surface-container-lowest border border-outline-variant rounded-lg p-6 font-mono-label text-mono-label">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div class="text-on-surface font-headline-lg text-headline-lg-mobile">Query Execution Plan</div>
+<div class="flex gap-2">
+<button class="bg-primary-container text-white px-4 py-2 rounded text-sm hover:opacity-80 transition-opacity">Before index</button>
+<button class="border border-outline-variant text-on-surface-variant px-4 py-2 rounded text-sm hover:border-primary hover:text-primary transition-all">After index</button>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Root Node -->
+<div class="flex items-center gap-4">
+<div class="bg-surface-container p-4 rounded border border-outline-variant flex-1 flex justify-between items-center">
+<div>
+<div class="text-on-surface mb-1">Hash Join</div>
+<div class="text-on-surface-variant text-xs">cost=150.00..850.50 rows=1000</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">join</span>
+</div>
+</div>
+<!-- Left Branch (Danger) -->
+<div class="pl-8 border-l-2 border-outline-variant ml-4 relative">
+<div class="absolute w-8 border-t-2 border-outline-variant top-1/2 -left-[2px]"></div>
+<div class="bg-error-container/20 p-4 rounded border border-error flex justify-between items-center ml-8 shadow-[0_0_20px_rgba(255,180,171,0.1)]">
+<div>
+<div class="text-error mb-1 font-bold">Seq Scan on events_log</div>
+<div class="text-error/80 text-xs">cost=0.00..500.00 rows=1000000</div>
+<div class="text-error mt-2 text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">warning</span> Bottleneck identified
+                                </div>
+</div>
+<span class="material-symbols-outlined text-error">table_rows</span>
+</div>
+</div>
+<!-- Right Branch (Success) -->
+<div class="pl-8 border-l-2 border-outline-variant ml-4 relative">
+<div class="absolute w-8 border-t-2 border-outline-variant top-1/2 -left-[2px]"></div>
+<div class="bg-surface-container p-4 rounded border border-primary flex justify-between items-center ml-8 shadow-[0_0_10px_rgba(192,24,42,0.1)]">
+<div>
+<div class="text-primary mb-1">Index Scan on users_idx</div>
+<div class="text-on-surface-variant text-xs">cost=0.42..12.50 rows=1</div>
+</div>
+<span class="material-symbols-outlined text-primary">speed</span>
+</div>
+<!-- Collapsed Children -->
+<div class="ml-16 mt-4">
+<button class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full text-xs flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">add</span> +3 children
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<p>
+                By identifying the sequential scan on `events_log`, we were able to implement a targeted composite index based on the `tenant_id` and `timestamp` columns. The subsequent 'After index' plan showed a dramatic shift to an Index Only Scan, reducing the overall query cost by two orders of magnitude and resolving the dashboard rendering delays.
+            </p>
+</article>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1 mb-8 md:mb-0">
+<div class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-4">HaizoTech</div>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 HaizoTech. Engineered for Precision.</p>
+</div>
+<div class="col-span-1">
+<ul class="space-y-2 font-body-md text-body-md">
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<ul class="space-y-2 font-body-md text-body-md">
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Operations</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Insights</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Content</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<ul class="space-y-2 font-body-md text-body-md">
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Business</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Forge</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

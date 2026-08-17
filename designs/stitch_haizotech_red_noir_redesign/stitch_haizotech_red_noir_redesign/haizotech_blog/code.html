@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - Engineering Notes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Sora:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#313031",
+                        "outline-variant": "#5b403e",
+                        "secondary-container": "#cd022a",
+                        "on-surface": "#e5e2e3",
+                        "on-tertiary-container": "#e0dde2",
+                        "secondary-fixed": "#ffdad8",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-container": "#ffdcda",
+                        "surface-container-lowest": "#0e0e0f",
+                        "surface-dim": "#131314",
+                        "on-primary-fixed-variant": "#930019",
+                        "tertiary-fixed": "#e4e1e7",
+                        "tertiary-container": "#626166",
+                        "surface-bright": "#3a393a",
+                        "on-secondary-fixed": "#410006",
+                        "surface-container-low": "#1c1b1c",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "outline": "#ab8886",
+                        "on-primary": "#68000e",
+                        "surface-variant": "#353436",
+                        "inverse-primary": "#bb1327",
+                        "primary-fixed": "#ffdad8",
+                        "on-secondary": "#680010",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "on-error": "#690005",
+                        "surface-container": "#201f20",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#ffb3b0",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "surface": "#131314",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-surface-variant": "#e4bdbb",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "primary-container": "#c0182a",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "on-primary-fixed": "#410006",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#303034",
+                        "primary": "#ffb3af",
+                        "surface-tint": "#ffb3af",
+                        "surface-container-highest": "#353436"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "margin-desktop": "64px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "display-sm": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "display-lg": ["Sora"],
+                        "body-md": ["Inter"],
+                        "mono-label": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(192, 24, 42, 0.4);
+        }
+        .card-hover-fx {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover-fx:hover {
+            transform: translateY(-2px);
+            border-color: #c0182a; /* Brand Red from primary-container */
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.2);
+        }
+        .bg-level-1 { background-color: #111113; }
+        .bg-level-2 { background-color: #16161a; }
+        .border-subtle { border-color: #242428; }
+    </style>
+</head>
+<body class="bg-level-1 text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopNavBar -->
+<header class="fixed w-full top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full">
+<div class="font-headline-lg text-on-surface tracking-tighter">
+                HaizoTech
+            </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-mono-label text-mono-label" href="#">Solutions</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-mono-label text-mono-label" href="#">Work</a>
+<a aria-current="page" class="text-primary font-bold border-b-2 border-primary pb-1 shadow-[0_0_10px_rgba(192,24,42,0.2)] font-mono-label text-mono-label" href="#">Insights</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-mono-label text-mono-label" href="#">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-mono-label text-mono-label" href="#">Services</a>
+</nav>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded font-mono-label text-mono-label hover:bg-inverse-primary transition-colors duration-300">
+                Consultation
+            </button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<!-- Header Section -->
+<header class="mb-16 md:mb-24">
+<span class="block text-primary-container font-mono-label text-mono-label uppercase tracking-widest mb-4">Writing</span>
+<h1 class="font-display-sm md:font-display-lg text-display-sm md:text-display-lg text-on-surface mb-6">Engineering notes</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                    Deep dives into systems architecture, performance optimization, and the technical decisions shaping modern enterprise software.
+                </p>
+</header>
+<!-- Blog Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Article Card 1 -->
+<article class="bg-level-2 border border-subtle rounded-lg p-6 flex flex-col gap-4 card-hover-fx cursor-pointer relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<time class="font-mono-label text-mono-label text-on-surface-variant/60">2024-10-24</time>
+<span class="px-2 py-1 bg-surface-container-high rounded text-xs font-mono-label text-on-surface-variant">5 min read</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface group-hover:text-primary transition-colors">Microservices at scale: Lessons from the edge</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mt-auto">
+                        An analysis of distributed tracing and observability patterns when handling thousands of concurrent connections across geo-distributed clusters.
+                    </p>
+<div class="flex gap-2 mt-4 pt-4 border-t border-subtle">
+<span class="px-2 py-1 bg-surface-dim rounded text-xs font-mono-label text-on-surface">Architecture</span>
+<span class="px-2 py-1 bg-surface-dim rounded text-xs font-mono-label text-on-surface">Scale</span>
+</div>
+</article>
+<!-- Article Card 2 -->
+<article class="bg-level-2 border border-subtle rounded-lg p-6 flex flex-col gap-4 card-hover-fx cursor-pointer relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<time class="font-mono-label text-mono-label text-on-surface-variant/60">2024-10-18</time>
+<span class="px-2 py-1 bg-surface-container-high rounded text-xs font-mono-label text-on-surface-variant">8 min read</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface group-hover:text-primary transition-colors">Optimizing React renders with WebAssembly</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mt-auto">
+                        Exploring the boundaries of frontend performance by offloading complex computations to Rust-compiled WebAssembly modules.
+                    </p>
+<div class="flex gap-2 mt-4 pt-4 border-t border-subtle">
+<span class="px-2 py-1 bg-surface-dim rounded text-xs font-mono-label text-on-surface">Frontend</span>
+<span class="px-2 py-1 bg-surface-dim rounded text-xs font-mono-label text-on-surface">Rust</span>
+</div>
+</article>
+<!-- Article Card 3 -->
+<article class="bg-level-2 border border-subtle rounded-lg p-6 flex flex-col gap-4 card-hover-fx cursor-pointer relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<time class="font-mono-label text-mono-label text-on-surface-variant/60">2024-10-12</time>
+<span class="px-2 py-1 bg-surface-container-high rounded text-xs font-mono-label text-on-surface-variant">12 min read</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface group-hover:text-primary transition-colors">Zero-downtime migrations in PostgreSQL</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mt-auto">
+                        A definitive guide to managing complex schema changes and data migrations without disrupting active enterprise traffic.
+                    </p>
+<div class="flex gap-2 mt-4 pt-4 border-t border-subtle">
+<span class="px-2 py-1 bg-surface-dim rounded text-xs font-mono-label text-on-surface">Database</span>
+</div>
+</article>
+<!-- Article Card 4 -->
+<article class="bg-level-2 border border-subtle rounded-lg p-6 flex flex-col gap-4 card-hover-fx cursor-pointer relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<time class="font-mono-label text-mono-label text-on-surface-variant/60">2024-09-28</time>
+<span class="px-2 py-1 bg-surface-container-high rounded text-xs font-mono-label text-on-surface-variant">4 min read</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface group-hover:text-primary transition-colors">Building resilient event-driven systems</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mt-auto">
+                        How we leverage Kafka and dead-letter queues to ensure data integrity during transient network failures and service outages.
+                    </p>
+<div class="flex gap-2 mt-4 pt-4 border-t border-subtle">
+<span class="px-2 py-1 bg-surface-dim rounded text-xs font-mono-label text-on-surface">Infrastructure</span>
+<span class="px-2 py-1 bg-surface-dim rounded text-xs font-mono-label text-on-surface">Kafka</span>
+</div>
+</article>
+</div>
+<!-- Pagination / Load More -->
+<div class="mt-16 flex justify-center">
+<button class="bg-transparent border border-outline-variant text-on-surface px-8 py-3 rounded font-mono-label text-mono-label hover:border-primary-container hover:text-primary-container transition-all duration-300">
+                    Load More Articles
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12 border-t border-outline-variant/10 mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+<span class="font-headline-lg text-primary tracking-tighter">HaizoTech</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 text-sm">
+                    © 2024 HaizoTech. Engineered for Precision.
+                </p>
+</div>
+<div class="col-span-1 md:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="flex flex-col gap-3">
+<span class="font-mono-label text-mono-label text-on-surface mb-2">Platform</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Operations</a>
+<a class="font-body-md text-body-md text-primary hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Insights</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-mono-label text-mono-label text-on-surface mb-2">Company</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Content</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Business</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Forge</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-mono-label text-mono-label text-on-surface mb-2">Legal</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

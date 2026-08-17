@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sri Ask Residency - Client Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#930019",
+                      "on-secondary-container": "#ffdcda",
+                      "surface-container-highest": "#353436",
+                      "surface-container-lowest": "#0e0e0f",
+                      "surface-dim": "#131314",
+                      "primary-fixed-dim": "#ffb3af",
+                      "on-surface-variant": "#e4bdbb",
+                      "on-primary-fixed": "#410006",
+                      "tertiary-container": "#626166",
+                      "on-primary": "#68000e",
+                      "on-primary-container": "#ffd3d0",
+                      "inverse-surface": "#e5e2e3",
+                      "surface-variant": "#353436",
+                      "inverse-on-surface": "#313031",
+                      "tertiary-fixed-dim": "#c8c5cb",
+                      "error": "#ffb4ab",
+                      "on-secondary": "#680010",
+                      "on-background": "#e5e2e3",
+                      "primary": "#ffb3af",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#93001b",
+                      "background": "#131314",
+                      "on-tertiary": "#303034",
+                      "surface-container": "#201f20",
+                      "secondary-fixed": "#ffdad8",
+                      "surface-bright": "#3a393a",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#2a2a2b",
+                      "on-error": "#690005",
+                      "outline": "#ab8886",
+                      "on-surface": "#e5e2e3",
+                      "secondary-fixed-dim": "#ffb3b0",
+                      "on-tertiary-fixed": "#1b1b1f",
+                      "on-secondary-fixed": "#410006",
+                      "on-tertiary-fixed-variant": "#47464b",
+                      "secondary": "#ffb3b0",
+                      "surface": "#131314",
+                      "primary-container": "#c0182a",
+                      "tertiary": "#c8c5cb",
+                      "outline-variant": "#5b403e",
+                      "surface-container-low": "#1c1b1c",
+                      "inverse-primary": "#bb1327",
+                      "tertiary-fixed": "#e4e1e7",
+                      "secondary-container": "#cd022a",
+                      "primary-fixed": "#ffdad8",
+                      "on-tertiary-container": "#e0dde2",
+                      "surface-tint": "#ffb3af"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "64px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-sm": [
+                              "Sora"
+                      ],
+                      "display-lg": [
+                              "Sora"
+                      ],
+                      "mono-label": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg": [
+                              "Sora"
+                      ],
+                      "headline-lg-mobile": [
+                              "Sora"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-sm": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.03em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "72px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "mono-label": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #111113;
+        }
+        .card-surface {
+            background-color: #16161A;
+            border: 1px solid #242428;
+        }
+        .card-surface:hover {
+            border-color: #C0182A;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(192, 24, 42, 0.1);
+        }
+        .brand-glow {
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.2);
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased font-body-md">
+<!-- Top Navigation Bar -->
+<header class="bg-surface-container-low border-b border-outline-variant/20 sticky top-0 z-50 h-[60px] flex items-center justify-between px-margin-mobile md:px-margin-desktop w-full shadow-[0_0_10px_rgba(192,24,42,0.1)]">
+<div class="flex items-center gap-4">
+<h1 class="font-display-sm text-[24px] tracking-tight">Sri Ask Residency</h1>
+<div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 brand-glow">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-mono-label text-mono-label text-primary">In Progress · Week 6 of 14</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-highest transition-colors text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col gap-8">
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Kanban Board (Left 2 Columns) -->
+<div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- In Progress Column -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant/30">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg">In Progress</h2>
+<span class="font-mono-label text-mono-label bg-surface-container-high px-2 py-1 rounded text-on-surface-variant">3</span>
+</div>
+<div class="card-surface rounded-lg p-6 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-label text-mono-label text-primary">Design Phase</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="architecture">architecture</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-medium mb-2">Finalize Interior Layouts</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Awaiting client approval on the revised master bedroom dimensions.</p>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mb-2">
+<div class="bg-primary h-1.5 rounded-full w-[80%]"></div>
+</div>
+</div>
+<div class="card-surface rounded-lg p-6 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-label text-mono-label text-primary">Procurement</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="inventory_2">inventory_2</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-medium mb-2">Source Italian Marble</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Coordinating with vendors for the specific lot requested for the foyer.</p>
+</div>
+<div class="card-surface rounded-lg p-6 transition-all duration-300 border-primary/30">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-label text-mono-label text-error">Action Required</span>
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-medium mb-2">Review Structural Changes</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Urgent review needed for the load-bearing wall modifications.</p>
+<button class="w-full py-2 bg-primary-container text-white font-mono-label text-mono-label rounded hover:bg-primary-container/80 transition-colors">Review Documents</button>
+</div>
+</div>
+<!-- Done Column -->
+<div class="flex flex-col gap-4 opacity-70">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant/30">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg">Done</h2>
+<span class="font-mono-label text-mono-label bg-surface-container-high px-2 py-1 rounded text-on-surface-variant">3</span>
+</div>
+<div class="card-surface rounded-lg p-6 grayscale hover:grayscale-0 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-label text-mono-label text-tertiary">Site Prep</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="check_circle">check_circle</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-medium mb-2 line-through text-on-surface-variant">Initial Excavation</h3>
+<p class="font-body-md text-body-md text-tertiary-container">Completed ahead of schedule.</p>
+</div>
+<div class="card-surface rounded-lg p-6 grayscale hover:grayscale-0 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-label text-mono-label text-tertiary">Permits</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="check_circle">check_circle</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-medium mb-2 line-through text-on-surface-variant">City Zoning Approval</h3>
+<p class="font-body-md text-body-md text-tertiary-container">All documents filed and approved by municipal authorities.</p>
+</div>
+<div class="card-surface rounded-lg p-6 grayscale hover:grayscale-0 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="font-mono-label text-mono-label text-tertiary">Design Phase</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="check_circle">check_circle</span>
+</div>
+<h3 class="font-body-lg text-body-lg font-medium mb-2 line-through text-on-surface-variant">Concept Briefing</h3>
+<p class="font-body-md text-body-md text-tertiary-container">Initial mood boards and structural concepts signed off.</p>
+</div>
+</div>
+</div>
+<!-- Milestones (Right Column) -->
+<div class="lg:col-span-1 flex flex-col gap-4">
+<div class="pb-2 border-b border-outline-variant/30 mb-2">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg">Milestones</h2>
+</div>
+<div class="card-surface rounded-lg p-0 overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-outline-variant/20 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+<span class="font-body-md text-body-md">Foundation Laid</span>
+</div>
+<span class="font-mono-label text-mono-label px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded">Complete</span>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-outline-variant/20 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+<span class="font-body-md text-body-md">Framing Started</span>
+</div>
+<span class="font-mono-label text-mono-label px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded">Complete</span>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-outline-variant/20 bg-surface-container-high/50">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(192,24,42,0.5)]"></div>
+<span class="font-body-md text-body-md text-primary">Roofing &amp; Exterior</span>
+</div>
+<span class="font-mono-label text-mono-label px-2 py-1 bg-primary/10 text-primary rounded border border-primary/20">Current</span>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-outline-variant/20 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<span class="font-body-md text-body-md text-on-surface-variant">Interior Rough-in</span>
+</div>
+<span class="font-mono-label text-mono-label text-tertiary-container">Pending</span>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<span class="font-body-md text-body-md text-on-surface-variant">Final Walkthrough</span>
+</div>
+<span class="font-mono-label text-mono-label text-tertiary-container">Pending</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Communications Area -->
+<div class="mt-8 flex flex-col h-[500px] card-surface rounded-xl overflow-hidden border border-outline-variant/30">
+<div class="p-4 border-b border-outline-variant/30 bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="forum">forum</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Project Communications</h2>
+</div>
+<span class="font-mono-label text-mono-label text-on-surface-variant">Staff Online</span>
+</div>
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6 bg-surface-lowest">
+<!-- Staff Message -->
+<div class="flex flex-col items-start max-w-[80%]">
+<div class="flex items-center gap-2 mb-1 ml-1">
+<span class="font-mono-label text-[12px] text-on-surface-variant">Sarah (Project Manager)</span>
+<span class="font-mono-label text-[10px] text-tertiary-container">10:42 AM</span>
+</div>
+<div class="bg-[#16161A] border border-[#242428] rounded-2xl rounded-tl-sm p-4 text-body-md font-body-md">
+                        Good morning! I've uploaded the latest 3D renders for the living area. Please review the lighting options we discussed last week. Let me know if the pendant fixtures look right to you.
+                    </div>
+</div>
+<!-- Client Message -->
+<div class="flex flex-col items-end max-w-[80%] self-end">
+<div class="flex items-center gap-2 mb-1 mr-1">
+<span class="font-mono-label text-[10px] text-tertiary-container">11:15 AM</span>
+<span class="font-mono-label text-[12px] text-primary">You</span>
+</div>
+<div class="bg-[rgba(192,24,42,0.10)] border border-primary/30 rounded-2xl rounded-tr-sm p-4 text-body-md font-body-md">
+                        Thanks Sarah. The renders look great. I think option B for the lighting is perfect. Can we proceed with ordering those?
+                    </div>
+</div>
+<!-- Staff Message -->
+<div class="flex flex-col items-start max-w-[80%]">
+<div class="flex items-center gap-2 mb-1 ml-1">
+<span class="font-mono-label text-[12px] text-on-surface-variant">Sarah (Project Manager)</span>
+<span class="font-mono-label text-[10px] text-tertiary-container">11:30 AM</span>
+</div>
+<div class="bg-[#16161A] border border-[#242428] rounded-2xl rounded-tl-sm p-4 text-body-md font-body-md">
+                        Excellent choice. I'll get those ordered today. Also, just a heads up, the structural review document requires your signature in the portal when you have a moment.
+                    </div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 border-t border-outline-variant/30 bg-surface-container-low">
+<form class="flex gap-4">
+<input class="flex-1 bg-[#0A0A0B] border border-[#242428] rounded-lg px-4 py-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-body-md transition-all" placeholder="Type your message..." type="text"/>
+<button class="bg-primary-container text-white px-6 py-3 rounded-lg font-mono-label text-mono-label hover:bg-[#A01423] transition-colors flex items-center gap-2 brand-glow" type="button">
+                        Send
+                        <span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</form>
+</div>
+</div>
+</main>
+</body></html>

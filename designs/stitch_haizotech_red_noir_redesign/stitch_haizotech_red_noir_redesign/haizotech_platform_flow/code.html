@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - Red Noir Redesign</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-primary-fixed-variant": "#930019",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#e0dde2",
+                        "surface-container-high": "#2a2a2b",
+                        "on-tertiary": "#303034",
+                        "surface-container-highest": "#353436",
+                        "tertiary-container": "#626166",
+                        "inverse-surface": "#e5e2e3",
+                        "outline-variant": "#5b403e",
+                        "on-surface-variant": "#e4bdbb",
+                        "on-surface": "#e5e2e3",
+                        "surface-dim": "#131314",
+                        "on-secondary": "#680010",
+                        "error": "#ffb4ab",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-fixed": "#410006",
+                        "secondary-container": "#cd022a",
+                        "primary-fixed-dim": "#ffb3af",
+                        "primary": "#ffb3af",
+                        "primary-container": "#c0182a",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "on-primary-fixed": "#410006",
+                        "surface-container": "#201f20",
+                        "tertiary-fixed": "#e4e1e7",
+                        "outline": "#ab8886",
+                        "inverse-on-surface": "#313031",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "on-secondary-container": "#ffdcda",
+                        "surface-container-low": "#1c1b1c",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#ffb3af",
+                        "surface-bright": "#3a393a",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "surface": "#131314",
+                        "surface-variant": "#353436",
+                        "secondary": "#ffb3b0",
+                        "on-primary": "#68000e",
+                        "primary-fixed": "#ffdad8",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#ffdad8",
+                        "inverse-primary": "#bb1327",
+                        "on-tertiary-fixed-variant": "#47464b"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1280px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "base": "8px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Sora"],
+                        "headline-lg-mobile": ["Sora"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "display-sm": ["Sora"],
+                        "mono-label": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "display-lg": ["72px", { lineHeight: "1.1", letterSpacing: "-0.04em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+                        "display-sm": ["48px", { lineHeight: "1.1", letterSpacing: "-0.03em", fontWeight: "700" }],
+                        "mono-label": ["14px", { lineHeight: "1.4", letterSpacing: "0.05em", fontWeight: "500" }]
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        .animated-text::after {
+            content: 'custom software.';
+            animation: cycleText 8s infinite;
+        }
+        
+        @keyframes cycleText {
+            0%, 20% { content: 'custom software.'; }
+            25%, 45% { content: 'AI systems.'; }
+            50%, 70% { content: 'web & mobile apps.'; }
+            75%, 95% { content: 'secure infrastructure.'; }
+            100% { content: 'custom software.'; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-md fixed w-full top-0 z-50 border-b border-outline-variant/20">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full">
+<a class="font-headline-lg text-on-surface tracking-tighter" href="#">HaizoTech</a>
+<!-- Desktop Nav -->
+<ul class="hidden md:flex items-center gap-8">
+<li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-body-md" href="#">Solutions</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-body-md" href="#">Work</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-body-md" href="#">About</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-body-md" href="#">Services</a></li>
+</ul>
+<button class="bg-primary-container text-on-primary hover:bg-primary-container/80 px-6 py-2 rounded-DEFAULT transition-colors font-body-md">Consultation</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-24 md:pt-48 md:pb-32 bg-surface-container-lowest overflow-hidden">
+<!-- Red gradient wash -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/10 via-transparent to-transparent pointer-events-none"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="inline-flex items-center border-l-2 border-primary pl-4 mb-8">
+<span class="font-mono-label text-mono-label text-on-surface-variant tracking-wider uppercase text-xs">Coimbatore-based software services agency</span>
+</div>
+<h1 class="font-display-lg text-display-sm md:text-display-lg text-on-surface max-w-4xl mb-8 leading-tight">
+                We engineer <br/>
+<span class="text-primary animated-text inline-block min-w-[300px]"></span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-12">
+                Disciplined engineering meets dark-noir aesthetics. We build robust, scalable digital solutions for enterprises that demand precision and performance.
+            </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-on-surface text-surface hover:bg-surface-variant hover:text-on-surface px-8 py-4 rounded-DEFAULT font-body-md font-semibold transition-all">
+                    Start a Project
+                </button>
+<button class="border border-outline hover:border-primary hover:text-primary px-8 py-4 rounded-DEFAULT font-body-md transition-all text-on-surface">
+                    What we do
+                </button>
+</div>
+</div>
+</header>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1 mb-8 md:mb-0">
+<a class="font-headline-lg text-primary block mb-4" href="#">HaizoTech</a>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 HaizoTech. Engineered for Precision.</p>
+</div>
+<div class="col-span-1">
+<h4 class="font-body-lg text-on-surface mb-4">Legal</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-body-lg text-on-surface mb-4">Platform</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Operations</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Insights</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Content</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-body-lg text-on-surface mb-4">Company</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Business</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Forge</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

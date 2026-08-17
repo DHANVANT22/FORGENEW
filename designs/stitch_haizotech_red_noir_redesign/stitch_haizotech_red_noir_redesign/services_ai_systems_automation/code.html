@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Systems &amp; Automation - HaizoTech</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter, Sora, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#ffb3b0",
+                        "on-secondary-container": "#ffdcda",
+                        "on-primary-fixed-variant": "#930019",
+                        "tertiary-container": "#626166",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-container": "#e0dde2",
+                        "inverse-on-surface": "#313031",
+                        "on-background": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "inverse-primary": "#bb1327",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e3",
+                        "outline": "#ab8886",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#680010",
+                        "primary": "#ffb3af",
+                        "inverse-surface": "#e5e2e3",
+                        "on-primary-fixed": "#410006",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "surface-variant": "#353436",
+                        "on-primary": "#68000e",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed": "#410006",
+                        "on-tertiary": "#303034",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#e4bdbb",
+                        "secondary-container": "#cd022a",
+                        "surface-dim": "#131314",
+                        "surface-bright": "#3a393a",
+                        "primary-container": "#c0182a",
+                        "outline-variant": "#5b403e",
+                        "surface-tint": "#ffb3af",
+                        "surface-container-low": "#1c1b1c",
+                        "surface-container": "#201f20",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-container": "#ffd3d0",
+                        "primary-fixed": "#ffdad8",
+                        "surface": "#131314",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "background": "#131314",
+                        "surface-container-lowest": "#0e0e0f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-sm": ["Sora"],
+                        "display-lg": ["Sora"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom scrollbar to match Noir aesthetic */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0A0B; }
+        ::-webkit-scrollbar-thumb { background: #353436; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c0182a; }
+        
+        /* Subtle red ambient shadow for cards */
+        .hover-card-shadow:hover {
+            box-shadow: 0 4px 24px rgba(192, 24, 42, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed w-full top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full mx-auto">
+<!-- Brand -->
+<a class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface tracking-tighter" href="#">
+                HaizoTech
+            </a>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-8 font-mono-label text-mono-label">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Solutions</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Work</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a>
+<!-- Active Link: Services -->
+<a aria-current="page" class="text-primary font-bold border-b-2 border-primary pb-1 shadow-[0_0_10px_rgba(192,24,42,0.2)] hover:text-primary transition-colors duration-300 opacity-80" href="#">Services</a>
+</nav>
+<!-- Trailing Action -->
+<button class="hidden md:inline-flex items-center justify-center bg-primary-container text-on-primary-container font-mono-label text-mono-label px-6 py-2.5 rounded hover:bg-inverse-primary transition-colors duration-300">
+                Consultation
+            </button>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow pt-[80px]"> <!-- pt offsets fixed header -->
+<!-- Hero Section -->
+<section class="relative px-margin-mobile md:px-margin-desktop py-24 md:py-32 overflow-hidden border-b border-outline-variant/10">
+<!-- Subtle background texture -->
+<div class="absolute inset-0 opacity-10 bg-cover bg-center z-0" data-alt="A highly abstract, dark minimalist digital rendering of a neural network or circuitry. The background is a deep, pristine black (Noir aesthetic) with extremely faint, almost imperceptible geometric lines and subtle, hazy glows of deep crimson red intersecting at nodes. The lighting is low-key, moody, and sophisticated, suggesting advanced technology operating silently in the void." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAaqHVxqKUutHa8o7Fw4gPXyk3s21n7Esp_VGWTYnY3zz_oMDUgv6kqHXLzYEHVG1GQ0bmbUMCmeJ2S1ncs4tVuv2yum8AlPJdeZamgyureXs9miv5YAvJdbdpqymEz9jRSIIAJyBqXmigln6IJjt0KSchNUN8AhEavdBvp1Dd5Az9AL-AmlohoP0kmS421o5WcEGVaQpxtZ8vr3B6WeKnNahrPCzXuCA3P8hPUpKpikspixVNQOQ546g')"></div>
+<div class="relative z-10 max-w-container-max mx-auto flex flex-col items-start gap-6">
+<!-- Large Icon -->
+<div class="mb-4 text-primary">
+<span class="material-symbols-outlined text-[80px]" style="font-variation-settings: 'FILL' 0, 'wght' 300;">memory</span>
+</div>
+<!-- Overline -->
+<span class="font-mono-label text-mono-label text-primary uppercase tracking-[0.2em] border border-primary/30 px-3 py-1 rounded-full bg-primary-container/5">
+                    Service
+                </span>
+<!-- H1 -->
+<h1 class="font-display-sm text-display-sm md:font-display-lg md:text-display-lg text-on-surface max-w-4xl tracking-tight">
+                    AI Systems &amp; Automation
+                </h1>
+<!-- Lead Paragraph -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-4">
+                    Deploy intelligent architectures that transform raw data into predictive power. We engineer bespoke machine learning models and automated pipelines designed to execute complex operations with flawless precision, accelerating your operational velocity.
+                </p>
+<!-- CTAs -->
+<div class="flex flex-col sm:flex-row gap-4 mt-8">
+<button class="inline-flex items-center justify-center bg-primary-container text-on-primary-container font-mono-label text-mono-label px-8 py-4 rounded hover:bg-inverse-primary transition-all duration-300 group">
+                        Start a Project
+                        <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="inline-flex items-center justify-center border border-surface-variant bg-transparent text-on-surface font-mono-label text-mono-label px-8 py-4 rounded hover:border-primary hover:text-primary transition-all duration-300">
+                        View Case Studies
+                    </button>
+</div>
+</div>
+</section>
+<!-- What's Included Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-24 bg-surface">
+<div class="max-w-container-max mx-auto">
+<div class="mb-16 md:mb-24 max-w-2xl">
+<h2 class="font-display-sm text-display-sm text-on-surface mb-4">Core Capabilities</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">The foundational elements integrated into every AI system we deploy, ensuring scalable, secure, and highly performant autonomous solutions.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-low border border-surface-variant p-8 rounded-lg hover:border-primary transition-all duration-300 hover:-translate-y-1 hover-card-shadow flex flex-col gap-6 group">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-on-surface group-hover:text-primary transition-colors">model_training</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Custom LLM Deployment</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Tailored large language models fine-tuned on your proprietary data corpus, encapsulated securely within your infrastructure.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-low border border-surface-variant p-8 rounded-lg hover:border-primary transition-all duration-300 hover:-translate-y-1 hover-card-shadow flex flex-col gap-6 group">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-on-surface group-hover:text-primary transition-colors">account_tree</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Predictive Pipelines</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Automated data processing architectures that ingest real-time streams to forecast trends and trigger autonomous business logic.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-low border border-surface-variant p-8 rounded-lg hover:border-primary transition-all duration-300 hover:-translate-y-1 hover-card-shadow flex flex-col gap-6 group">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-on-surface group-hover:text-primary transition-colors">security</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-3">Governance &amp; Guardrails</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Strict deterministic wrappers around probabilistic models, ensuring AI outputs adhere strictly to regulatory and brand compliance protocols.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How we do it Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-24 bg-background border-t border-outline-variant/10">
+<div class="max-w-container-max mx-auto">
+<div class="mb-16">
+<h2 class="font-display-sm text-display-sm text-on-surface">Methodology</h2>
+</div>
+<div class="flex flex-col gap-12 md:gap-16">
+<!-- Step 01 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-gutter group">
+<div class="md:col-span-3 flex items-start">
+<span class="font-display-sm text-display-sm text-primary group-hover:text-inverse-primary transition-colors duration-300">01</span>
+</div>
+<div class="md:col-span-9 border-t border-surface-variant pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-12 flex flex-col justify-center">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">Diagnostic Audit</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">We map your existing data topography and identify high-leverage bottlenecks where automation yields the highest exponential returns.</p>
+</div>
+</div>
+<!-- Step 02 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-gutter group">
+<div class="md:col-span-3 flex items-start">
+<span class="font-display-sm text-display-sm text-primary group-hover:text-inverse-primary transition-colors duration-300">02</span>
+</div>
+<div class="md:col-span-9 border-t border-surface-variant pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-12 flex flex-col justify-center">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">Architecture Design</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Structuring the neural framework. We select the optimal models (open-source or proprietary) and design the secure ingestion and inference pipelines.</p>
+</div>
+</div>
+<!-- Step 03 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-gutter group">
+<div class="md:col-span-3 flex items-start">
+<span class="font-display-sm text-display-sm text-primary group-hover:text-inverse-primary transition-colors duration-300">03</span>
+</div>
+<div class="md:col-span-9 border-t border-surface-variant pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-12 flex flex-col justify-center">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">Model Training &amp; Tuning</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Rigorous training cycles utilizing your exclusive data sets to align the model's logic with your specific operational context and domain expertise.</p>
+</div>
+</div>
+<!-- Step 04 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-gutter group">
+<div class="md:col-span-3 flex items-start">
+<span class="font-display-sm text-display-sm text-primary group-hover:text-inverse-primary transition-colors duration-300">04</span>
+</div>
+<div class="md:col-span-9 border-t border-surface-variant pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-12 flex flex-col justify-center">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">Integration &amp; Guardrails</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Deploying the intelligence into your existing stack. We wrap the AI in strict deterministic logic to ensure outputs are reliable, safe, and actionable.</p>
+</div>
+</div>
+<!-- Step 05 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-gutter group">
+<div class="md:col-span-3 flex items-start">
+<span class="font-display-sm text-display-sm text-primary group-hover:text-inverse-primary transition-colors duration-300">05</span>
+</div>
+<div class="md:col-span-9 border-t border-surface-variant pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-12 flex flex-col justify-center">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">Optimization &amp; Drift Monitoring</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Continuous post-deployment surveillance. We monitor for data drift and model degradation, initiating retraining cycles to maintain peak precision.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom CTA Band -->
+<section class="bg-primary-container py-24 px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+<!-- Decorative geometric overlay -->
+<div class="absolute inset-0 opacity-10 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-[400px] text-on-primary-container/20 rotate-12">hub</span>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+<div class="max-w-2xl">
+<h2 class="font-display-sm text-display-sm text-on-primary-container mb-4">Ready to accelerate?</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container/80">Engage our engineering team to architect your next competitive advantage.</p>
+</div>
+<button class="shrink-0 inline-flex items-center justify-center bg-surface text-primary font-mono-label text-mono-label px-8 py-4 rounded hover:bg-surface-variant transition-colors duration-300">
+                    Initiate Project
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest w-full py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Brand / Copyright -->
+<div class="flex flex-col gap-4 col-span-1 md:col-span-1">
+<span class="font-headline-lg text-primary">HaizoTech</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-auto pt-8">
+                    © 2024 HaizoTech. Engineered for Precision.
+                </p>
+</div>
+<!-- Links Column 1 -->
+<div class="flex flex-col gap-3">
+<h4 class="font-mono-label text-mono-label text-on-surface mb-2 uppercase tracking-wider">Legal</h4>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Terms of Service</a>
+</div>
+<!-- Links Column 2 -->
+<div class="flex flex-col gap-3">
+<h4 class="font-mono-label text-mono-label text-on-surface mb-2 uppercase tracking-wider">Platform</h4>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Operations</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Insights</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Content</a>
+</div>
+<!-- Links Column 3 -->
+<div class="flex flex-col gap-3">
+<h4 class="font-mono-label text-mono-label text-on-surface mb-2 uppercase tracking-wider">Company</h4>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Business</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Forge</a>
+</div>
+</div>
+</footer>
+</body></html>

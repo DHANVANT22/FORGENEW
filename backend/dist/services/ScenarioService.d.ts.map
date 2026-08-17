@@ -1,0 +1,1 @@
+{"version":3,"file":"ScenarioService.d.ts","sourceRoot":"","sources":["../../src/services/ScenarioService.ts"],"names":[],"mappings":"AAEA,qBAAa,eAAe;IACb,cAAc,CAAC,IAAI,EAAE;QAAE,MAAM,EAAE,GAAG,CAAC;QAAC,YAAY,EAAE,MAAM,CAAC;QAAC,UAAU,CAAC,EAAE,MAAM,CAAC;QAAC,SAAS,CAAC,EAAE,MAAM,CAAC;QAAC,SAAS,CAAC,EAAE,MAAM,CAAA;KAAE;;;;;;;;;IAYvH,qBAAqB,CAAC,SAAS,EAAE,MAAM;;;;;;;;;CAMrD"}

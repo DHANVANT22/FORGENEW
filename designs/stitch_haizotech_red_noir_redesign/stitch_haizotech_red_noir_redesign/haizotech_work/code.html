@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Work - HaizoTech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#ffb3b0",
+                        "on-secondary-container": "#ffdcda",
+                        "on-primary-fixed-variant": "#930019",
+                        "tertiary-container": "#626166",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-container": "#e0dde2",
+                        "inverse-on-surface": "#313031",
+                        "on-background": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "inverse-primary": "#bb1327",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e3",
+                        "outline": "#ab8886",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#680010",
+                        "primary": "#ffb3af",
+                        "inverse-surface": "#e5e2e3",
+                        "on-primary-fixed": "#410006",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "surface-variant": "#353436",
+                        "on-primary": "#68000e",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed": "#410006",
+                        "on-tertiary": "#303034",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#e4bdbb",
+                        "secondary-container": "#cd022a",
+                        "surface-dim": "#131314",
+                        "surface-bright": "#3a393a",
+                        "primary-container": "#c0182a",
+                        "outline-variant": "#5b403e",
+                        "surface-tint": "#ffb3af",
+                        "surface-container-low": "#1c1b1c",
+                        "surface-container": "#201f20",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-container": "#ffd3d0",
+                        "primary-fixed": "#ffdad8",
+                        "surface": "#131314",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "background": "#131314",
+                        "surface-container-lowest": "#0e0e0f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-sm": ["Sora"],
+                        "display-lg": ["Sora"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { background-color: #131314; color: #e5e2e3; font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col bg-background text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed w-full top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20 transition-all duration-300">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<a class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface tracking-tighter" href="#">HaizoTech</a>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Solutions</a>
+<a class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-bold border-b-2 border-primary pb-1 shadow-[0_0_10px_rgba(192,24,42,0.2)] opacity-80" href="#">Work</a>
+<a class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a>
+<a class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Services</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded font-mono-label text-mono-label hover:bg-inverse-primary transition-colors">
+                Consultation
+            </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Header -->
+<header class="mb-16">
+<h1 class="font-display-lg text-display-lg mb-4 text-on-surface">Our Work</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                Engineering precision across industries. A curated selection of our high-impact transformations.
+            </p>
+</header>
+<!-- Filter Row -->
+<div class="flex flex-wrap gap-4 mb-12">
+<button class="px-4 py-2 rounded-full border border-primary text-primary bg-primary-container/10 font-mono-label text-mono-label shadow-[0_0_15px_rgba(192,24,42,0.2)] transition-all">All</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-all font-mono-label text-mono-label">Healthcare</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-all font-mono-label text-mono-label">FinTech</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-all font-mono-label text-mono-label">Education</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-all font-mono-label text-mono-label">Hospitality</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-all font-mono-label text-mono-label">Logistics</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-all font-mono-label text-mono-label">Cloud</button>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Card 1 -->
+<article class="group bg-[#16161A] border border-[#242428] rounded-lg overflow-hidden hover:border-primary transition-all duration-300 hover:shadow-[0_0_20px_rgba(192,24,42,0.1)] hover:-translate-y-1 cursor-pointer">
+<div class="h-64 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A sleek, futuristic medical dashboard interface displayed on a high-resolution monitor in a dark, clinical setting. The screen shows complex data visualizations, glowing vital signs, and genetic sequencing graphs in electric blue and crisp white against a deep obsidian background. Subtle brand red accents highlight critical alerts. The lighting is moody and precise, emphasizing the technological sophistication of modern healthcare IT systems designed for a premium agency portfolio." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAAxQUuVK1LwuNDClpKLdLXIy4qzL8NL5JDAlOQNgxYFly2_Cw4_w8KA6HVGmKEXBP06Z3yqs2HmcDZ5Eyo2KTJKdAjMd7nGtDmPGPDECAhU3YuI9bpjskdtVPP8qujobX0XSAz5_S3lQGELZkkBqrFVCVc8jVY82gKjJF9fdiz8soGbOCN0YXiVip7n425vBSHfQvTHpKJf-NKpu3oP8jneAV9rTw8sVxHaMfMQUzMUaViYduwmUXJmA')"></div>
+</div>
+<div class="p-8">
+<div class="flex gap-2 mb-4">
+<span class="text-xs font-mono-label text-primary bg-primary-container/10 px-2 py-1 rounded">Healthcare</span>
+<span class="text-xs font-mono-label text-on-surface-variant bg-surface-variant px-2 py-1 rounded">2023</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2 group-hover:text-primary transition-colors">NovaMed Core Analytics</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Revolutionizing patient data throughput with a zero-latency predictive diagnostic engine.</p>
+<div class="flex items-center text-primary font-mono-label text-mono-label">
+                        View Case Study <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="group bg-[#16161A] border border-[#242428] rounded-lg overflow-hidden hover:border-primary transition-all duration-300 hover:shadow-[0_0_20px_rgba(192,24,42,0.1)] hover:-translate-y-1 cursor-pointer">
+<div class="h-64 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A sophisticated global logistics command center illuminated in a dark, high-tech environment. Multiple glowing screens display interconnected global supply chain maps with dynamic routing nodes. The color palette features deep blacks, stark whites, and sharp brand red accents tracing optimal shipping paths. The overall atmosphere is authoritative, precise, and highly engineered, suitable for a dark-professional software agency case study." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDrYKlb5y4tBWjs0me1r-4t6cnJHcklwqWQ6fdf09gu-8ZkKvbQ0J1fyxR0h9gngnfvZsqd7f5xNDupcGyYScs7brMghdVkvRHqimuvIOz4N1fPj5dYnOxB4GCcvl-LEkhyMvP0ISCccwYpuu_bV2ALrJ1x6JPh8CYpnN6mgVUXX6gYr0YqxSl0j6LsTHsuckgWk7DGVu040dV9M87whwLxlHU38JYFFfBDpk71AgCTrI2UqPCCbtL2fA')"></div>
+</div>
+<div class="p-8">
+<div class="flex gap-2 mb-4">
+<span class="text-xs font-mono-label text-primary bg-primary-container/10 px-2 py-1 rounded">Logistics</span>
+<span class="text-xs font-mono-label text-on-surface-variant bg-surface-variant px-2 py-1 rounded">2024</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2 group-hover:text-primary transition-colors">AeroFreight Global Routing</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Optimizing global supply chains using real-time algorithmic pathfinding and automated dispatch.</p>
+<div class="flex items-center text-primary font-mono-label text-mono-label">
+                        View Case Study <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="group bg-[#16161A] border border-[#242428] rounded-lg overflow-hidden hover:border-primary transition-all duration-300 hover:shadow-[0_0_20px_rgba(192,24,42,0.1)] hover:-translate-y-1 cursor-pointer">
+<div class="h-64 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="An abstract visualization of cloud infrastructure represented by glowing, interconnected geometric prisms floating in a vast, dark digital space. The structures emit a soft, cool light that contrasts sharply against the pitch-black void. Subtle pulses of brand red energy travel along the connecting lines, symbolizing high-speed data transfer and robust security. The mood is serene, minimalist, and technologically advanced, fitting a high-end enterprise IT portfolio." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnzDJ2YKwq-FKr_5fLx9FpaFPAA6IRmQe8-A6pPcffI6m_Yg6fVMVI_98BMWqL0FXB89wGdxRoAg6YkmospNsuHp61JR9HUXTDkis4T3tjr87zKTArdjNoXzIdXypAfulEyjmRAzZCsuzCqyhhFio9We5aSwVXK5ZL6zqXtbHVkh-2lolngF1eVBWOYRdbQK0baykUoQwTI4WyNhJmZlGzlvgx9_DzAwvQFcuGB3HgeeiFrhmuhVRg5g')"></div>
+</div>
+<div class="p-8">
+<div class="flex gap-2 mb-4">
+<span class="text-xs font-mono-label text-primary bg-primary-container/10 px-2 py-1 rounded">Cloud</span>
+<span class="text-xs font-mono-label text-on-surface-variant bg-surface-variant px-2 py-1 rounded">2023</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2 group-hover:text-primary transition-colors">Stratus Enterprise Migration</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Seamless transition of monolithic legacy systems to a highly scalable, distributed microservices architecture.</p>
+<div class="flex items-center text-primary font-mono-label text-mono-label">
+                        View Case Study <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Card 4 (Empty State) -->
+<article class="bg-[#16161A]/50 border-2 border-dashed border-[#242428] rounded-lg flex flex-col items-center justify-center p-12 text-center h-full min-h-[400px]">
+<div class="w-16 h-16 rounded-full bg-surface-variant/50 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant">account_balance_wallet</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2 text-on-surface-variant">FinTech Innovations in Progress</h3>
+<p class="font-body-md text-body-md text-tertiary-fixed-dim max-w-sm mb-6">
+                    We are currently finalizing documentation for our latest financial technology deployments. Return shortly to view the published case study.
+                </p>
+<div class="flex gap-2">
+<span class="text-xs font-mono-label text-on-surface-variant bg-surface-variant px-3 py-1 rounded opacity-50">FinTech</span>
+<span class="text-xs font-mono-label text-on-surface-variant bg-surface-variant px-3 py-1 rounded opacity-50">Coming Soon</span>
+</div>
+</article>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12 border-t border-outline-variant/10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1 mb-8 md:mb-0">
+<span class="font-headline-lg text-primary block mb-4">HaizoTech</span>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 HaizoTech. Engineered for Precision.</p>
+</div>
+<div class="col-span-1">
+<h4 class="font-mono-label text-on-surface mb-4">Company</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-mono-label text-on-surface mb-4">Sectors</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Operations</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Insights</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-mono-label text-on-surface mb-4">Resources</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Content</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Business</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1 inline-block" href="#">Forge</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

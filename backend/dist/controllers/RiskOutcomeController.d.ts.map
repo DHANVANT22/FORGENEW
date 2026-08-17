@@ -1,0 +1,1 @@
+{"version":3,"file":"RiskOutcomeController.d.ts","sourceRoot":"","sources":["../../src/controllers/RiskOutcomeController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAG5C,qBAAa,qBAAqB;WACZ,UAAU,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ;WAwBtC,WAAW,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ;CAiB5D"}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Our Capabilities | HaizoTech Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#ffb3b0",
+                        "on-secondary-container": "#ffdcda",
+                        "on-primary-fixed-variant": "#930019",
+                        "tertiary-container": "#626166",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-container": "#e0dde2",
+                        "inverse-on-surface": "#313031",
+                        "on-background": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "inverse-primary": "#bb1327",
+                        "error": "#ffb4ab",
+                        "on-surface": "#e5e2e3",
+                        "outline": "#ab8886",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#680010",
+                        "primary": "#ffb3af",
+                        "inverse-surface": "#e5e2e3",
+                        "on-primary-fixed": "#410006",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "surface-variant": "#353436",
+                        "on-primary": "#68000e",
+                        "tertiary": "#c8c5cb",
+                        "on-secondary-fixed": "#410006",
+                        "on-tertiary": "#303034",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#e4bdbb",
+                        "secondary-container": "#cd022a",
+                        "surface-dim": "#131314",
+                        "surface-bright": "#3a393a",
+                        "primary-container": "#c0182a",
+                        "outline-variant": "#5b403e",
+                        "surface-tint": "#ffb3af",
+                        "surface-container-low": "#1c1b1c",
+                        "surface-container": "#201f20",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-container": "#ffd3d0",
+                        "primary-fixed": "#ffdad8",
+                        "surface": "#131314",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "background": "#131314",
+                        "surface-container-lowest": "#0e0e0f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-sm": ["Sora"],
+                        "display-lg": ["Sora"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #131314;
+            color: #e5e2e3;
+        }
+        .service-card:hover {
+            transform: translateY(-2px);
+            border-color: #c0182a;
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.1);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-md fixed w-full top-0 z-50 border-b border-outline-variant/20 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full">
+<div class="font-headline-lg text-on-surface tracking-tighter">HaizoTech</div>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Solutions</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Work</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 shadow-[0_0_10px_rgba(192,24,42,0.2)] hover:text-primary transition-colors duration-300 opacity-80" href="#">Services</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-mono-label text-mono-label hover:bg-inverse-primary transition-colors hidden md:block">Consultation</button>
+<!-- Mobile Menu Icon (Simplified for structure) -->
+<div class="md:hidden text-on-surface">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[80px]">
+<!-- Hero Section -->
+<header class="py-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center md:text-left">
+<p class="font-mono-label text-mono-label text-primary uppercase tracking-widest mb-4">What we build</p>
+<h1 class="font-display-sm md:font-display-lg text-on-surface">Our Capabilities</h1>
+</header>
+<!-- Services Grid -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto pb-32">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="service-card bg-[#16161A] border border-[#242428] rounded-xl p-8 transition-all duration-300 flex flex-col items-start gap-6 cursor-pointer group">
+<div class="w-[44px] h-[44px] rounded-xl bg-[rgba(192,24,42,0.1)] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="code">code</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">Custom Software</h4>
+<p class="text-on-surface-variant mb-6 font-body-md">Tailored digital solutions engineered for high performance, scalability, and specific business workflows. We build systems that fit your operations perfectly.</p>
+</div>
+<a class="text-primary-container font-mono-label text-mono-label group-hover:text-primary transition-colors mt-auto flex items-center gap-2" href="#">Learn more <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- Card 2 -->
+<div class="service-card bg-[#16161A] border border-[#242428] rounded-xl p-8 transition-all duration-300 flex flex-col items-start gap-6 cursor-pointer group">
+<div class="w-[44px] h-[44px] rounded-xl bg-[rgba(192,24,42,0.1)] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="memory">memory</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">AI Systems</h4>
+<p class="text-on-surface-variant mb-6 font-body-md">Integrating advanced machine learning and artificial intelligence capabilities to automate processes, generate insights, and create intelligent product features.</p>
+</div>
+<a class="text-primary-container font-mono-label text-mono-label group-hover:text-primary transition-colors mt-auto flex items-center gap-2" href="#">Learn more <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- Card 3 -->
+<div class="service-card bg-[#16161A] border border-[#242428] rounded-xl p-8 transition-all duration-300 flex flex-col items-start gap-6 cursor-pointer group">
+<div class="w-[44px] h-[44px] rounded-xl bg-[rgba(192,24,42,0.1)] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="devices">devices</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">Web &amp; Mobile</h4>
+<p class="text-on-surface-variant mb-6 font-body-md">Creating responsive, immersive user experiences across all platforms. We design and develop front-end interfaces that are fast, accessible, and beautiful.</p>
+</div>
+<a class="text-primary-container font-mono-label text-mono-label group-hover:text-primary transition-colors mt-auto flex items-center gap-2" href="#">Learn more <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<!-- Card 4 -->
+<div class="service-card bg-[#16161A] border border-[#242428] rounded-xl p-8 transition-all duration-300 flex flex-col items-start gap-6 cursor-pointer group lg:col-span-3 lg:grid lg:grid-cols-2 lg:items-center">
+<div class="flex flex-col items-start gap-6 lg:order-2">
+<div class="w-[44px] h-[44px] rounded-xl bg-[rgba(192,24,42,0.1)] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="router">router</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">Network &amp; IT</h4>
+<p class="text-on-surface-variant mb-6 font-body-md">Robust infrastructure design, security implementation, and cloud architecture to ensure your operations run smoothly with minimal downtime and maximum security.</p>
+</div>
+<a class="text-primary-container font-mono-label text-mono-label group-hover:text-primary transition-colors flex items-center gap-2" href="#">Learn more <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<div class="hidden lg:block lg:order-1 h-full w-full bg-surface-container-low rounded-lg relative overflow-hidden" style="min-height: 200px;">
+<!-- Placeholder for network visual abstraction -->
+<div class="absolute inset-0 bg-gradient-to-br from-surface to-surface-container-high opacity-50"></div>
+<div class="absolute inset-0 border border-outline-variant/30 rounded-lg" style="background-image: radial-gradient(#242428 1px, transparent 1px); background-size: 20px 20px;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Band -->
+<section class="bg-primary-container py-24 px-margin-mobile md:px-margin-desktop flex flex-col items-center justify-center text-center relative overflow-hidden shadow-[0_0_40px_rgba(192,24,42,0.15)]">
+<div class="relative z-10">
+<h2 class="font-display-sm text-on-primary-container mb-8">Ready to start your project?</h2>
+<button class="bg-[#131314] text-on-surface border border-[#242428] px-8 py-4 rounded-lg font-mono-label text-mono-label hover:bg-surface-container-high transition-colors hover:border-primary-container">Contact Our Engineers</button>
+</div>
+<!-- Subtle abstract background element for CTA -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-inverse-primary rounded-full filter blur-[80px] opacity-20 transform translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-error-container rounded-full filter blur-[100px] opacity-30 transform -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1 flex flex-col justify-between h-full gap-8">
+<div class="font-headline-lg text-primary tracking-tighter">HaizoTech</div>
+<div class="font-body-md text-on-surface-variant text-sm mt-auto">© 2024 HaizoTech. Engineered for Precision.</div>
+</div>
+<div class="col-span-1 md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-8">
+<div class="flex flex-col gap-4">
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Privacy Policy</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-4">
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Operations</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Insights</a>
+</div>
+<div class="flex flex-col gap-4">
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Content</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Business</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-all hover:translate-x-1" href="#">Forge</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

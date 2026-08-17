@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Settings - HaizoTech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&amp;family=Inter:wght@400&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#e4bdbb",
+                        "tertiary-container": "#626166",
+                        "inverse-primary": "#bb1327",
+                        "primary-container": "#c0182a",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-primary-fixed-variant": "#930019",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "secondary": "#ffb3b0",
+                        "on-tertiary": "#303034",
+                        "on-secondary-fixed": "#410006",
+                        "surface-container": "#201f20",
+                        "inverse-surface": "#e5e2e3",
+                        "on-background": "#e5e2e3",
+                        "tertiary": "#c8c5cb",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-secondary": "#680010",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-surface": "#e5e2e3",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "surface-tint": "#ffb3af",
+                        "surface-variant": "#353436",
+                        "surface-dim": "#131314",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-fixed": "#410006",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "primary-fixed": "#ffdad8",
+                        "outline": "#ab8886",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "primary": "#ffb3af",
+                        "inverse-on-surface": "#313031",
+                        "on-secondary-container": "#ffdcda",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2a2a2b",
+                        "outline-variant": "#5b403e",
+                        "surface": "#131314",
+                        "surface-container-low": "#1c1b1c",
+                        "secondary-container": "#cd022a",
+                        "on-tertiary-container": "#e0dde2",
+                        "on-primary": "#68000e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "display-sm": ["Sora"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom glow effects for Red Noir theme */
+        .glow-active {
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.2);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar -->
+<nav class="hidden md:flex w-[248px] h-screen fixed left-0 top-0 bg-surface-dim border-r border-outline-variant flex-col h-full py-base gap-2 z-40">
+<!-- Header -->
+<div class="px-6 py-6 border-b border-outline-variant/30 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/50">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="A cinematic, high-contrast headshot of an administrator in a dark, tech-focused environment. Subtle red ambient lighting highlights the subject's face against a deep noir background, embodying authority and precision in a high-end software agency context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw4kfiUCVK3dsuoQMD1cvxNyZWP0qCo9hCB7oVaM0oh6I1ahVQ7N70uz-yyAO72G4rj2fMvY3ZRBQlTur3E53dVVcCSy0PtOIocoenJH5JTP_vG1Da_zV9XFJyvTg7Lt9JJNV_ql0xr80T1vD4GbA4UDHGqgAbkf8CYBbUeOYKl6GfFJDBzmM5Lh1rhVnF7zahR_Kc1x2C44KqW4diF_0c-ZvXvTFtQa-9qcrsSB_cKTKEu21enMhnrA"/>
+</div>
+<div>
+<h2 class="font-headline-lg text-primary text-[18px] leading-tight tracking-tight">Admin Console</h2>
+<p class="font-mono-label text-on-surface-variant text-[12px]">HaizoTech HQ</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 px-4 py-4 flex flex-col gap-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">settings_applications</span>
+<span class="font-body-md">Operations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">insights</span>
+<span class="font-body-md">Insights</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">article</span>
+<span class="font-body-md">Content</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">business_center</span>
+<span class="font-body-md">Business</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">architecture</span>
+<span class="font-body-md">Forge</span>
+</a>
+</div>
+<!-- CTA -->
+<div class="px-6 py-4">
+<button class="w-full bg-[#C0182A] text-white font-mono-label py-3 rounded hover:bg-[#a01423] transition-colors flex items-center justify-center gap-2 glow-hover">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Project
+            </button>
+</div>
+<!-- Footer Navigation -->
+<div class="px-4 py-4 border-t border-outline-variant/30 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container/10 text-primary border-r-2 border-primary shadow-[0_0_15px_rgba(192,24,42,0.3)] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-body-md font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 md:ml-[248px] flex flex-col min-h-screen">
+<!-- TopNavBar Admin -->
+<header class="h-[60px] sticky top-0 bg-surface-container-low/90 backdrop-blur-md border-b border-outline-variant flex items-center justify-between px-6 w-full z-30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none text-on-surface placeholder:text-on-surface-variant/50 focus:ring-0 font-body-md text-sm w-64" placeholder="Search settings..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-[#C0182A] rounded-full glow-active"></span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/50 hover:border-primary transition-colors cursor-pointer">
+<img alt="Administrator" class="w-full h-full object-cover" data-alt="A secondary close-up portrait of the administrator, highly detailed, set against a dark studio background. Subtle volumetric lighting and deep shadows enhance the professional, high-stakes Noir aesthetic of the software agency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA_a3gVkGTIqSyLYdXkzjlvpO64aGjfHE1KkFeubISu9juNUdV6kKOHGU5UQ4vcRnGSSeNoGt2qvNJfxjbEpBAJ9uzBfrLSFNHZTxBa2qMzque7jQB8F1P2AiEM372Bu_0kOrEo17L6bsyM-DXU3q-yZyIZEgdVNYWQdwWicCVOQiT8XALIPlK2jK03UDrSgkH4fo_KU2-1MYOOxKUxrYpy7VdNGrkOJYsFoYzbCHiRwJermP-z3hP5Q"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-12 max-w-container-max mx-auto w-full">
+<!-- Settings Vertical Tabs -->
+<aside class="space-y-2 border-r border-outline-variant/30 pr-6 hidden lg:block">
+<div class="pb-6">
+<h1 class="font-headline-lg text-headline-lg tracking-tighter text-on-surface">Settings</h1>
+</div>
+<nav class="flex flex-col gap-1">
+<button class="text-left px-4 py-3 rounded-lg bg-surface-container-high text-on-surface font-body-md border-l-2 border-primary glow-active transition-all">Profile</button>
+<button class="text-left px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-md transition-all">Team</button>
+<button class="text-left px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-md transition-all">Notifications</button>
+<button class="text-left px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-body-md transition-all">Integrations</button>
+<button class="text-left px-4 py-3 mt-4 rounded-lg text-[#bb1327] hover:bg-[#bb1327]/10 font-body-md transition-all border border-transparent hover:border-[#bb1327]/30">Danger Zone</button>
+</nav>
+</aside>
+<!-- Settings Content -->
+<div class="space-y-12">
+<!-- Mobile Header -->
+<div class="lg:hidden pb-4 border-b border-outline-variant/30 mb-8">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile tracking-tighter text-on-surface">Settings - Profile</h1>
+</div>
+<section class="space-y-8">
+<div class="bg-[#16161A] border border-[#242428] rounded-xl p-8 hover:border-[#C0182A]/50 transition-colors group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-surface-container-low/50 to-transparent pointer-events-none"></div>
+<h3 class="font-headline-lg text-[20px] mb-6 relative z-10">Profile Picture</h3>
+<div class="flex items-center gap-8 relative z-10">
+<div class="w-24 h-24 rounded-full overflow-hidden border-2 border-outline-variant/50 group-hover:border-primary transition-colors">
+<img alt="Current Avatar" class="w-full h-full object-cover" data-alt="A sleek, minimalist avatar placeholder graphic in a dark theme. It features a stylized, abstract geometric human silhouette rendered in deep blacks and crisp whites, subtly illuminated by a faint red rim light, perfectly matching the Red Noir UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9BDXc0YMd-3ZVjyWYTxrWNAEYHzFuOztOumPsIkrK8iwb5kcSFoWfnSm9DBJ-QtLvk0JmOhvIVFNnnwImt9EDcMOr7pzklEzLfz2pXVp1F5PpYNRKHklylAayN3reU3l469GyEDY-KuCwM7RlWLuLJOPt9ajV2hOpyixiV9ES-N6rTYL4h_9Ufa-arU95HTh4GPus8pIuiLuhcFrLR24n-hA88wec1CAZAFyynole4WlD6ngivLbN6g"/>
+</div>
+<div class="space-y-3">
+<div class="flex gap-4">
+<button class="bg-[#C0182A] text-white font-mono-label px-6 py-2 rounded hover:bg-[#a01423] transition-colors glow-hover">Upload New</button>
+<button class="bg-transparent border border-[#F4F4F6] text-on-surface font-mono-label px-6 py-2 rounded hover:border-[#E8243A] hover:text-[#E8243A] transition-colors">Remove</button>
+</div>
+<p class="text-on-surface-variant text-sm font-body-md">Recommended size: 256x256px. Max 2MB.</p>
+</div>
+</div>
+</div>
+<div class="bg-[#16161A] border border-[#242428] rounded-xl p-8 space-y-6 hover:border-[#242428] hover:-translate-y-[1px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all">
+<h3 class="font-headline-lg text-[20px] mb-2">Personal Information</h3>
+<p class="text-on-surface-variant text-sm mb-6">Update your personal details and how they appear on the platform.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-mono-label text-on-surface text-sm block">First Name</label>
+<input class="w-full bg-[#0A0A0B] border border-[#242428] rounded p-3 text-on-surface font-body-md focus:border-transparent focus:ring-2 focus:ring-[#C0182A] outline-none transition-all" type="text" value="System"/>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-on-surface text-sm block">Last Name</label>
+<input class="w-full bg-[#0A0A0B] border border-[#242428] rounded p-3 text-on-surface font-body-md focus:border-transparent focus:ring-2 focus:ring-[#C0182A] outline-none transition-all" type="text" value="Administrator"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-on-surface text-sm block">Email Address</label>
+<input class="w-full bg-[#0A0A0B] border border-[#242428] rounded p-3 text-on-surface font-body-md focus:border-transparent focus:ring-2 focus:ring-[#C0182A] outline-none transition-all" type="email" value="admin@haizotech.com"/>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-on-surface text-sm block flex justify-between">
+<span>Password</span>
+<a class="text-primary hover:underline text-xs" href="#">Change Password?</a>
+</label>
+<input class="w-full bg-[#0A0A0B]/50 border border-[#242428]/50 rounded p-3 text-on-surface-variant font-body-md cursor-not-allowed" disabled="" type="password" value="********"/>
+</div>
+<div class="pt-6 border-t border-outline-variant/30 flex justify-end">
+<button class="bg-[#C0182A] text-white font-mono-label px-8 py-3 rounded hover:bg-[#a01423] transition-colors glow-active">Save Changes</button>
+</div>
+</div>
+</section>
+<section class="pt-8">
+<div class="bg-[#0A0A0B] border-l-4 border-[#bb1327] rounded-r-xl p-8 space-y-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-9xl text-[#bb1327]">warning</span>
+</div>
+<div class="relative z-10">
+<h3 class="font-headline-lg text-[20px] text-[#bb1327] mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined">gpp_bad</span>
+                                Danger Zone
+                            </h3>
+<p class="text-on-surface-variant font-body-md max-w-xl">
+                                Permanently delete your account and all associated data. This action is irreversible and will immediately revoke access to the Admin Console.
+                            </p>
+<div class="mt-6">
+<button class="bg-transparent border border-[#bb1327] text-[#bb1327] font-mono-label px-6 py-3 rounded hover:bg-[#bb1327] hover:text-white transition-colors">
+                                    Delete Account
+                                </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

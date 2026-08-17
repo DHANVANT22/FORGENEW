@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - Client Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Sora:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#930019",
+                      "on-secondary-container": "#ffdcda",
+                      "surface-container-highest": "#353436",
+                      "surface-container-lowest": "#0e0e0f",
+                      "surface-dim": "#131314",
+                      "primary-fixed-dim": "#ffb3af",
+                      "on-surface-variant": "#e4bdbb",
+                      "on-primary-fixed": "#410006",
+                      "tertiary-container": "#626166",
+                      "on-primary": "#68000e",
+                      "on-primary-container": "#ffd3d0",
+                      "inverse-surface": "#e5e2e3",
+                      "surface-variant": "#353436",
+                      "inverse-on-surface": "#313031",
+                      "tertiary-fixed-dim": "#c8c5cb",
+                      "error": "#ffb4ab",
+                      "on-secondary": "#680010",
+                      "on-background": "#e5e2e3",
+                      "primary": "#ffb3af",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#93001b",
+                      "background": "#131314",
+                      "on-tertiary": "#303034",
+                      "surface-container": "#201f20",
+                      "secondary-fixed": "#ffdad8",
+                      "surface-bright": "#3a393a",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#2a2a2b",
+                      "on-error": "#690005",
+                      "outline": "#ab8886",
+                      "on-surface": "#e5e2e3",
+                      "secondary-fixed-dim": "#ffb3b0",
+                      "on-tertiary-fixed": "#1b1b1f",
+                      "on-secondary-fixed": "#410006",
+                      "on-tertiary-fixed-variant": "#47464b",
+                      "secondary": "#ffb3b0",
+                      "surface": "#131314",
+                      "primary-container": "#c0182a",
+                      "tertiary": "#c8c5cb",
+                      "outline-variant": "#5b403e",
+                      "surface-container-low": "#1c1b1c",
+                      "inverse-primary": "#bb1327",
+                      "tertiary-fixed": "#e4e1e7",
+                      "secondary-container": "#cd022a",
+                      "primary-fixed": "#ffdad8",
+                      "on-tertiary-container": "#e0dde2",
+                      "surface-tint": "#ffb3af"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "64px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-sm": [
+                              "Sora"
+                      ],
+                      "display-lg": [
+                              "Sora"
+                      ],
+                      "mono-label": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg": [
+                              "Sora"
+                      ],
+                      "headline-lg-mobile": [
+                              "Sora"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-sm": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.03em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "72px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "mono-label": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-panel {
+            background: rgba(28, 28, 33, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .input-dark {
+            background-color: #18181B;
+            border: 1px solid #242428;
+            color: #e5e2e3;
+        }
+        .input-dark:focus {
+            outline: none;
+            border-color: #c0182a;
+            box-shadow: 0 0 0 2px rgba(192, 24, 42, 0.2);
+        }
+      </style>
+</head>
+<body class="bg-[#0A0A0B] text-on-surface font-body-md min-h-screen flex flex-col items-center justify-center p-4">
+<!-- Suppressed TopNavBar/SideNavBar as this is a transactional Login page -->
+<main class="w-full max-w-[420px] relative z-10 flex flex-col items-center">
+<!-- Ambient Glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary-container/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+<div class="glass-panel rounded-xl p-8 w-full shadow-2xl relative overflow-hidden">
+<!-- Subtle top highlight line -->
+<div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-container/50 to-transparent"></div>
+<div class="text-center mb-10">
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg tracking-tighter mb-2">HaizoTech</h1>
+<p class="font-mono-label text-mono-label text-primary-container uppercase tracking-[0.15em]">Client Portal</p>
+</div>
+<form class="space-y-6" onsubmit="event.preventDefault();">
+<div class="space-y-2">
+<label class="block font-body-md text-[14px] text-on-surface-variant" for="email">Email address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant/50 text-[20px]" data-icon="mail">mail</span>
+</div>
+<input class="input-dark w-full rounded-lg pl-10 pr-4 py-3 font-body-md transition-all duration-300" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="block font-body-md text-[14px] text-on-surface-variant" for="password">Password</label>
+<a class="font-body-md text-[13px] text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant/50 text-[20px]" data-icon="lock">lock</span>
+</div>
+<input class="input-dark w-full rounded-lg pl-10 pr-4 py-3 font-body-md transition-all duration-300" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<button class="w-full bg-primary-container text-white rounded-lg py-3 font-body-md font-medium hover:bg-inverse-primary transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(192,24,42,0.3)] mt-8" type="submit">
+                    Sign in to your portal
+                </button>
+</form>
+</div>
+<div class="mt-8 text-center">
+<p class="font-body-md text-[14px] text-on-surface-variant/70">
+                Don't have access? <a class="text-on-surface hover:text-primary transition-colors duration-300" href="#">Contact your project team.</a>
+</p>
+</div>
+</main>
+</body></html>

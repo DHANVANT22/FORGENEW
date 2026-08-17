@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  
+  --color-primary: var(--color-brand-primary);
+  --color-primary-container: var(--color-brand-primary-bright);
+  --color-on-primary: #3d1c00;
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-led-critical);
+  --color-danger-container: #5c1a13;
+  
+  --color-surface: var(--color-bg);
+  --color-surface-container: var(--color-bg-deep);
+  --color-on-surface: var(--color-text-strong);
+  
+  --color-card-bg: var(--color-card);
+  --color-border: var(--color-border);
+
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+:root {
+  /* neutrals — shifted warm, not cool-gray */
+  --color-bg: #1C1917;
+  --color-bg-deep: #141210;
+  --color-card: #262220;
+  --color-card-elevated: #2E2925;
+  --color-card-hover-border: var(--color-brand-primary);
+  --color-border: #38322D;
+
+  /* brand — burnished copper/bronze, NOT amber-yellow */
+  --color-brand-primary: #C97D3C;
+  --color-brand-primary-bright: #E29A5C;
+
+  /* text — warm neutral scale */
+  --color-text-strong: #F3EFE9;
+  --color-text: #C4BDB3;
+  --color-text-muted: #85796C;
+  --color-icon-default: #8F8377;
+  --color-icon-active: var(--color-brand-primary-bright);
+
+  /* semantic status — now fully distinct from brand and from each other */
+  --color-led-active: #5EBD8B;    /* muted sage-emerald */
+  --color-led-warning: #E8B94A;   /* true yellow-gold */
+  --color-led-critical: #D8483C;  /* red is now EXCLUSIVELY the danger/critical signal */
+
+  /* panel bezel + scanline, recolored to warm */
+  --color-panel-bezel-light: rgba(255,244,230,0.05);
+  --color-panel-bezel-dark: rgba(0,0,0,0.4);
+  --color-scanline: rgba(201,125,60,0.03);
+  
+  --font-mono-readout: var(--font-mono), monospace;
+
+  /* shadow base for tailwind opacity to work seamlessly if needed */
+  --shadow-brand-rgb: 201,125,60;
+  
+  /* keeping success/warning/danger base fallbacks */
+  --color-success: var(--color-led-active);
+  --color-warning: var(--color-led-warning);
+
+  /* z-index scale */
+  --z-base: 0;
+  --z-panels: 10;
+  --z-sidebar: 100;
+  --z-chrome: 200;
+  --z-dropdowns: 300;
+  --z-modals: 1000;
+  --z-command: 1100;
+  --z-warp: 1200;
+  --z-cursor: 2147483647;
+
+  --radius: 14px;
+  --radius-sm: 4px;
+  --shadow-card: 0 1px 3px rgba(0,0,0,.4);
+  --shadow-glow-primary: 0 0 20px rgba(var(--shadow-brand-rgb), 0.2);
+
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --container: 1180px;
+}
+
+:root[data-theme="noir"] {
+  --color-bg: #1A1A1D;
+  --color-bg-deep: #131315;
+  --color-card: #202024;
+  --color-card-elevated: #26262B;
+  --color-card-hover-border: var(--color-brand-primary);
+  --color-border: #2E2E33;
+
+  --color-brand-primary: #C0182A;
+  --color-brand-primary-bright: #E8243A;
+
+  --color-text-strong: #F2F1EF;
+  --color-text: #B8B6B2;
+  --color-text-muted: #7A7873;
+  --color-icon-default: #8A8883;
+  --color-icon-active: var(--color-brand-primary-bright);
+
+  --color-led-active: #35C47A;
+  --color-led-warning: #E0A92F;
+  --color-led-critical: var(--color-brand-primary-bright);
+
+  --color-panel-bezel-light: rgba(255,255,255,0.06);
+  --color-panel-bezel-dark: rgba(0,0,0,0.35);
+  --color-scanline: rgba(var(--shadow-brand-rgb), 0.035);
+  
+  --shadow-brand-rgb: 192,24,42;
+  --color-success: #35C47A;
+  --color-warning: #E0A92F;
+}
+
+:root[data-theme="verdigris"] {
+  --color-bg: #15181A;
+  --color-bg-deep: #0F1113;
+  --color-card: #1E2225;
+  --color-card-elevated: #262B2E;
+  --color-card-hover-border: var(--color-brand-primary);
+  --color-border: #333A3D;
+
+  --color-brand-primary: #3F8C79;
+  --color-brand-primary-bright: #63C2A8;
+
+  --color-text-strong: #EDF1F0;
+  --color-text: #ADB6B5;
+  --color-text-muted: #6E7876;
+  --color-icon-default: #7C8684;
+  --color-icon-active: var(--color-brand-primary-bright);
+
+  --color-led-active: #63C2A8;
+  --color-led-warning: #E0A840;
+  --color-led-critical: #D8483C;
+
+  --color-panel-bezel-light: rgba(230,240,238,0.05);
+  --color-panel-bezel-dark: rgba(0,0,0,0.4);
+  --color-scanline: rgba(63,140,121,0.03);
+  
+  --shadow-brand-rgb: 63,140,121;
+  --color-success: #63C2A8;
+  --color-warning: #E0A840;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  color: var(--color-text-strong);
+  margin: 0 0 .5rem;
+  letter-spacing: -0.02em;
+}
+
+.text-letterpress {
+  text-shadow: 0px -1px 1px rgba(0,0,0,0.8), 0px 1px 1px rgba(255,255,255,0.07);
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--color-brand-primary);
+}
+
+.wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+}
+
+/* Base Card Styles */
+.base-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+  border-radius: var(--radius);
+  transition: all 0.2s ease-in-out;
+}
+
+.base-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-card-hover-border);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), var(--shadow-glow-primary);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-deep); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted); 
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-primary-bright));
+  color: #111; /* Contrast against copper */
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-brand-primary-bright), var(--color-brand-primary));
+  box-shadow: 0 4px 12px rgba(var(--shadow-brand-rgb), .4);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text-strong);
+  border: 1px solid var(--color-text-strong);
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  border-color: var(--color-brand-primary-bright);
+  color: var(--color-brand-primary-bright);
+}
+
+/* Inputs */
+.input-base {
+  background: var(--color-bg-deep);
+  color: var(--color-text-strong);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s;
+}
+.input-base:focus {
+  outline: none;
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 2px rgba(var(--shadow-brand-rgb), .2);
+}
+
+
+/* Vortex Cursor Keyframes */
+@keyframes vortex-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes vortex-spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes vortex-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.vortex-core-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.vortex-svg {
+  animation: vortex-spin 4s linear infinite, vortex-pulse 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.vortex-core-container.precision {
+  transform: scale(0.85);
+}
+
+.vortex-core-container.precision .vortex-svg {
+  animation: vortex-spin 1.8s linear infinite;
+  filter: brightness(1.3);
+}
+
+.vortex-core-container.busy .vortex-svg {
+  animation: vortex-spin 0.7s linear infinite;
+  filter: brightness(1.5);
+}
+
+html.vortex-cursor-active, html.vortex-cursor-active *, html.vortex-cursor-active *::before, html.vortex-cursor-active *::after {
+  cursor: none !important;
+}
+
+
+*:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-brand-primary-bright) !important;
+  transition: box-shadow 0.2s ease;
+}
+

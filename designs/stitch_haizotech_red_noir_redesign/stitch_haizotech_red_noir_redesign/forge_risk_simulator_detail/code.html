@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Risk Simulator - HaizoTech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#930019",
+                      "on-secondary-container": "#ffdcda",
+                      "surface-container-highest": "#353436",
+                      "surface-container-lowest": "#0e0e0f",
+                      "surface-dim": "#131314",
+                      "primary-fixed-dim": "#ffb3af",
+                      "on-surface-variant": "#e4bdbb",
+                      "on-primary-fixed": "#410006",
+                      "tertiary-container": "#626166",
+                      "on-primary": "#68000e",
+                      "on-primary-container": "#ffd3d0",
+                      "inverse-surface": "#e5e2e3",
+                      "surface-variant": "#353436",
+                      "inverse-on-surface": "#313031",
+                      "tertiary-fixed-dim": "#c8c5cb",
+                      "error": "#ffb4ab",
+                      "on-secondary": "#680010",
+                      "on-background": "#e5e2e3",
+                      "primary": "#ffb3af",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#93001b",
+                      "background": "#131314",
+                      "on-tertiary": "#303034",
+                      "surface-container": "#201f20",
+                      "secondary-fixed": "#ffdad8",
+                      "surface-bright": "#3a393a",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#2a2a2b",
+                      "on-error": "#690005",
+                      "outline": "#ab8886",
+                      "on-surface": "#e5e2e3",
+                      "secondary-fixed-dim": "#ffb3b0",
+                      "on-tertiary-fixed": "#1b1b1f",
+                      "on-secondary-fixed": "#410006",
+                      "on-tertiary-fixed-variant": "#47464b",
+                      "secondary": "#ffb3b0",
+                      "surface": "#131314",
+                      "primary-container": "#c0182a",
+                      "tertiary": "#c8c5cb",
+                      "outline-variant": "#5b403e",
+                      "surface-container-low": "#1c1b1c",
+                      "inverse-primary": "#bb1327",
+                      "tertiary-fixed": "#e4e1e7",
+                      "secondary-container": "#cd022a",
+                      "primary-fixed": "#ffdad8",
+                      "on-tertiary-container": "#e0dde2",
+                      "surface-tint": "#ffb3af"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "64px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "display-sm": ["Sora"],
+                      "display-lg": ["Sora"],
+                      "mono-label": ["JetBrains Mono"],
+                      "headline-lg": ["Sora"],
+                      "headline-lg-mobile": ["Sora"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "display-sm": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                      "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                      "mono-label": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #111113; /* Level 1: Page Background */
+            color: #e5e2e3;
+        }
+        .card-surface {
+            background-color: #16161A; /* Level 2: Card Surface */
+            border: 1px solid #242428;
+        }
+        .card-surface:hover {
+            border-color: #c0182a;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.2);
+            transition: all 0.3s ease;
+        }
+        .custom-range {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        .custom-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #c0182a;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(192, 24, 42, 0.5);
+        }
+        .custom-range::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #353436;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md bg-background text-on-background">
+<!-- TopNavBar (JSON Output) -->
+<header class="bg-surface/80 backdrop-blur-md fixed w-full top-0 z-50 border-b border-outline-variant/20 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full">
+<div class="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface tracking-tighter">
+            HaizoTech
+        </div>
+<nav class="hidden md:flex gap-8">
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Solutions</a>
+<a class="font-mono-label text-mono-label text-primary font-bold border-b-2 border-primary pb-1 shadow-[0_0_10px_rgba(192,24,42,0.2)] hover:text-primary transition-colors duration-300 opacity-80" href="#">Work</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Services</a>
+</nav>
+<button class="bg-primary-container text-on-primary font-mono-label text-mono-label px-6 py-2 rounded hover:bg-[#8f111f] transition-colors">
+            Consultation
+        </button>
+</header>
+<main class="flex-grow mt-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full pb-24">
+<div class="mb-12">
+<h1 class="font-display-sm text-display-sm mb-4">Risk Simulator</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Adjust project parameters to instantly simulate cost and timeline implications. Our proprietary algorithm evaluates complexity factors in real-time.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Left Column: Sliders Panel -->
+<div class="card-surface rounded-lg p-8 flex flex-col gap-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg">Parameters</h2>
+<div class="flex flex-col gap-6">
+<!-- Slider 1 -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="font-body-md text-body-md text-on-surface">Team Size</label>
+<span class="font-mono-label text-mono-label text-primary">5 Members</span>
+</div>
+<input class="custom-range" max="20" min="1" type="range" value="5"/>
+</div>
+<!-- Slider 2 -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="font-body-md text-body-md text-on-surface">Integrations</label>
+<span class="font-mono-label text-mono-label text-primary">3 Systems</span>
+</div>
+<input class="custom-range" max="10" min="0" type="range" value="3"/>
+</div>
+<!-- Slider 3 -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="font-body-md text-body-md text-on-surface">UI Complexity</label>
+<span class="font-mono-label text-mono-label text-primary">High</span>
+</div>
+<input class="custom-range" max="3" min="1" type="range" value="3"/>
+</div>
+<!-- Slider 4 -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="font-body-md text-body-md text-on-surface">Data Migration</label>
+<span class="font-mono-label text-mono-label text-primary">Complex</span>
+</div>
+<input class="custom-range" max="3" min="1" type="range" value="3"/>
+</div>
+</div>
+<!-- Result Band -->
+<div class="mt-auto pt-6 border-t border-outline-variant/30">
+<div class="bg-[#1F1F24] border border-dashed border-outline-variant rounded p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="text-center md:text-left">
+<div class="font-mono-label text-mono-label text-on-surface-variant mb-1 uppercase">Estimated Budget</div>
+<div class="font-display-sm text-display-sm text-primary">₹12L – ₹22L</div>
+</div>
+<div class="h-12 w-px bg-outline-variant/30 hidden md:block"></div>
+<div class="text-center md:text-right">
+<div class="font-mono-label text-mono-label text-on-surface-variant mb-1 uppercase">Estimated Timeline</div>
+<div class="font-display-sm text-display-sm text-primary">12–20 weeks</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Radar Panel -->
+<div class="card-surface rounded-lg p-8 flex flex-col items-center justify-center">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg w-full text-left mb-8">Risk Topography</h2>
+<div class="relative w-full aspect-square max-w-[400px] flex items-center justify-center mb-8">
+<!-- SVG Radar Chart Placeholder -->
+<svg class="w-full h-full overflow-visible" viewbox="0 0 100 100">
+<!-- Grid Lines -->
+<polygon fill="none" points="50,10 88,38 73,82 27,82 12,38" stroke="#353436" stroke-width="0.5"></polygon>
+<polygon fill="none" points="50,20 78.5,41 67.5,74 32.5,74 21.5,41" stroke="#353436" stroke-width="0.5"></polygon>
+<polygon fill="none" points="50,30 69,45 61.5,66 38.5,66 31,45" stroke="#353436" stroke-width="0.5"></polygon>
+<!-- Axes -->
+<line stroke="#353436" stroke-width="0.5" x1="50" x2="50" y1="50" y2="10"></line>
+<line stroke="#353436" stroke-width="0.5" x1="50" x2="88" y1="50" y2="38"></line>
+<line stroke="#353436" stroke-width="0.5" x1="50" x2="73" y1="50" y2="82"></line>
+<line stroke="#353436" stroke-width="0.5" x1="50" x2="27" y1="50" y2="82"></line>
+<line stroke="#353436" stroke-width="0.5" x1="50" x2="12" y1="50" y2="38"></line>
+<!-- Data Area -->
+<polygon fill="rgba(192,24,42,0.25)" points="50,25 75,45 65,70 35,60 25,35" stroke="#c0182a" stroke-width="1.5" style="filter: drop-shadow(0 0 5px rgba(192,24,42,0.5));"></polygon>
+<!-- Labels -->
+<text fill="#e5e2e3" font-family="JetBrains Mono" font-size="3" text-anchor="middle" x="50" y="5">Scope Creep</text>
+<text fill="#e5e2e3" font-family="JetBrains Mono" font-size="3" text-anchor="start" x="92" y="38">Technical Debt</text>
+<text fill="#e5e2e3" font-family="JetBrains Mono" font-size="3" text-anchor="start" x="75" y="86">Resource Availability</text>
+<text fill="#e5e2e3" font-family="JetBrains Mono" font-size="3" text-anchor="end" x="25" y="86">Vendor Lock-in</text>
+<text fill="#e5e2e3" font-family="JetBrains Mono" font-size="3" text-anchor="end" x="8" y="38">Market Shift</text>
+</svg>
+</div>
+<!-- Risk Delta Notice -->
+<div class="w-full bg-[#3a2e15] border border-[#d97706] rounded p-4 flex items-start gap-3">
+<span class="material-symbols-outlined text-[#f59e0b]">warning</span>
+<div>
+<div class="font-mono-label text-mono-label text-[#f59e0b] mb-1">High Risk Detected</div>
+<p class="font-body-md text-body-md text-[#fcd34d] text-sm">The current configuration suggests a high likelihood of technical debt accumulation due to UI complexity mismatch with team size.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (JSON Output) -->
+<footer class="bg-surface-container-lowest w-full py-12 border-t border-outline-variant/10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="font-headline-lg text-primary mb-4 md:mb-0">
+                HaizoTech
+            </div>
+<div class="flex flex-col gap-2">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-2">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Operations</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Insights</a>
+</div>
+<div class="flex flex-col gap-2">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Content</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Business</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Forge</a>
+</div>
+</div>
+<div class="text-center mt-12 font-body-md text-body-md text-on-surface-variant text-sm">
+            © 2024 HaizoTech. Engineered for Precision.
+        </div>
+</footer>
+</body></html>

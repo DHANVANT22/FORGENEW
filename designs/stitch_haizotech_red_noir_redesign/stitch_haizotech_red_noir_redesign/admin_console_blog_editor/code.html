@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#e4bdbb",
+                        "tertiary-container": "#626166",
+                        "inverse-primary": "#bb1327",
+                        "primary-container": "#c0182a",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-primary-fixed-variant": "#930019",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "secondary": "#ffb3b0",
+                        "on-tertiary": "#303034",
+                        "on-secondary-fixed": "#410006",
+                        "surface-container": "#201f20",
+                        "inverse-surface": "#e5e2e3",
+                        "on-background": "#e5e2e3",
+                        "tertiary": "#c8c5cb",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-secondary": "#680010",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-surface": "#e5e2e3",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "surface-tint": "#ffb3af",
+                        "surface-variant": "#353436",
+                        "surface-dim": "#131314",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-fixed": "#410006",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "primary-fixed": "#ffdad8",
+                        "outline": "#ab8886",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "primary": "#ffb3af",
+                        "inverse-on-surface": "#313031",
+                        "on-secondary-container": "#ffdcda",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2a2a2b",
+                        "outline-variant": "#5b403e",
+                        "surface": "#131314",
+                        "surface-container-low": "#1c1b1c",
+                        "secondary-container": "#cd022a",
+                        "on-tertiary-container": "#e0dde2",
+                        "on-primary": "#68000e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "display-sm": ["Sora"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #131314; color: #e5e2e3; }
+        .glass-panel { background: rgba(22, 22, 26, 0.6); backdrop-filter: blur(12px); border: 1px solid #242428; }
+        .noir-bg { background-color: #0A0A0B; }
+        .input-ring:focus { outline: none; box-shadow: 0 0 0 2px #c0182a; border-color: transparent; }
+        .glow-active { box-shadow: 0 0 20px rgba(192, 24, 42, 0.2); }
+        .table-row-hover:hover { background-color: rgba(192, 24, 42, 0.05); }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-surface-dim w-[248px] h-screen fixed left-0 top-0 border-r border-outline-variant flex flex-col h-full py-base gap-2 z-40 hidden md:flex">
+<div class="px-6 py-4 mb-4">
+<h1 class="font-headline-lg text-primary text-headline-lg tracking-tighter">Admin Console</h1>
+<p class="text-on-surface-variant font-mono-label text-mono-label mt-1">HaizoTech HQ</p>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary-container text-white py-2 rounded font-mono-label text-mono-label hover:bg-[#a01423] transition-colors">New Project</button>
+</div>
+<div class="flex-1 overflow-y-auto px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings_applications">settings_applications</span>
+<span>Operations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="insights">insights</span>
+<span>Insights</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-primary-container/10 text-primary border-r-2 border-primary shadow-[0_0_15px_rgba(192,24,42,0.3)] transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="article">article</span>
+<span>Content</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="business_center">business_center</span>
+<span>Business</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="architecture">architecture</span>
+<span>Forge</span>
+</a>
+</div>
+<div class="px-4 mt-auto space-y-1 border-t border-outline-variant/30 pt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span>Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 md:ml-[248px] flex flex-col min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface-container-low h-[60px] sticky top-0 border-b border-outline-variant flex items-center justify-between px-6 w-full z-30">
+<div class="flex items-center">
+<h2 class="font-headline-lg text-on-surface hidden md:block">Content Editor</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors focus:ring-2 focus:ring-primary rounded-full p-1">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors focus:ring-2 focus:ring-primary rounded-full p-1 flex items-center">
+<span class="material-symbols-outlined text-[28px]" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop bg-background grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Left Column: Posts List (Grid 4) -->
+<section class="xl:col-span-4 flex flex-col gap-4 h-[calc(100vh-140px)]">
+<div class="flex justify-between items-center mb-2">
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface tracking-tighter">Posts</h3>
+<button class="text-primary font-mono-label text-mono-label flex items-center gap-1 hover:text-[#e8243a] transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span> New
+                    </button>
+</div>
+<div class="glass-panel rounded-lg flex-1 overflow-y-auto">
+<div class="divide-y divide-[#242428]">
+<!-- Post Item 1 -->
+<div class="p-4 table-row-hover cursor-pointer border-l-2 border-primary bg-primary-container/5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-semibold text-on-surface truncate pr-2">System Architecture Overhaul</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-mono-label bg-green-900/30 text-green-400 border border-green-900/50">PUBLISHED</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Deep dive into the new microservices...</p>
+<div class="flex justify-between items-center mt-3 text-xs text-tertiary">
+<span>Oct 24, 2023</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span> 1.2k</span>
+</div>
+</div>
+<!-- Post Item 2 -->
+<div class="p-4 table-row-hover cursor-pointer border-l-2 border-transparent">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-semibold text-on-surface truncate pr-2">The Noir Aesthetic in UI</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-mono-label bg-amber-900/30 text-amber-400 border border-amber-900/50">DRAFT</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Exploring negative space as structural element.</p>
+<div class="flex justify-between items-center mt-3 text-xs text-tertiary">
+<span>Updated 2 hrs ago</span>
+</div>
+</div>
+<!-- Post Item 3 -->
+<div class="p-4 table-row-hover cursor-pointer border-l-2 border-transparent">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-semibold text-on-surface truncate pr-2">Security Patch 4.1.2 Release Notes</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-mono-label bg-blue-900/30 text-blue-400 border border-blue-900/50">REVIEW</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Critical updates to the authentication...</p>
+<div class="flex justify-between items-center mt-3 text-xs text-tertiary">
+<span>Oct 20, 2023</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Editor (Grid 8) -->
+<section class="xl:col-span-8 flex flex-col gap-6 overflow-y-auto pr-2 pb-12 h-[calc(100vh-140px)] custom-scrollbar">
+<!-- Main Editor Form -->
+<div class="glass-panel p-6 rounded-lg">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Editor</h2>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline-variant text-on-surface-variant rounded font-mono-label text-mono-label hover:border-[#e8243a] hover:text-[#e8243a] transition-colors">Preview</button>
+<button class="px-4 py-2 bg-primary-container text-white rounded font-mono-label text-mono-label hover:bg-[#a01423] transition-colors glow-active">Save Changes</button>
+</div>
+</div>
+<div class="space-y-5">
+<!-- Title & Slug -->
+<div>
+<label class="block text-sm text-on-surface-variant mb-1 font-mono-label">Title</label>
+<input class="w-full bg-noir-bg border border-[#242428] rounded p-3 text-on-surface font-headline-lg text-lg input-ring" type="text" value="System Architecture Overhaul"/>
+</div>
+<div>
+<label class="block text-sm text-on-surface-variant mb-1 font-mono-label">Slug</label>
+<div class="flex">
+<span class="inline-flex items-center px-3 rounded-l border border-r-0 border-[#242428] bg-surface-container-low text-tertiary text-sm">/blog/</span>
+<input class="flex-1 bg-noir-bg border border-[#242428] rounded-r p-2 text-on-surface font-mono-label text-sm input-ring" type="text" value="system-architecture-overhaul"/>
+</div>
+</div>
+<!-- Excerpt -->
+<div>
+<label class="block text-sm text-on-surface-variant mb-1 font-mono-label">Excerpt</label>
+<textarea class="w-full bg-noir-bg border border-[#242428] rounded p-3 text-on-surface text-sm input-ring resize-none" rows="2">Deep dive into the new microservices architecture and how it improves our deployment pipeline and overall system resilience.</textarea>
+</div>
+<!-- Cover Image Zone -->
+<div>
+<label class="block text-sm text-on-surface-variant mb-1 font-mono-label">Cover Asset</label>
+<div class="border-2 border-dashed border-[#242428] rounded-lg p-8 flex flex-col items-center justify-center bg-noir-bg/50 hover:bg-noir-bg transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-[32px] text-tertiary mb-2 group-hover:text-primary transition-colors" data-icon="cloud_upload">cloud_upload</span>
+<p class="text-sm text-on-surface-variant">Drag and drop asset here, or <span class="text-primary">browse</span></p>
+<p class="text-xs text-tertiary mt-1">Supports PNG, WEBP, MP4 (Max 5MB)</p>
+</div>
+</div>
+<!-- Content Editor -->
+<div>
+<label class="block text-sm text-on-surface-variant mb-1 font-mono-label">Content Matrix</label>
+<div class="border border-[#242428] rounded overflow-hidden">
+<div class="bg-surface-container-low border-b border-[#242428] p-2 flex gap-2">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded"><span class="material-symbols-outlined text-[18px]" data-icon="format_bold">format_bold</span></button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded"><span class="material-symbols-outlined text-[18px]" data-icon="format_italic">format_italic</span></button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded"><span class="material-symbols-outlined text-[18px]" data-icon="format_h1">format_h1</span></button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded"><span class="material-symbols-outlined text-[18px]" data-icon="format_h2">format_h2</span></button>
+<div class="w-px h-5 bg-[#242428] mx-1 self-center"></div>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded"><span class="material-symbols-outlined text-[18px]" data-icon="format_list_bulleted">format_list_bulleted</span></button>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded"><span class="material-symbols-outlined text-[18px]" data-icon="code">code</span></button>
+</div>
+<textarea class="w-full bg-noir-bg border-none p-4 text-on-surface font-mono-label text-sm input-ring resize-y focus:ring-0" rows="12">## Phase 1: Decoupling Monolithic Structures
+
+The initial step in our architectural overhaul required a methodical decoupling of legacy monolithic services...</textarea></div></div></div></div></section></main></div></body></html>

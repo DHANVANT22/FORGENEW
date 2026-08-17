@@ -1,0 +1,1 @@
+{"version":3,"file":"AdminClientController.d.ts","sourceRoot":"","sources":["../../src/controllers/AdminClientController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAG5C,qBAAa,qBAAqB;WACZ,UAAU,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ;CAkC3D"}

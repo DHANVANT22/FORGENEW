@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HaizoTech &amp; Forge — Project Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Red Noir tokens */
+  --surface:#131314; --surface-container-lowest:#0e0e0f; --surface-container-low:#1c1b1c;
+  --surface-container:#201f20; --surface-container-high:#2a2a2b; --surface-container-highest:#353436;
+  --on-surface:#e5e2e3; --on-surface-variant:#e4bdbb; --outline:#ab8886; --outline-variant:#5b403e;
+  --primary:#ffb3af; --primary-container:#c0182a; --crimson:#e8243a; --card-bg:#16161a; --border:#242428;
+  --success:#35c47a; --warning:#e0a92f; --danger:#ff8a80;
+
+  /* mapped so the rest of the markup (written against blue/navy names) needs no other edits */
+  --color-brand-blue:var(--primary-container); --color-brand-blue-600:#93000a; --color-brand-sky:var(--crimson); --color-brand-navy:var(--surface-container-lowest);
+  --color-bg:var(--surface); --color-bg-tint:var(--surface-container-low); --color-bg-tint-2:var(--surface-container); --color-card:var(--card-bg);
+  --color-border:var(--border); --color-text:#c9c5c6; --color-text-strong:var(--on-surface); --color-text-muted:#a9a6a7;
+  --color-success:var(--success); --color-warning:var(--warning); --color-danger:var(--danger);
+  --shadow-card:0 1px 0 rgba(0,0,0,.2); --shadow-lift:0 0 24px rgba(192,24,42,.22);
+  --radius:14px; --font-display:'Sora',system-ui,sans-serif; --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace; --container:1180px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--font-body);color:var(--color-text);background:var(--color-bg);line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4,h5{font-family:var(--font-display);color:var(--color-text-strong);margin:0 0 .5rem;}
+p{margin:0 0 1rem;}
+a{color:var(--primary);}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 2rem;}
+code,.mono{font-family:var(--font-mono);}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(19,19,20,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-border);}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;max-width:var(--container);margin:0 auto;gap:1rem;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:.5rem;font-family:var(--font-display);font-weight:800;color:var(--color-text-strong);font-size:1.05rem;}
+.brand .by{font-family:var(--font-body);font-weight:400;font-size:.8rem;color:var(--color-text-muted);border-left:1px solid var(--color-border);padding-left:.6rem;margin-left:.1rem;}
+.topnav{display:flex;gap:1.3rem;font-size:.83rem;font-weight:600;flex-wrap:wrap;}
+.topnav a{color:var(--color-text-muted);text-decoration:none;padding:.3rem 0;border-bottom:2px solid transparent;white-space:nowrap;}
+.topnav a:hover{color:var(--primary);border-color:var(--primary-container);}
+
+/* hero */
+.hero{padding:4.5rem 0 3rem;position:relative;background:radial-gradient(ellipse 900px 480px at 12% -10%, rgba(192,24,42,.22), transparent 60%),var(--color-bg);}
+.eyebrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);background:var(--color-bg-tint-2);border:1px solid rgba(192,24,42,.35);padding:.35rem .7rem;border-radius:999px;margin-bottom:1rem;}
+.hero h1{font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.06;letter-spacing:-.02em;max-width:800px;}
+.hero h1 em{font-style:normal;background:linear-gradient(120deg,var(--primary-container),var(--crimson));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero p.lede{font-size:1.15rem;color:var(--color-text);max-width:680px;}
+.metarow{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem;}
+.pill{font-family:var(--font-mono);font-size:.78rem;border:1px solid var(--color-border);background:var(--color-bg-tint);padding:.4rem .8rem;border-radius:999px;color:var(--color-text-muted);}
+
+section{padding:4.5rem 0;border-bottom:1px solid var(--color-border);}
+section:last-of-type{border-bottom:none;}
+h2.headline{font-size:clamp(1.7rem,3vw,2.2rem);letter-spacing:-.01em;margin-bottom:1rem;}
+p.section-lede{max-width:760px;color:var(--color-text);font-size:1.02rem;margin-bottom:2.6rem;}
+
+/* idea */
+.idea-card{background:var(--color-bg-tint);border:1px solid var(--color-border);border-radius:var(--radius);padding:2rem;margin-bottom:1.2rem;}
+.idea-card p{margin:0;}
+.idea-card p+p{margin-top:1rem;}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.pillar{background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius);padding:1.6rem;box-shadow:var(--shadow-card);transition:box-shadow .2s,border-color .2s,transform .2s;}
+.pillar:hover{box-shadow:var(--shadow-lift);border-color:var(--primary-container);transform:translateY(-2px);}
+.pillar .tag{font-family:var(--font-mono);font-size:.72rem;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem;display:block;}
+.pillar h3{font-size:1.15rem;margin-bottom:.5rem;}
+.pillar p{font-size:.92rem;color:var(--color-text-muted);margin-bottom:.8rem;}
+.pillar ul{margin:0;padding-left:1.1rem;font-size:.85rem;color:var(--color-text);}
+.pillar li{margin-bottom:.3rem;}
+
+/* code block */
+.codeblock{background:var(--surface-container-lowest);color:#f0d9d8;border:1px solid var(--color-border);border-radius:var(--radius);padding:1.4rem 1.6rem;font-family:var(--font-mono);font-size:.82rem;line-height:1.7;overflow-x:auto;white-space:pre;}
+.codeblock .comment{color:var(--primary);opacity:.65;}
+
+/* decisions */
+.decisions{display:grid;gap:1rem;}
+.decision{background:var(--color-card);border:1px solid var(--color-border);border-left:3px solid var(--primary-container);border-radius:8px;padding:1.1rem 1.3rem;}
+.decision strong{color:var(--color-text-strong);}
+.decision p{margin:.3rem 0 0;font-size:.92rem;color:var(--color-text);}
+
+/* phase table */
+table.phases{width:100%;border-collapse:collapse;font-size:.9rem;}
+table.phases th{text-align:left;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-muted);border-bottom:1px solid var(--color-border);padding:.6rem .7rem;}
+table.phases td{padding:.8rem .7rem;border-bottom:1px solid var(--color-border);vertical-align:top;}
+table.phases tr:hover td{background:var(--color-bg-tint);}
+td.pn{font-family:var(--font-mono);color:var(--color-text-muted);width:2rem;}
+td.pnote{color:var(--color-text-muted);font-size:.85rem;}
+.chip{display:inline-block;font-family:var(--font-mono);font-size:.75rem;padding:.25rem .6rem;border-radius:6px;white-space:nowrap;}
+.chip.done{background:rgba(53,196,122,.12);color:var(--color-success);}
+.chip.next{background:rgba(224,169,47,.12);color:var(--color-warning);}
+
+/* swatches */
+.swatch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.9rem;}
+.swatch{border-radius:10px;overflow:hidden;border:1px solid var(--color-border);}
+.swatch .chip2{height:60px;}
+.swatch .label{padding:.55rem .7rem;background:var(--color-bg-tint);}
+.swatch .label .name{font-size:.78rem;font-weight:600;color:var(--color-text-strong);}
+.swatch .label .hex{font-family:var(--font-mono);font-size:.7rem;color:var(--color-text-muted);}
+
+/* type specimen */
+.type-row{display:flex;align-items:baseline;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--color-border);gap:1.2rem;flex-wrap:wrap;}
+.type-row:last-child{border-bottom:none;}
+.type-meta{font-family:var(--font-mono);font-size:.72rem;color:var(--color-text-muted);white-space:nowrap;}
+
+/* sitemap tables */
+table.inventory{width:100%;border-collapse:collapse;font-size:.9rem;}
+table.inventory th{text-align:left;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-muted);border-bottom:1px solid var(--color-border);padding:.6rem .7rem;}
+table.inventory td{padding:.85rem .7rem;border-bottom:1px solid var(--color-border);vertical-align:top;}
+table.inventory tr:hover td{background:var(--color-bg-tint);}
+table.inventory td:first-child{font-weight:600;color:var(--color-text-strong);white-space:nowrap;}
+.group-title{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);margin:2.4rem 0 .6rem;}
+.group-title:first-child{margin-top:0;}
+
+/* forge intro funnel */
+.funnel{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;background:var(--color-bg-tint);border:1px solid var(--color-border);border-radius:var(--radius);padding:1.4rem;margin-bottom:2.6rem;font-family:var(--font-mono);font-size:.82rem;}
+.funnel .fnode{background:var(--card-bg);border:1px solid var(--color-border);border-radius:8px;padding:.5rem .8rem;color:var(--color-text-strong);font-weight:600;}
+.funnel .farr{color:var(--primary);}
+.funnel .fnote{width:100%;font-family:var(--font-body);color:var(--color-text-muted);font-size:.85rem;margin-top:.6rem;}
+
+/* feature blocks */
+.feature{border:1px solid var(--color-border);border-radius:var(--radius);padding:2rem;margin-bottom:1.6rem;background:var(--color-card);box-shadow:var(--shadow-card);}
+.feature-head{display:flex;gap:1.2rem;margin-bottom:1.6rem;}
+.feature-n{font-family:var(--font-mono);font-size:1.6rem;color:var(--crimson);font-weight:700;line-height:1;flex-shrink:0;}
+.badge-pill{display:inline-block;font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--primary);background:var(--color-bg-tint-2);border:1px solid rgba(192,24,42,.35);padding:.25rem .6rem;border-radius:999px;margin-bottom:.5rem;}
+.feature h3{font-size:1.3rem;margin-bottom:.4rem;}
+.feature-blurb{color:var(--color-text-muted);font-size:.95rem;margin:0;}
+.sub-eyebrow{font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-muted);margin:1.6rem 0 .8rem;}
+.flowrow{display:flex;flex-wrap:wrap;align-items:stretch;gap:.5rem;}
+.fstep{flex:1 1 150px;background:var(--color-bg-tint);border:1px solid var(--color-border);border-radius:10px;padding:.9rem 1rem;}
+.fstep .fstep-num{font-family:var(--font-mono);font-size:.7rem;color:var(--primary);margin-bottom:.35rem;}
+.fstep h5{font-size:.86rem;margin:0 0 .25rem;}
+.fstep p{font-size:.78rem;color:var(--color-text-muted);margin:0;}
+.farrow{display:flex;align-items:center;color:var(--primary);font-size:1rem;flex:0 0 auto;}
+.dataflow{font-family:var(--font-mono);font-size:.78rem;color:var(--color-text);background:var(--color-bg-tint);border:1px solid var(--color-border);border-radius:8px;padding:1rem 1.2rem;line-height:1.9;overflow-x:auto;}
+table.adds{width:100%;border-collapse:collapse;font-size:.85rem;}
+table.adds th{text-align:left;font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-muted);border-bottom:1px solid var(--color-border);padding:.5rem .6rem;}
+table.adds td{padding:.7rem .6rem;border-bottom:1px solid var(--color-border);vertical-align:top;color:var(--color-text);}
+table.adds td:first-child{font-weight:600;color:var(--color-text-strong);white-space:nowrap;width:120px;}
+table.adds code{background:var(--color-bg-tint-2);padding:.05rem .35rem;border-radius:4px;font-size:.85em;color:var(--on-surface-variant);}
+
+/* connect diagram */
+.connect{background:var(--surface-container-lowest);border:1px solid var(--color-border);border-radius:var(--radius);padding:2rem;color:#e5e2e3;box-shadow:0 0 40px rgba(192,24,42,.08) inset;}
+.connect .cf{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--font-mono);font-size:.85rem;margin-bottom:1.2rem;}
+.connect .cf .node{background:rgba(255,179,175,.08);border:1px solid rgba(255,179,175,.22);border-radius:8px;padding:.5rem .9rem;font-weight:600;color:#ffd3d0;}
+.connect .cf .arr{color:var(--crimson);}
+.connect p{color:#c9c5c6;font-size:.92rem;margin-bottom:.8rem;}
+.connect strong{color:#fff;}
+
+footer.pagefoot{padding:3rem 0 4rem;}
+footer.pagefoot .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;}
+footer.pagefoot p{font-size:.8rem;color:var(--color-text-muted);margin:0;font-family:var(--font-mono);}
+
+@media (max-width:900px){
+  .pillars{grid-template-columns:1fr;}
+  .swatch-grid{grid-template-columns:repeat(3,1fr);}
+  .topnav{display:none;}
+  .feature-head{flex-direction:column;gap:.4rem;}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">HaizoTech <span class="by">Project Document</span></div>
+    <nav class="topnav">
+      <a href="#idea">The Idea</a>
+      <a href="#platform">Base Platform</a>
+      <a href="#design-system">Design System</a>
+      <a href="#sitemap">Sitemap</a>
+      <a href="#forge">Forge Features</a>
+      <a href="#connect">How It Connects</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Project Overview &middot; Base Platform + Forge v2</div>
+    <h1>HaizoTech &mdash; the platform, <em>plus Forge</em></h1>
+    <p class="lede">A single monorepo running a credibility-first public marketing site, an internal admin dashboard, and a shared backend &mdash; now extended with <strong>Forge</strong>: five features that turn scoping and delivery into something the client experiences directly, instead of something they're told about.</p>
+    <div class="metarow">
+      <span class="pill">Next.js 15 &middot; Express &middot; Prisma &middot; Socket.IO</span>
+      <span class="pill">Phases 0&ndash;8 complete</span>
+      <span class="pill">5 new Forge features, additive only</span>
+      <span class="pill">Design tokens: white + blue</span>
+    </div>
+  </div>
+</section>
+
+<section id="idea">
+  <div class="wrap">
+    <p class="eyebrow" style="margin-bottom:1rem;">01 &middot; The Project Idea</p>
+    <h2 class="headline">Make the pitch and the platform the same thing</h2>
+    <div class="idea-card">
+      <p><strong>The base problem.</strong> The original haizotech.com read as a dark web3/AI template &mdash; a clipped hero, gradient orbs, fabricated testimonials. For an agency selling to healthcare, fintech and SMB clients, that actively lowered trust. The redesign's wedge is <strong>real work, plainly shown</strong>: a white, blue-accented, credibility-first site backed by an admin dashboard the team can run without touching code, and a backend with a locked, contract-validated API so the two never drift apart.</p>
+      <p><strong>The Forge idea, layered on top.</strong> Even a redesigned brochure site still makes a prospect wait: fill out a form, wait for a call, wait for a quote. Forge removes that wait. A visitor gets a real complexity tier in 30 seconds, then a real budget and timeline band by moving sliders themselves &mdash; before they've talked to anyone. Once they're a client, that same transparency continues: a live portal that replaces status-update emails, and a bookmarkable, zero-login status page that's always current. The five Forge features aren't a separate product bolted on &mdash; four of them are one continuous funnel from first visit to final delivery, built additively on the existing Phase 1&ndash;8 stack with no breaking changes.</p>
+      <p><strong>In short:</strong> the base platform makes HaizoTech look trustworthy. Forge makes that trust checkable &mdash; the client scopes their own project, watches the same board the team works from, and never has to ask "any update?" again.</p>
+    </div>
+  </div>
+</section>
+
+<section id="platform">
+  <div class="wrap">
+    <p class="eyebrow">02 &middot; Base Platform</p>
+    <h2 class="headline">One monorepo, three deployable apps</h2>
+    <p class="section-lede">Public marketing site, internal admin dashboard, and a common backend, plus the code they share. Named to match the pre-existing production repo this replaces.</p>
+
+    <div class="pillars" style="margin-bottom:2.6rem;">
+      <div class="pillar">
+        <span class="tag">Public &middot; :3000</span>
+        <h3>frontend</h3>
+        <p>haizotech.com &mdash; Next.js 15 marketing site.</p>
+        <ul><li>Home, Services, Work, Industries</li><li>About, Blog, Contact</li><li>Privacy / Terms</li></ul>
+      </div>
+      <div class="pillar">
+        <span class="tag">Internal &middot; :3001</span>
+        <h3>admin-frontend</h3>
+        <p>admin.haizotech.com &mdash; the ops dashboard.</p>
+        <ul><li>Leads, content CRUD, Kanban</li><li>Team chat, notifications</li><li>Analytics, settings</li></ul>
+      </div>
+      <div class="pillar">
+        <span class="tag">Shared &middot; :5001</span>
+        <h3>backend</h3>
+        <p>api.haizotech.com &mdash; Express + Prisma + Socket.IO.</p>
+        <ul><li>routes &rarr; controllers &rarr; services &rarr; repositories</li><li>OpenAPI-first, hand-authored spec</li><li>HttpOnly cookie auth</li></ul>
+      </div>
+    </div>
+
+    <div class="codeblock">frontend/          <span class="comment"># Public marketing site   Next 15  :3000  -&gt; haizotech.com</span>
+admin-frontend/    <span class="comment"># Internal ops dashboard  Next 15  :3001  -&gt; admin.haizotech.com</span>
+backend/           <span class="comment"># Express + Prisma + Socket.IO      :5001  -&gt; api.haizotech.com</span>
+
+packages/          <span class="comment"># Shared by BOTH frontends</span>
+  config/            <span class="comment"># design tokens, tsconfig, eslint</span>
+  ui/                <span class="comment"># component library</span>
+  types/             <span class="comment"># generated from the OpenAPI spec, never hand-edited</span>
+  realtime/          <span class="comment"># socket event names + payloads</span>
+
+design/            <span class="comment"># Phase 0 static HTML prototype (no build step)</span>
+e2e/               <span class="comment"># Playwright, drives both frontends</span></div>
+
+    <h4 class="sub-eyebrow" style="margin-top:2.4rem;">Decisions worth knowing</h4>
+    <div class="decisions">
+      <div class="decision"><strong>The tokens live in exactly one file.</strong><p>packages/config/theme.css is ported verbatim from the approved Phase 0 prototype. No app or component may write a hex value &mdash; that's what keeps both frontends looking like one product, and makes a future dark theme one block instead of a rewrite.</p></div>
+      <div class="decision"><strong>The OpenAPI spec is hand-authored and canonical.</strong><p>backend/openapi/openapi.yaml is the source of truth; packages/types is generated from it and committed. CI fails three ways if they diverge: the spec must lint, regenerating must produce no diff, and response validation runs in dev and test.</p></div>
+      <div class="decision"><strong>The database schema only ever grows.</strong><p>schema.prisma is the live production schema, extended additively &mdash; no renames or drops until 30 days after cutover. That constraint is the entire rollback plan: the old code still runs against the new schema, so cutover is an nginx change and rollback is the same change backwards.</p></div>
+      <div class="decision"><strong>Auth is HttpOnly cookies, not localStorage.</strong><p>The previous admin kept its JWT in localStorage, readable by any XSS; the socket layer read it from there too. Cookies are sent on the WebSocket handshake, so one mechanism covers both paths &mdash; which is why all three apps sit under one registrable domain.</p></div>
+      <div class="decision"><strong>Layering is enforced, not suggested.</strong><p>routes &rarr; controllers &rarr; services &rarr; repositories. Controllers do HTTP and nothing else; repositories are the only code that touches Prisma &mdash; the previous backend put everything in controllers, which is why nothing was testable.</p></div>
+    </div>
+
+    <h4 class="sub-eyebrow" style="margin-top:2.6rem;">Build status</h4>
+    <table class="phases">
+      <thead><tr><th>#</th><th>Phase</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody><tr><td class='pn'>0</td><td>Design prototype</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>approved — static HTML mock at Phase-0 fidelity</td></tr><tr><td class='pn'>1</td><td>Monorepo, tokens, component library, contract spine</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'></td></tr><tr><td class='pn'>2</td><td>Public site + instant content revalidation</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>16/16 e2e green; revalidation measured at 149ms</td></tr><tr><td class='pn'>3</td><td>Backend hardening, cookie auth, full contract</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>HttpOnly cookie sessions, per-route authz gates, tokenVersion revocation</td></tr><tr><td class='pn'>4</td><td>Admin rebuild (full ops suite, light theme)</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>content CRUD, inquiries, clients, projects + kanban, team</td></tr><tr><td class='pn'>5</td><td>Notifications, activity feed, Cmd-K, digests</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>real-time bell, per-type prefs, daily email digest</td></tr><tr><td class='pn'>6</td><td>Analytics + uploads</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>page-view analytics; uploads on local disk (single VPS)</td></tr><tr><td class='pn'>7</td><td>Internal team chat</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>DMs + channels, presence, typing, read receipts, @mentions, attachments</td></tr><tr><td class='pn'>8</td><td>Public visitor chat widget</td><td><span class='chip done'>✅ Done</span></td><td class='pnote'>isolated visitor token, support inbox, offline→inquiry fallback</td></tr><tr><td class='pn'>9</td><td>QA, CI/CD, cutover</td><td><span class='chip next'>➡ Next</span></td><td class='pnote'>riskiest-first, unblocks production</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="design-system">
+  <div class="wrap">
+    <p class="eyebrow">03 &middot; Design System</p>
+    <h2 class="headline">White-dominant, blue as accent</h2>
+    <p class="section-lede">Blue covers roughly 10&ndash;15% of any surface; navy gives structural depth. Gradients appear only on the hero wash and the CTA band &mdash; never as page decoration. No glassmorphism, no glowing orbs. Every rule is a token, so a future dark theme is one alternate block, not a rewrite.</p>
+
+    <h4 class="sub-eyebrow" style="margin-bottom:1rem;">Color tokens</h4>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="chip2" style="background:#1D4ED8"></div><div class="label"><div class="name">Brand Blue</div><div class="hex">#1D4ED8</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#1E40AF"></div><div class="label"><div class="name">Blue 600 (hover)</div><div class="hex">#1E40AF</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#3B82F6"></div><div class="label"><div class="name">Brand Sky</div><div class="hex">#3B82F6</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#0F2A57"></div><div class="label"><div class="name">Brand Navy</div><div class="hex">#0F2A57</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#F5F8FF;border-bottom:1px solid #E2E8F0;"></div><div class="label"><div class="name">Background tint</div><div class="hex">#F5F8FF</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#EFF4FF;border-bottom:1px solid #E2E8F0;"></div><div class="label"><div class="name">Tint 2 / hover fill</div><div class="hex">#EFF4FF</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#0F172A"></div><div class="label"><div class="name">Text strong (H1&ndash;H3)</div><div class="hex">#0F172A</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#334155"></div><div class="label"><div class="name">Body text</div><div class="hex">#334155</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#64748B"></div><div class="label"><div class="name">Muted / meta</div><div class="hex">#64748B</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#16A34A"></div><div class="label"><div class="name">Success</div><div class="hex">#16A34A</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#D97706"></div><div class="label"><div class="name">Warning</div><div class="hex">#D97706</div></div></div>
+      <div class="swatch"><div class="chip2" style="background:#DC2626"></div><div class="label"><div class="name">Danger</div><div class="hex">#DC2626</div></div></div>
+    </div>
+
+    <h4 class="sub-eyebrow" style="margin:2.4rem 0 0;">Typography</h4>
+    <div>
+      <div class="type-row"><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:2.2rem;color:var(--color-text-strong);">Custom software, plainly delivered.</span><span class="type-meta">Sora / 700 / Display &amp; H1</span></div>
+      <div class="type-row"><span style="font-family:'Sora',sans-serif;font-weight:600;font-size:1.4rem;color:var(--color-text-strong);">Section headline</span><span class="type-meta">Sora / 600 / H2&ndash;H3</span></div>
+      <div class="type-row"><span style="font-family:'Inter',sans-serif;font-size:1.05rem;">Body copy uses Inter for a neutral, highly readable foundation across long-form content.</span><span class="type-meta">Inter / 400 / Body</span></div>
+      <div class="type-row"><span style="font-family:'JetBrains Mono',monospace;font-size:.85rem;letter-spacing:.03em;color:var(--color-text-muted);">POST /v1/scenarios &middot; RISK.THRESHOLD_CROSSED</span><span class="type-meta">JetBrains Mono / labels &amp; data</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="sitemap">
+  <div class="wrap">
+    <p class="eyebrow">04 &middot; Sitemap</p>
+    <h2 class="headline">Public site &amp; admin dashboard</h2>
+    <p class="section-lede">The base platform's full page inventory, before Forge is layered on top.</p>
+
+    <div class="group-title">Public site &middot; frontend</div>
+    <table class="inventory">
+      <thead><tr><th style="width:220px;">Page</th><th>What's there</th></tr></thead>
+      <tbody><tr><td>Home</td><td>Hero (fixed, unclipped headline), industries strip, services, engineering culture, process, case-study teasers, real testimonials only, CTA band, footer.</td></tr><tr><td>Services (index)</td><td>The highest-converting page — every service as its own block: what it is, deliverables, stack, typical timeline.</td></tr><tr><td>Service detail</td><td>Hero, deliverables, stack, process, related work, FAQ, CTA.</td></tr><tr><td>Work (index)</td><td>Filterable case-study grid by industry/type. Real projects only — an honest empty state where there isn&#x27;t one yet, instead of a fabricated client.</td></tr><tr><td>Work detail</td><td>Sri ASK Residency / RBMS and future case studies: outcome metric up top, problem, approach, stack, screenshots, quote.</td></tr><tr><td>Industries</td><td>One clean grid; each industry maps to a real, checkable capability.</td></tr><tr><td>About / Team</td><td>Story, Coimbatore roots, founders, values, small stats — humans close service deals.</td></tr><tr><td>Blog (index) &amp; Blog post</td><td>Card list → article layout, fed by admin CRUD.</td></tr><tr><td>Contact</td><td>Name, email, project type, budget range, message. Honeypot + rate limit server-side.</td></tr><tr><td>Privacy / Terms</td><td>Simple, readable legal templates linked from the footer.</td></tr></tbody>
+    </table>
+
+    <div class="group-title">Admin dashboard &middot; admin-frontend</div>
+    <table class="inventory">
+      <thead><tr><th style="width:220px;">Screen</th><th>What's there</th></tr></thead>
+      <tbody><tr><td>Dashboard</td><td>Stats, recent inquiries, notification feed, velocity, system health.</td></tr><tr><td>Leads inbox</td><td>List + detail + status changes for inbound inquiries.</td></tr><tr><td>Content CRUD (tabs)</td><td>Blog, Work / case studies, Services, Testimonials — testimonial publishing gated on sourceUrl + verifiedAt so an unverifiable quote can&#x27;t ship.</td></tr><tr><td>Kanban board</td><td>Sprint/task board at density; priority rides a 3px left edge rather than tinting the whole card, so a 40-card board stays calm on white.</td></tr><tr><td>Team chat</td><td>DMs + channels, presence, typing, read receipts, @mentions, attachments (Phase 7).</td></tr><tr><td>Notifications</td><td>Real-time bell, per-type preferences, daily email digest, Cmd-K (Phase 5).</td></tr><tr><td>Analytics</td><td>Page-view analytics (Phase 6).</td></tr><tr><td>Settings / Team</td><td>Roles, users, account-level configuration.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="forge">
+  <div class="wrap">
+    <p class="eyebrow">05 &middot; New &mdash; Forge Feature Flow</p>
+    <h2 class="headline">Five features, one connected platform</h2>
+    <p class="section-lede">A scoping quiz that feeds a unified risk simulator, a client portal that replaces manual status emails, a live delivery-pulse page clients can bookmark, and an interactive query-plan diagram for the engineering blog. Everything builds additively on the existing Phase 1&ndash;8 stack &mdash; no breaking changes.</p>
+
+    <div class="funnel">
+      <span class="fnode">01 Complexity Estimator</span><span class="farr">&#10230;</span>
+      <span class="fnode">02 Scoped Risk Simulator</span><span class="farr">&#10230;</span>
+      <span class="fnode">03 Client Portal</span><span class="farr">&#10230;</span>
+      <span class="fnode">04 Delivery Pulse</span>
+      <div class="fnote">05 Query Plan Diagram sits outside this funnel &mdash; it's blog content tooling, not part of the delivery loop.</div>
+    </div>
+
+    
+    <article class="feature" id="feature-01">
+      <div class="feature-head">
+        <div class="feature-n">01</div>
+        <div>
+          <span class="badge-pill">Public · Entry point</span>
+          <h3>Complexity Estimator</h3>
+          <p class="feature-blurb">A 5-question triage quiz. No sliders, no numbers — just a tier in under 30 seconds, before a visitor commits to filling out a form.</p>
+        </div>
+      </div>
+      <h4 class="sub-eyebrow">User flow</h4>
+      <div class="flowrow">
+        <div class="fstep">
+          <div class="fstep-num">01</div>
+          <h5>Land on estimator</h5>
+          <p>Linked from Services and Contact: “Not sure what tier your project is? 30 seconds.”</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">02</div>
+          <h5>Answer 5 questions</h5>
+          <p>Plain-language, tap-to-answer — no numbers, no jargon (e.g. “Will people log in with different permission levels?”).</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">03</div>
+          <h5>Tier computed</h5>
+          <p>Weighted answers map to Simple / Standard / Complex / Enterprise, client-side, instantly.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">04</div>
+          <h5>Two paths offered</h5>
+          <p>“Send this as an enquiry” or “Get a real budget/timeline band” — the second opens the Scoped Risk Simulator pre-seeded with these answers.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">05</div>
+          <h5>Result logged</h5>
+          <p>Tier + answers stored even if the visitor leaves — a lightweight, anonymous top-of-funnel signal.</p>
+        </div></div>
+      <h4 class="sub-eyebrow">Data flow</h4>
+      <div class="dataflow">5 quiz answers (client) → TierEngine.score() → tier-weights.json (admin-editable) → POST /v1/estimates → EstimateController → EstimateService → Estimate (Postgres)</div>
+      <h4 class="sub-eyebrow">What gets added</h4>
+      <table class="adds"><thead><tr><th>Layer</th><th>Addition</th></tr></thead><tbody><tr><td>Database</td><td>New table Estimate (answers JSON, tier, sourceIp-hash for dedupe, optional convertedInquiryId) — purely additive.</td></tr><tr><td>Backend</td><td>EstimateService + EstimateRepository; route POST /v1/estimates; admin route PUT /v1/config/tier-weights for no-deploy tuning.</td></tr><tr><td>Public frontend</td><td>Standalone quiz component linked from Services and Contact; hands answers to the Risk Simulator as pre-filled sliders.</td></tr><tr><td>Admin frontend</td><td>Funnel widget on the dashboard: estimates started vs. converted to enquiry, by tier.</td></tr><tr><td>OpenAPI</td><td>Estimate schema added to openapi.yaml; types regenerate into packages/types.</td></tr></tbody></table>
+    </article>
+    
+
+    <article class="feature" id="feature-02">
+      <div class="feature-head">
+        <div class="feature-n">02</div>
+        <div>
+          <span class="badge-pill">Public + Admin · Merged</span>
+          <h3>Scoped Risk Simulator</h3>
+          <p class="feature-blurb">One engine, two surfaces. Public scope sliders produce a real budget/timeline band. The same engine re-scopes live projects in admin and previews the risk impact live — no separate tool.</p>
+        </div>
+      </div>
+      <h4 class="sub-eyebrow">User flow</h4>
+      <div class="flowrow">
+        <div class="fstep">
+          <div class="fstep-num">01</div>
+          <h5>Arrive pre-seeded</h5>
+          <p>Sliders open already set from the Complexity Estimator&#x27;s answers, or from scratch.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">02</div>
+          <h5>Adjust levers</h5>
+          <p>Roles, integrations, real-time needs, compliance, timeline pressure.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">03</div>
+          <h5>Instant estimate</h5>
+          <p>Client-side calc against a versioned weight table — no round trip.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">04</div>
+          <h5>Send as enquiry</h5>
+          <p>One click posts the exact scenario JSON into the contact form, pre-filled.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">05</div>
+          <h5>Admin re-scope</h5>
+          <p>A project manager opens the same What-If panel on a live project; a nightly cron scores every active project and fires a threshold alert through the existing bell + digest system.</p>
+        </div></div>
+      <h4 class="sub-eyebrow">Data flow</h4>
+      <div class="dataflow">Slider change → ScenarioEngine (client) → scenario-weights.json → POST /v1/scenarios → ScenarioService → Scenario (Postgres)  ···  Cron (nightly) → RiskService.computeAll() → Kanban/Chat/Milestone repos → ProjectRiskSnapshot → NotificationService</div>
+      <h4 class="sub-eyebrow">What gets added</h4>
+      <table class="adds"><thead><tr><th>Layer</th><th>Addition</th></tr></thead><tbody><tr><td>Database</td><td>Scenario (inputs JSON, computedBand, nullable estimateId/inquiryId/projectId) + ProjectRiskSnapshot (projectId, axis scores, computedAt) — both additive.</td></tr><tr><td>Backend</td><td>ScenarioService + RiskService share the scoring model. Routes: POST /v1/scenarios, GET /v1/projects/:id/risk, GET /v1/projects/:id/risk/history. RiskService.scoreHypothetical() is a pure function, no DB write, used for live admin preview.</td></tr><tr><td>Admin frontend</td><td>Unified What-If + Risk panel on the project detail page; radar chart + trend lines; compact risk badge on the project list and Kanban headers.</td></tr><tr><td>Public frontend</td><td>Scope-slider component on the services/contact flow, pre-seeded from the Estimator handoff.</td></tr><tr><td>Notifications</td><td>New type risk.threshold_crossed, routed through the existing Phase 5 bell + digest system.</td></tr></tbody></table>
+    </article>
+    
+
+    <article class="feature" id="feature-03">
+      <div class="feature-head">
+        <div class="feature-n">03</div>
+        <div>
+          <span class="badge-pill">Client-facing · New</span>
+          <h3>Client Portal</h3>
+          <p class="feature-blurb">A secure, persistent login for clients — their Kanban, milestones, approved files, and a direct message thread to the team. Replaces status-update emails entirely.</p>
+        </div>
+      </div>
+      <h4 class="sub-eyebrow">User flow</h4>
+      <div class="flowrow">
+        <div class="fstep">
+          <div class="fstep-num">01</div>
+          <h5>Admin invites client</h5>
+          <p>One button on the project page sends a signed invitation email; client sets their own password.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">02</div>
+          <h5>Client logs in</h5>
+          <p>A separate login path (/client/login) issues a client-scoped JWT that structurally cannot touch any staff route.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">03</div>
+          <h5>Sees their project</h5>
+          <p>The Kanban columns the admin whitelisted, milestones, client-visible files, and a message thread to the team.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">04</div>
+          <h5>Sends a message</h5>
+          <p>Lands in the existing Conversation model — the team sees it in the admin chat view, in real time over the existing sockets.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">05</div>
+          <h5>Gets notified</h5>
+          <p>Email on a reply or a published milestone; one click brings them straight back in.</p>
+        </div></div>
+      <h4 class="sub-eyebrow">Data flow</h4>
+      <div class="dataflow">Admin sends invite → POST /v1/client-auth/invite → ClientAccount (Postgres) → Mailer  ···  Client login → POST /v1/client-auth/login → ClientJWT (scoped) → GET /v1/client/projects/:id → filtered Column + Task + Milestone (clientVisible=true only)</div>
+      <h4 class="sub-eyebrow">What gets added</h4>
+      <table class="adds"><thead><tr><th>Layer</th><th>Addition</th></tr></thead><tbody><tr><td>Database</td><td>New table ClientAccount (email, passwordHash, projectId FK, inviteToken, inviteExpires) — entirely separate from User. Column gets clientVisible Boolean. Attachment gets visibility String. New table Milestone (projectId, title, targetDate, completedAt, clientVisible).</td></tr><tr><td>Backend</td><td>New ClientAuthController + ClientProjectController. Client JWT uses a separate secret and a sub claim prefixed client: so middleware can never mistake it for a staff token.</td></tr><tr><td>Socket</td><td>Client joins room client_<projectId>; staff joins the same room from the admin chat view. Reuses the existing Phase 7 Conversation model with a new type: "client_channel".</td></tr><tr><td>Client frontend</td><td>A dedicated route group under /client — separate session store, separate layout. No admin components imported.</td></tr><tr><td>Admin frontend</td><td>Invite button + per-column/per-file visibility toggles on the project detail page; a “Client Portal” preview tab.</td></tr></tbody></table>
+    </article>
+    
+
+    <article class="feature" id="feature-04">
+      <div class="feature-head">
+        <div class="feature-n">04</div>
+        <div>
+          <span class="badge-pill">Client-facing · New</span>
+          <h3>Client Delivery Pulse</h3>
+          <p class="feature-blurb">A zero-login, token-gated status page auto-generated from real project data. The client bookmarks one URL and sees live progress without ever asking.</p>
+        </div>
+      </div>
+      <h4 class="sub-eyebrow">User flow</h4>
+      <div class="flowrow">
+        <div class="fstep">
+          <div class="fstep-num">01</div>
+          <h5>Admin shares link</h5>
+          <p>One click on the project page generates a signed, expirable Pulse URL — sent however&#x27;s convenient.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">02</div>
+          <h5>Client opens it</h5>
+          <p>No login. The signed token in the URL authenticates the request server-side.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">03</div>
+          <h5>Sees live data</h5>
+          <p>Task completion rate, current phase, milestone timeline, budget band — pulled from real platform data at render time.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">04</div>
+          <h5>Bookmarks it</h5>
+          <p>The URL stays valid until the admin rotates it or the project closes; the page is always current, never stale.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">05</div>
+          <h5>Portal upgrade prompt</h5>
+          <p>A subtle CTA: “Want to message the team directly? Ask us to set up your Client Portal.”</p>
+        </div></div>
+      <h4 class="sub-eyebrow">Data flow</h4>
+      <div class="dataflow">Admin generates link → POST /v1/projects/:id/pulse-token → PulseToken (Postgres)  ···  Client opens URL → GET /v1/pulse/:token → PulseService.resolve() → Project + Column + Task + Milestone + RiskSnapshot → SSR Pulse page</div>
+      <h4 class="sub-eyebrow">What gets added</h4>
+      <table class="adds"><thead><tr><th>Layer</th><th>Addition</th></tr></thead><tbody><tr><td>Database</td><td>New table PulseToken (projectId FK, token, expiresAt, createdById) — a short-lived signed JWT, revocable/rotatable by admin at any time.</td></tr><tr><td>Backend</td><td>PulseService assembles a read-only project snapshot from existing repos. Routes: POST /v1/projects/:id/pulse-token (admin), GET /v1/pulse/:token (public — the signed token in the path is the credential, no auth middleware needed).</td></tr><tr><td>Public frontend</td><td>Standalone SSR page at /pulse/[token] in the public Next.js app — no shared session with the Client Portal.</td></tr><tr><td>Admin frontend</td><td>“Generate Pulse link” button on the project detail page, with copy and rotate/invalidate controls.</td></tr><tr><td>OpenAPI</td><td>PulseToken and PulseSnapshot response schemas added to openapi.yaml.</td></tr></tbody></table>
+    </article>
+    
+
+    <article class="feature" id="feature-05">
+      <div class="feature-head">
+        <div class="feature-n">05</div>
+        <div>
+          <span class="badge-pill">Public · Blog</span>
+          <h3>Query Plan Diagram</h3>
+          <p class="feature-blurb">Turns pasted EXPLAIN ANALYZE JSON into an interactive, collapsible plan tree embedded in technical blog posts — no screenshots, no external charting service.</p>
+        </div>
+      </div>
+      <h4 class="sub-eyebrow">User flow</h4>
+      <div class="flowrow">
+        <div class="fstep">
+          <div class="fstep-num">01</div>
+          <h5>Run EXPLAIN</h5>
+          <p>Author runs EXPLAIN (ANALYZE, FORMAT JSON) on the query being written about.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">02</div>
+          <h5>Paste into admin</h5>
+          <p>A “Query plan” field on the blog post editor accepts raw JSON.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">03</div>
+          <h5>Validate + store</h5>
+          <p>Backend checks it parses as a real plan shape before saving; an optional second field enables a before/after toggle.</p>
+        </div><div class="farrow">&#10230;</div>
+        <div class="fstep">
+          <div class="fstep-num">04</div>
+          <h5>Post renders</h5>
+          <p>The renderer detects the plan field and mounts an interactive tree; a reader expands nodes for rows, cost, actual time, buffers, with the hot path auto-highlighted.</p>
+        </div></div>
+      <h4 class="sub-eyebrow">Data flow</h4>
+      <div class="dataflow">Admin editor (paste JSON) → PUT /v1/blog/:id → PlanValidator (shape check) → BlogPost.queryPlan (jsonb) → Next.js blog page (SSR) → &lt;QueryPlanTree /&gt; client component</div>
+      <h4 class="sub-eyebrow">What gets added</h4>
+      <table class="adds"><thead><tr><th>Layer</th><th>Addition</th></tr></thead><tbody><tr><td>Database</td><td>queryPlan and queryPlanBefore jsonb columns added to the existing Blog model — additive, no migration risk.</td></tr><tr><td>Backend</td><td>Lightweight PlanValidator in the blog service rejects malformed JSON on save; no new table.</td></tr><tr><td>Admin frontend</td><td>Textarea + “validate plan” control added to the existing blog post editor.</td></tr><tr><td>Public frontend</td><td>New <QueryPlanTree /> component in packages/ui, reusable outside the blog.</td></tr><tr><td>OpenAPI</td><td>queryPlan field added to the BlogPost schema; generated types flow into both frontends.</td></tr></tbody></table>
+    </article>
+    
+  </div>
+</section>
+
+<section id="connect">
+  <div class="wrap">
+    <p class="eyebrow">06 &middot; How It All Connects</p>
+    <h2 class="headline">From first visit to final delivery</h2>
+    <div class="connect">
+      <div class="cf">
+        <span class="node">01 Complexity Estimator</span><span class="arr">&#10230;</span><span class="node">tier + answers</span><span class="arr">&#10230;</span>
+        <span class="node">02 Scoped Risk Simulator</span><span class="arr">&#10230;</span><span class="node">scenario &rarr; Inquiry &rarr; Project</span><span class="arr">&#10230;</span>
+        <span class="node">03 Client Portal</span><span class="arr">&#10230;</span><span class="node">live throughout delivery</span><span class="arr">&#10230;</span>
+        <span class="node">04 Delivery Pulse</span>
+      </div>
+      <p>A lead's estimator tier seeds the What-If scenario, which becomes the project's baseline scope and its nightly risk benchmark. Once the project is live, the client gets two complementary windows into it: the <strong>Client Portal</strong> for active collaboration &mdash; messaging, Kanban, milestones &mdash; and the <strong>Delivery Pulse</strong> for passive, no-login check-ins from a bookmarked link. The Pulse surfaces a prompt to upgrade to the full Portal for clients who want more.</p>
+      <p><strong>05 Query Plan Diagram</strong> is the deliberate exception: content tooling for the engineering blog, touching only the Blog model, intentionally outside this loop.</p>
+      <p style="margin-bottom:0;">Underneath all of it: the same base platform decisions still hold &mdash; one design-token file, one OpenAPI contract, an additive-only schema, and HttpOnly cookie auth extended (not replaced) by a structurally separate client-scoped JWT.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="pagefoot">
+  <div class="wrap">
+    <p>HaizoTech &middot; Base Platform + Forge Feature Flow &mdash; Project Document</p>
+    <p>Reference v2 &middot; builds additively on Phase 1&ndash;8, no breaking schema changes</p>
+  </div>
+</footer>
+
+</body>
+</html>

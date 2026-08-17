@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact - HaizoTech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#313031",
+                      "outline-variant": "#5b403e",
+                      "secondary-container": "#cd022a",
+                      "on-surface": "#e5e2e3",
+                      "on-tertiary-container": "#e0dde2",
+                      "secondary-fixed": "#ffdad8",
+                      "on-background": "#e5e2e3",
+                      "on-secondary-container": "#ffdcda",
+                      "surface-container-lowest": "#0e0e0f",
+                      "surface-dim": "#131314",
+                      "on-primary-fixed-variant": "#930019",
+                      "tertiary-fixed": "#e4e1e7",
+                      "tertiary-container": "#626166",
+                      "surface-bright": "#3a393a",
+                      "on-secondary-fixed": "#410006",
+                      "surface-container-low": "#1c1b1c",
+                      "on-primary-container": "#ffd3d0",
+                      "background": "#131314",
+                      "outline": "#ab8886",
+                      "on-primary": "#68000e",
+                      "surface-variant": "#353436",
+                      "inverse-primary": "#bb1327",
+                      "primary-fixed": "#ffdad8",
+                      "on-secondary": "#680010",
+                      "on-tertiary-fixed-variant": "#47464b",
+                      "on-error": "#690005",
+                      "surface-container": "#201f20",
+                      "on-error-container": "#ffdad6",
+                      "secondary": "#ffb3b0",
+                      "secondary-fixed-dim": "#ffb3b0",
+                      "surface": "#131314",
+                      "on-tertiary-fixed": "#1b1b1f",
+                      "primary-fixed-dim": "#ffb3af",
+                      "on-surface-variant": "#e4bdbb",
+                      "tertiary-fixed-dim": "#c8c5cb",
+                      "primary-container": "#c0182a",
+                      "tertiary": "#c8c5cb",
+                      "on-secondary-fixed-variant": "#93001b",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#e5e2e3",
+                      "surface-container-high": "#2a2a2b",
+                      "on-primary-fixed": "#410006",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#303034",
+                      "primary": "#ffb3af",
+                      "surface-tint": "#ffb3af",
+                      "surface-container-highest": "#353436"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "margin-desktop": "64px",
+                      "base": "8px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Sora"],
+                      "body-lg": ["Inter"],
+                      "display-sm": ["Sora"],
+                      "headline-lg": ["Sora"],
+                      "display-lg": ["Sora"],
+                      "body-md": ["Inter"],
+                      "mono-label": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "display-sm": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "mono-label": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #111113;
+            color: #e5e2e3;
+        }
+        .form-input {
+            background-color: #18181B;
+            border: 1px solid #242428;
+            color: #e5e2e3;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #c0182a;
+            box-shadow: 0 0 0 2px rgba(192, 24, 42, 0.2);
+        }
+        .glass-card {
+            background: rgba(22, 22, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #242428;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: #c0182a;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(192, 24, 42, 0.1);
+        }
+        .btn-primary {
+            background-color: #c0182a;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #930019;
+        }
+        
+        /* Utility for Material Symbols */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md bg-background antialiased selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md fixed w-full top-0 z-50 border-b border-outline-variant/20">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<a class="font-headline-lg-mobile md:font-headline-lg text-on-surface tracking-tighter hover:opacity-80 transition-opacity" href="#">
+                HaizoTech
+            </a>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-gutter items-center">
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Solutions</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Work</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a>
+<a class="font-mono-label text-mono-label text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Services</a>
+</nav>
+<a class="btn-primary font-mono-label text-mono-label px-6 py-2.5 rounded-DEFAULT hidden md:inline-block shadow-[0_0_15px_rgba(192,24,42,0.1)]" href="#">
+                Consultation
+            </a>
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto">
+<div class="mb-16">
+<h1 class="font-display-sm md:font-display-lg text-display-sm md:text-display-lg text-on-surface tracking-tight mb-4">
+                Initiate <span class="text-primary-container">Contact</span>.
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                Deploy your requirements into our system. We engineer solutions designed for absolute precision and scalable performance.
+            </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-16">
+<!-- Left Column: Form -->
+<div class="lg:col-span-8">
+<form action="#" class="space-y-6" method="POST">
+<!-- Honeypot field (hidden from view, meant to catch bots) -->
+<div aria-hidden="true" style="display:none;">
+<label for="system_trap">Leave this empty</label>
+<input autocomplete="off" id="system_trap" name="system_trap" tabindex="-1" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-on-surface-variant" for="name">Full Name</label>
+<input class="form-input w-full px-4 py-3 rounded-DEFAULT font-body-md text-body-md placeholder:text-outline" id="name" name="name" placeholder="Jane Doe" required="" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-on-surface-variant" for="email">Email Address</label>
+<input class="form-input w-full px-4 py-3 rounded-DEFAULT font-body-md text-body-md placeholder:text-outline" id="email" name="email" placeholder="jane@example.com" required="" type="email"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-on-surface-variant" for="phone">Phone (Optional)</label>
+<input class="form-input w-full px-4 py-3 rounded-DEFAULT font-body-md text-body-md placeholder:text-outline" id="phone" name="phone" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-on-surface-variant" for="service">Service Interest</label>
+<select class="form-input w-full px-4 py-3 rounded-DEFAULT font-body-md text-body-md appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]" id="service" name="service" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23e4bdbb%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+<option disabled="" selected="" value="">Select a vector...</option>
+<option value="architecture">System Architecture</option>
+<option value="optimization">Performance Optimization</option>
+<option value="security">Security Audit</option>
+<option value="custom">Custom Development</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-mono-label text-mono-label text-on-surface-variant" for="brief">Project Brief</label>
+<textarea class="form-input w-full px-4 py-3 rounded-DEFAULT font-body-md text-body-md placeholder:text-outline resize-none" id="brief" name="brief" placeholder="Detail your project requirements and technical constraints here..." required="" rows="6"></textarea>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-outline-variant/20">
+<button class="btn-primary font-mono-label text-mono-label px-8 py-4 rounded-DEFAULT flex items-center justify-center gap-2 group w-full sm:w-auto shadow-[0_0_20px_rgba(192,24,42,0.15)]" type="submit">
+<span>Send enquiry</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<p class="font-mono-label text-[12px] text-on-surface-variant/60 max-w-xs flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] mt-0.5 text-primary-container" data-icon="info">info</span>
+                            Your tier from the Complexity Estimator will be attached automatically if you came from there.
+                        </p>
+</div>
+</form>
+</div>
+<!-- Right Column: Info Card -->
+<div class="lg:col-span-4 mt-12 lg:mt-0">
+<div class="glass-card p-8 rounded-lg h-full flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(192,24,42,0.2)]">
+<span class="material-symbols-outlined text-primary-container text-2xl" data-icon="support_agent">support_agent</span>
+</div>
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">Direct Channel</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">
+                            Our architecture team monitors incoming briefs continuously. Expect a technically rigorous response.
+                        </p>
+<div class="space-y-6">
+<div>
+<h4 class="font-mono-label text-[12px] uppercase text-outline-variant mb-1 tracking-wider">Email Protocol</h4>
+<a class="font-mono-label text-mono-label text-on-surface hover:text-primary transition-colors flex items-center gap-2" href="mailto:operations@haizotech.com">
+<span class="material-symbols-outlined text-[18px]" data-icon="mail">mail</span>
+                                    operations@haizotech.com
+                                </a>
+</div>
+<div>
+<h4 class="font-mono-label text-[12px] uppercase text-outline-variant mb-1 tracking-wider">Response SLA</h4>
+<div class="font-mono-label text-mono-label text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-green-500" data-icon="schedule">schedule</span>
+                                    &lt; 24 Hours
+                                </div>
+</div>
+</div>
+</div>
+<div class="pt-8 mt-8 border-t border-outline-variant/20">
+<p class="font-body-md text-[14px] text-on-surface-variant mb-3">Not ready for a full brief?</p>
+<a class="font-mono-label text-mono-label text-primary-container hover:text-primary transition-colors flex items-center gap-1 group" href="#">
+                            Try the Estimator
+                            <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform" data-icon="arrow_right_alt">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12 border-t border-outline-variant/10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="md:col-span-1 flex flex-col gap-4">
+<span class="font-headline-lg-mobile md:font-headline-lg text-primary tracking-tighter">HaizoTech</span>
+<p class="font-mono-label text-[12px] text-on-surface-variant">© 2024 HaizoTech. Engineered for Precision.</p>
+</div>
+<div class="md:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="flex flex-col gap-3">
+<span class="font-mono-label text-[12px] text-outline uppercase tracking-wider mb-2">Legal</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-mono-label text-[12px] text-outline uppercase tracking-wider mb-2">Platform</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all" href="#">Operations</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all" href="#">Insights</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-mono-label text-[12px] text-outline uppercase tracking-wider mb-2">Resources</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all" href="#">Content</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all" href="#">Business</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-mono-label text-[12px] text-outline uppercase tracking-wider mb-2">Lab</span>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:translate-x-1 transition-all flex items-center gap-2" href="#">
+                        Forge
+                        <span class="material-symbols-outlined text-[14px]" data-icon="science">science</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

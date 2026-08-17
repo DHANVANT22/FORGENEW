@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HaizoTech - Admin Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#e4bdbb",
+                        "tertiary-container": "#626166",
+                        "inverse-primary": "#bb1327",
+                        "primary-container": "#c0182a",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-primary-fixed-variant": "#930019",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "secondary": "#ffb3b0",
+                        "on-tertiary": "#303034",
+                        "on-secondary-fixed": "#410006",
+                        "surface-container": "#201f20",
+                        "inverse-surface": "#e5e2e3",
+                        "on-background": "#e5e2e3",
+                        "tertiary": "#c8c5cb",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-secondary": "#680010",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-surface": "#e5e2e3",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "surface-tint": "#ffb3af",
+                        "surface-variant": "#353436",
+                        "surface-dim": "#131314",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-fixed": "#410006",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "primary-fixed": "#ffdad8",
+                        "outline": "#ab8886",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "primary": "#ffb3af",
+                        "inverse-on-surface": "#313031",
+                        "on-secondary-container": "#ffdcda",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2a2a2b",
+                        "outline-variant": "#5b403e",
+                        "surface": "#131314",
+                        "surface-container-low": "#1c1b1c",
+                        "secondary-container": "#cd022a",
+                        "on-tertiary-container": "#e0dde2",
+                        "on-primary": "#68000e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "display-sm": ["Sora"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); opacity: 0; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* Custom Scrollbar for Noir theme */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #242428;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c0182a;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex overflow-hidden selection:bg-primary-container selection:text-white">
+<!-- SideNavBar (Shared Component) -->
+<nav class="hidden md:flex w-[248px] h-screen fixed left-0 top-0 bg-surface-dim border-r border-outline-variant flex-col py-base gap-2 z-40">
+<div class="px-6 py-4 flex flex-col mb-4">
+<div class="w-12 h-12 rounded-full overflow-hidden mb-3 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A striking portrait of a sophisticated administrator in a high-end, cyberpunk-inspired control room. The lighting is low and moody, dominated by deep blacks and cool tones, accented by a subtle crimson glow reflecting on their face. The style is hyper-realistic, dark professional noir, emphasizing authority and technological precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY5GuyI9VMvW6FkyZ_CwYrcLGjATvxxQc5ewFUMpvunROdFzpBh5CV834hH_051RHefJ2Tqjl4gph_sfjcHPo5RbR6kbsUAUttkzueb0GU2ACSkDGsypcTDv8P0zFqY99J9xFQuxQdzyXICIPQ_Sn5HJ9nxLSFTA5M6WqfPwBM4Uy_6OQpTY9GyQwTUWMqaJsQOytTYPZeJ0LxcZAci4ULrDJ5QCwF4x1oIo6rCyz1TyqW9AhU7Tfdsw"/>
+</div>
+<h2 class="font-headline-lg text-primary text-[20px]">Admin Console</h2>
+<p class="font-mono-label text-on-surface-variant text-xs">HaizoTech HQ</p>
+</div>
+<div class="px-4 mb-4">
+<button class="w-full bg-primary-container text-white py-2 rounded font-body-md text-sm hover:bg-inverse-primary transition-colors duration-300">New Project</button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col gap-1 px-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined">settings_applications</span>
+<span class="font-body-md text-sm">Operations</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded bg-primary-container/10 text-primary border-r-2 border-primary shadow-[0_0_15px_rgba(192,24,42,0.3)] transition-all scale-95 origin-left" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-body-md text-sm font-bold">Insights</span> <!-- Using Insights as active for Chat proxy in this restricted list -->
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined">article</span>
+<span class="font-body-md text-sm">Content</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined">business_center</span>
+<span class="font-body-md text-sm">Business</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-body-md text-sm">Forge</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto px-2 pt-4 border-t border-outline-variant/20">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-sm">settings</span>
+<span class="font-body-md text-xs">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-body-md text-xs">Support</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-[248px] h-screen bg-[#0A0A0B]">
+<!-- TopNavBar (Shared Component) -->
+<header class="h-[60px] flex items-center justify-between px-6 w-full bg-surface-container-low border-b border-outline-variant z-30 sticky top-0">
+<div class="flex items-center gap-4">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full bg-[#0A0A0B] border-none rounded pl-10 pr-4 py-1.5 font-mono-label text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:ring-2 focus:ring-primary transition-shadow" placeholder="Search conversations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary-container rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Chat Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Conversation List (Left Sidebar) -->
+<aside class="w-full md:w-[280px] flex-shrink-0 bg-surface border-r border-[#242428] flex flex-col">
+<div class="p-4 border-b border-[#242428]">
+<h3 class="font-mono-label text-sm text-on-surface tracking-widest uppercase">Active Threads</h3>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Active Conversation -->
+<div class="p-4 bg-[rgba(192,24,42,0.08)] border-l-4 border-primary-container cursor-pointer flex gap-3 relative shadow-[inset_0_0_20px_rgba(192,24,42,0.05)]">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-primary-container/30">
+<img class="w-full h-full object-cover" data-alt="A close up abstract macro shot of a metallic sphere reflecting a sleek, dark modern office space. Deep blacks and cool greys dominate, with a sharp, vibrant red accent light catching the edge of the sphere. High contrast, precise, technological." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPQaxHOWNcYB8qvGeyTtpQYixHEyeE-m_xEzAPIhNbl6EJP29oTysfO1-Ll1VwGpl-s_WdFfWSN9wDWJlvlqdf3AnZkMUuLNlPTHqGCbBe0daFE2pfoz6OlV-70uZM2UKzKQERjKnTrYji9VIpwVsEAgUp74hmf-wc8X9AtsqMZit5f9keXOe9piPwXMT9eeOfsi4bC9AbSDvSrgXXIQrnkx3tvtyXB_Elm0LIH_RQ8l0PT9HTSBPklw"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-body-md text-sm text-on-surface font-semibold truncate">Elenore Vance</h4>
+<span class="font-mono-label text-[10px] text-primary">10:42 AM</span>
+</div>
+<p class="font-body-md text-xs text-on-surface-variant truncate">We need to adjust the latency threshold...</p>
+</div>
+</div>
+<!-- Unread Conversation -->
+<div class="p-4 border-b border-[#242428] hover:bg-surface-container-high cursor-pointer flex gap-3 relative transition-colors group">
+<div class="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary-container shadow-[0_0_5px_rgba(192,24,42,0.5)]"></div>
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant/30 ml-2">
+<img class="w-full h-full object-cover" data-alt="A sleek, minimalist digital avatar placeholder image consisting of sharp geometric lines and subdued gradients in shades of dark charcoal and slate, accented by a single glowing crimson line. Abstract, professional, high-tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEUdPRWKNNQLr86_dlU1jAnObvKOplVrgCwa-uTfoO-bYcMKKSgrYLwj0nFl9XKy8eqTauQJ5W6hOT2t3xXZTWm1b2kJo7LTp1WL2Q3hb9nXLTtIzDp2xixclpyXUMEgh6TYOCy-NjqRsyJD0qGjnT_1onnC4QTYbpXD48phW9hNrGGqr1PkIm__IUHK59vifNH73gOz_YcLgjgijlf1JxDn_uaA1QHZteO2hnKJ6SCapji_nhPICb_g"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-body-md text-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Marcus Thorne</h4>
+<span class="font-mono-label text-[10px] text-on-surface-variant">09:15 AM</span>
+</div>
+<p class="font-body-md text-xs text-on-surface truncate font-medium">Deployment failed on staging cluster.</p>
+</div>
+</div>
+<!-- Read Conversation -->
+<div class="p-4 border-b border-[#242428] hover:bg-surface-container-high cursor-pointer flex gap-3 transition-colors group">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-outline-variant/30 ml-3.5">
+<img class="w-full h-full object-cover" data-alt="A moody, stylized photograph of a server rack corridor in a high-end data center. The lighting is minimal, relying on the faint blue and stark white LEDs from the hardware. A subtle hint of red light spills from the far end of the hall. Deep noir style, cold, systematic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC07RxXT3_A_tys4grly10FLMEE_zr2MnNtym3fAQkVCDf6L9PTqeBXaPpv7y0D4MHdASZuW58d3BUjV0QpFQ3eLl5dGrZnCmprtNjPEeQ6LK_HZdj5lvXQT-pca8GPaWuBuORVfDd6tbU0GNKLMFeRRAWFCP1WneR_I4k7oQOcYciV1sfUayj1vygNBQudPEURPzWIS9rITMs2_7SM9PCck7n5rKMFdjOC57WOwlUZ5w6iEh6CnyllOA"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-body-md text-sm text-on-surface-variant truncate group-hover:text-on-surface transition-colors">SysOps Automated</h4>
+<span class="font-mono-label text-[10px] text-on-surface-variant/50">Yesterday</span>
+</div>
+<p class="font-body-md text-xs text-on-surface-variant/70 truncate">Routine backup completed successfully.</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Message Thread (Right Side) -->
+<section class="flex-1 flex flex-col bg-[#111113] relative">
+<!-- Thread Header -->
+<div class="h-16 border-b border-[#242428] flex items-center justify-between px-6 bg-surface-container-lowest z-10">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-lg text-on-surface">Elenore Vance</h2>
+<span class="px-2 py-0.5 rounded bg-primary-container/10 border border-primary-container/30 text-primary font-mono-label text-[10px] shadow-[0_0_10px_rgba(192,24,42,0.1)]">ACTIVE CLIENT</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-[#242428]">
+<span class="material-symbols-outlined text-sm">search</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-[#242428]">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Messages Canvas -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+<div class="text-center">
+<span class="font-mono-label text-[10px] text-on-surface-variant/50 uppercase tracking-widest bg-[#16161A] px-3 py-1 rounded-full border border-[#242428]">Today</span>
+</div>
+<!-- Client Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mt-1">
+<img class="w-full h-full object-cover" data-alt="A close up abstract macro shot of a metallic sphere reflecting a sleek, dark modern office space. Deep blacks and cool greys dominate, with a sharp, vibrant red accent light catching the edge of the sphere. High contrast, precise, technological." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXTZMfD-g_wwbZPIvWl1xB4smgtm4zolSBXyGjNvWMHCICCV9WIWbxMqKT7saJ3AQ8SOKxaJ88ZGO0VnCUd1-zQymNZDwz17_3SlOZn0eii1VfmVSwmj-YtiKOhkw7ZE4cme-wNfgu1u_p6057QwMrJNYFnp6G8QN0F1dXIc80u8PeChnunhIzFMa3N2mT-FUhu3I4PmxkpGXbb1u7aUSsO-bWrXVGimuXHAQbndOBq5i3DIut3wUY4g"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-baseline gap-2 ml-1">
+<span class="font-body-md text-xs font-semibold text-on-surface-variant">Elenore Vance</span>
+<span class="font-mono-label text-[10px] text-on-surface-variant/50">10:30 AM</span>
+</div>
+<div class="bg-[#16161A] border border-[#242428] rounded-r-xl rounded-bl-xl p-4 text-sm text-on-surface font-body-md shadow-sm">
+                                The new deployment looks good, but we're seeing some lag on the primary data ingestion pipeline. Can someone investigate the node metrics?
+                            </div>
+</div>
+</div>
+<!-- Staff Message -->
+<div class="flex gap-4 max-w-3xl self-end flex-row-reverse">
+<div class="flex flex-col gap-1 items-end">
+<div class="flex items-baseline gap-2 mr-1">
+<span class="font-mono-label text-[10px] text-on-surface-variant/50">10:35 AM</span>
+<span class="font-body-md text-xs font-semibold text-primary">You (Admin)</span>
+</div>
+<div class="bg-primary-container/10 border border-primary-container/30 rounded-l-xl rounded-br-xl p-4 text-sm text-on-surface font-body-md shadow-[0_0_15px_rgba(192,24,42,0.05)] text-right">
+                                Copy that, Elenore. I'm pulling up the Grafana dashboards now. It looks like Node 4 might be bottlenecking. Let me reroute some traffic temporarily.
+                            </div>
+</div>
+</div>
+<!-- Client Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mt-1">
+<img class="w-full h-full object-cover" data-alt="A close up abstract macro shot of a metallic sphere reflecting a sleek, dark modern office space. Deep blacks and cool greys dominate, with a sharp, vibrant red accent light catching the edge of the sphere. High contrast, precise, technological." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP-KzHUGtfDIHWiz03c0NQhX52cjX3N3B-vmVzcdj55DCV-xD1BcdX4uDBCGtsFvLe6BLLmhEw74MVOgRQUHW9xXncUo70wM5GsyjYhFLPdL5Yo8Yl4tJixlhqK2b7320OPwQ0eOyqQiQvSs-U1xly9ivgph1yGAPcyeMRJ80T_kQbcCURZlZVmXKCV8tBhZQAlRo5SJRXaMrnJqNBwXMJOhwIxL_1OUVpGwEDOACplZ2222SSenPx6g"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-baseline gap-2 ml-1">
+<span class="font-body-md text-xs font-semibold text-on-surface-variant">Elenore Vance</span>
+<span class="font-mono-label text-[10px] text-on-surface-variant/50">10:42 AM</span>
+</div>
+<div class="bg-[#16161A] border border-[#242428] rounded-r-xl rounded-bl-xl p-4 text-sm text-on-surface font-body-md shadow-sm">
+                                We need to adjust the latency threshold if this persists. Keep me posted on the reroute.
+                            </div>
+</div>
+</div>
+<!-- Typing Indicator -->
+<div class="flex gap-4 max-w-3xl mt-2">
+<div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mt-1 opacity-50">
+<img class="w-full h-full object-cover" data-alt="A close up abstract macro shot of a metallic sphere reflecting a sleek, dark modern office space. Deep blacks and cool greys dominate, with a sharp, vibrant red accent light catching the edge of the sphere. High contrast, precise, technological." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfa4VjAnUlhJI8_penX3tkag0Vl-9YO5v4v3D-2vHp07wwMaILvHStskBVlwJYIBQjbpc22ywUuFhoN3h-nXK6SMEjg5AL9ky9VSrnRtMldPXJEYuauTTv5Z5vZ9EySFVhnHVvuayXtcZ6tfiNLr7aGeKI6iqXv94qWLUMlESjByPuTG-s-SGnsqX1epZeEaf3AONw4nT-99te0BjGdKwPPSH9GFmFg2l5B5cCa7bLNf80yeNvS67VxA"/>
+</div>
+<div class="bg-[#16161A] border border-[#242428] rounded-full px-4 py-3 flex items-center gap-1 w-16 h-8">
+<div class="w-1.5 h-1.5 bg-primary-container rounded-full typing-dot"></div>
+<div class="w-1.5 h-1.5 bg-primary-container rounded-full typing-dot"></div>
+<div class="w-1.5 h-1.5 bg-primary-container rounded-full typing-dot"></div>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 bg-surface-container-lowest border-t border-[#242428]">
+<div class="bg-[#16161A] border border-[#242428] rounded-lg p-2 flex items-end gap-2 focus-within:border-primary-container focus-within:shadow-[0_0_10px_rgba(192,24,42,0.1)] transition-all">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded mb-1">
+<span class="material-symbols-outlined text-sm">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 text-sm font-body-md text-on-surface placeholder:text-on-surface-variant/50 resize-none py-2.5 max-h-32 min-h-[44px]" placeholder="Type a message..." rows="1" style="scrollbar-width: none;"></textarea>
+<button class="p-2 bg-primary-container text-white hover:bg-inverse-primary transition-colors rounded mb-1 shadow-[0_0_10px_rgba(192,24,42,0.2)]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

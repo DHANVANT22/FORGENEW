@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Activity Log - Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Sora:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#e4bdbb",
+                        "tertiary-container": "#626166",
+                        "inverse-primary": "#bb1327",
+                        "primary-container": "#c0182a",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-primary-fixed-variant": "#930019",
+                        "on-tertiary-fixed-variant": "#47464b",
+                        "secondary": "#ffb3b0",
+                        "on-tertiary": "#303034",
+                        "on-secondary-fixed": "#410006",
+                        "surface-container": "#201f20",
+                        "inverse-surface": "#e5e2e3",
+                        "on-background": "#e5e2e3",
+                        "tertiary": "#c8c5cb",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "on-secondary": "#680010",
+                        "tertiary-fixed": "#e4e1e7",
+                        "on-surface": "#e5e2e3",
+                        "tertiary-fixed-dim": "#c8c5cb",
+                        "surface-tint": "#ffb3af",
+                        "surface-variant": "#353436",
+                        "surface-dim": "#131314",
+                        "secondary-fixed": "#ffdad8",
+                        "on-primary-fixed": "#410006",
+                        "on-secondary-fixed-variant": "#93001b",
+                        "on-tertiary-fixed": "#1b1b1f",
+                        "surface-container-highest": "#353436",
+                        "primary-fixed": "#ffdad8",
+                        "outline": "#ab8886",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "primary": "#ffb3af",
+                        "inverse-on-surface": "#313031",
+                        "on-secondary-container": "#ffdcda",
+                        "primary-fixed-dim": "#ffb3af",
+                        "on-primary-container": "#ffd3d0",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2a2a2b",
+                        "outline-variant": "#5b403e",
+                        "surface": "#131314",
+                        "surface-container-low": "#1c1b1c",
+                        "secondary-container": "#cd022a",
+                        "on-tertiary-container": "#e0dde2",
+                        "on-primary": "#68000e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "display-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Sora"],
+                        "display-sm": ["Sora"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-label": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-sm": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom Scrollbar for activity log */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131314; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353436; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #626166; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-white flex flex-col md:flex-row min-h-screen">
+<!-- SideNavBar (Hidden on Mobile) -->
+<nav class="hidden md:flex flex-col w-[248px] h-screen fixed left-0 top-0 bg-surface-dim border-r border-outline-variant py-base gap-2 z-40">
+<div class="px-6 mb-8 mt-4">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tighter">Admin Console</h1>
+<p class="font-mono-label text-mono-label text-on-surface-variant mt-1">HaizoTech HQ</p>
+</div>
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings_applications</span>
+<span class="font-body-md text-body-md">Operations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container/10 text-primary border-r-2 border-primary shadow-[0_0_15px_rgba(192,24,42,0.3)] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">insights</span>
+<span class="font-body-md text-body-md font-medium">Activity Log</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">article</span>
+<span class="font-body-md text-body-md">Content</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">business_center</span>
+<span class="font-body-md text-body-md">Business</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">architecture</span>
+<span class="font-body-md text-body-md">Forge</span>
+</a>
+</div>
+<div class="px-4 pb-6 space-y-4">
+<button class="w-full bg-primary-container hover:bg-primary-container/80 text-white font-mono-label text-mono-label py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Project
+            </button>
+<div class="pt-4 border-t border-outline-variant/30 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span class="font-body-md text-[14px]">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+<span class="font-body-md text-[14px]">Support</span>
+</a>
+</div>
+<div class="flex items-center gap-3 px-4 pt-4">
+<img alt="Admin User Profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, circular avatar portrait of a professional administrator in a dark, moody studio setting. Subtle red rim lighting outlines their silhouette against a deep black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC63A_0zc2PbD2hnLM6Mk8xrJmi2FUu1Nal5PmMdakk0Ru6suyiPSwItoYd8hx_9uMQzffGY2G6kYsglvE0oUQ9YaRDkW_TrBzO-T6sbvvvQxsiIsBOsgJ3tJDdfK0MinABNUqXGKzFVsOs5MTJ8X04fmRIlcXRAsg8qxSPEnJA1O2VecIzZoTGJA2r32aJc-3m-17JR3QVX7ENANC-MR94V0eRxWh0KAwsp0Dd1ZLdLQq3W_BLzYiZpw"/>
+<div>
+<p class="font-mono-label text-[12px] text-on-surface">System Admin</p>
+<p class="font-body-md text-[10px] text-on-surface-variant">Online</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:ml-[248px] min-h-screen">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-6 w-full h-[60px] sticky top-0 bg-surface-container-low border-b border-outline-variant z-30">
+<div class="flex items-center gap-4">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-mono-label text-mono-label text-on-surface-variant hidden md:flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface placeholder-on-surface-variant/50 w-64 text-sm" placeholder="Search activity..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary-container rounded-full shadow-[0_0_8px_rgba(192,24,42,0.6)]"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 p-margin-mobile md:p-margin-desktop bg-background">
+<!-- Page Header -->
+<div class="mb-12">
+<h2 class="font-display-sm text-headline-lg-mobile md:text-display-sm text-on-surface mb-2">Activity Log</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">A chronological record of system operations, user actions, and security events across the HaizoTech infrastructure.</p>
+</div>
+<!-- Feed Controls -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high border border-outline-variant text-on-surface font-mono-label text-[12px] hover:border-primary-container transition-colors">All Events</button>
+<button class="px-4 py-1.5 rounded-full bg-transparent border border-outline-variant text-on-surface-variant font-mono-label text-[12px] hover:text-on-surface transition-colors">System</button>
+<button class="px-4 py-1.5 rounded-full bg-transparent border border-outline-variant text-on-surface-variant font-mono-label text-[12px] hover:text-on-surface transition-colors">User</button>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-mono-label text-[12px]">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+<span>Filter &amp; Sort</span>
+</div>
+</div>
+<!-- Activity Feed -->
+<div class="bg-surface border border-outline-variant/30 rounded-xl overflow-hidden shadow-2xl">
+<!-- Row 1 -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 md:p-6 border-b border-outline-variant/20 bg-surface-container-lowest/50 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<img alt="Arjun Avatar" class="w-10 h-10 rounded-full border border-outline-variant/50 object-cover shrink-0" data-alt="A small, stylized avatar of a developer named Arjun, featuring a dark, moody aesthetic with sharp contrast. They are looking focused, illuminated by a faint cool-toned monitor light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVvNDE48CP8k7HFOcXgjUlx_Zf9TjSFgYTExTT7jfuh4DAWNQZaC0ZpCobNqdZyjHp6zLN4YH2-jUv19LdGwpPLFkexRYff1TQt_tb3PUE-0xTEj_n8Ykc--H9xCg2zga3cC6_5lj24j68hBNYV7JQfORPTVp7zeySxkJaMYzJBBFE2ZOd-UJWhbcTnWGhUcQyDlNWXVQ2KFGLZN8OQdk4sNyFQBoYT75AhRR85-Q30YeR1EGSdni_vg"/>
+<div class="flex flex-col">
+<p class="font-body-md text-on-surface"><span class="font-semibold text-primary">Arjun</span> created project <span class="font-mono-label text-inverse-surface bg-surface-container px-1.5 py-0.5 rounded">ERP Platform</span></p>
+</div>
+</div>
+<div class="sm:ml-auto flex items-center justify-between w-full sm:w-auto gap-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-mono-label text-[10px] uppercase tracking-wider border border-outline-variant/30">Project</span>
+<span class="font-mono-label text-[12px] text-tertiary-container whitespace-nowrap">10:42 AM</span>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 md:p-6 border-b border-outline-variant/20 bg-surface hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 border border-primary-container/30 flex items-center justify-center shrink-0 text-primary-container">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div class="flex flex-col">
+<p class="font-body-md text-on-surface"><span class="font-semibold">System</span> detected anomalous login attempt from IP <span class="font-mono-label text-error bg-error-container/20 px-1.5 py-0.5 rounded">192.168.1.45</span></p>
+</div>
+</div>
+<div class="sm:ml-auto flex items-center justify-between w-full sm:w-auto gap-4">
+<span class="px-2.5 py-1 rounded-full bg-error-container/10 text-error font-mono-label text-[10px] uppercase tracking-wider border border-error/20">Security</span>
+<span class="font-mono-label text-[12px] text-tertiary-container whitespace-nowrap">09:15 AM</span>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 md:p-6 border-b border-outline-variant/20 bg-surface-container-lowest/50 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<img alt="Sarah Avatar" class="w-10 h-10 rounded-full border border-outline-variant/50 object-cover shrink-0" data-alt="A small, stylized avatar of a designer named Sarah. Dark, cinematic lighting with a subtle red rim light highlighting her profile against a pure black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg-h-vUvCV-ywxpVwMGNPXfK0fwjmkZZmokDWncwFMHMIyoyCXCfCsFUWgRVOXWJJkvToPlaAgRBM2o8FmqExNX45l7BL0xeYF66D3SR9cUSfXpIkX661Ml5bWtcsfElD-hJ1Obtb2Wvi9mJQPEO5qf7X4y6MejfKdiGQFrrQz4vHOlkOtZdzYz_Ssyx_K-TvZZF6ouI3gNrnFT-BEtkzOnSzxUBtSrnyBFVSrmjNtGxwfcVp47rEBSQ"/>
+<div class="flex flex-col">
+<p class="font-body-md text-on-surface"><span class="font-semibold text-primary">Sarah</span> updated design tokens in <span class="font-mono-label text-inverse-surface bg-surface-container px-1.5 py-0.5 rounded">Core-UI</span> repository</p>
+</div>
+</div>
+<div class="sm:ml-auto flex items-center justify-between w-full sm:w-auto gap-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-mono-label text-[10px] uppercase tracking-wider border border-outline-variant/30">Asset</span>
+<span class="font-mono-label text-[12px] text-tertiary-container whitespace-nowrap">Yesterday, 4:30 PM</span>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 md:p-6 bg-surface hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant/50 flex items-center justify-center shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[20px]">cloud_sync</span>
+</div>
+<div class="flex flex-col">
+<p class="font-body-md text-on-surface"><span class="font-semibold">Automated Backup</span> completed successfully for database cluster <span class="font-mono-label text-inverse-surface bg-surface-container px-1.5 py-0.5 rounded">DB-Primary-01</span></p>
+</div>
+</div>
+<div class="sm:ml-auto flex items-center justify-between w-full sm:w-auto gap-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-mono-label text-[10px] uppercase tracking-wider border border-outline-variant/30">System</span>
+<span class="font-mono-label text-[12px] text-tertiary-container whitespace-nowrap">Yesterday, 2:00 AM</span>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="px-6 py-2 border border-outline-variant rounded-lg font-mono-label text-sm text-on-surface-variant hover:text-primary hover:border-primary-container transition-all">Load More Events</button>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,578 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String               @id @default(uuid())
+  email                String               @unique
+  password             String
+  name                 String
+  role                 Role                 @default(DEV)
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  bio                  String?
+  maintenanceMode      Boolean              @default(false)
+  notificationsEnabled Boolean              @default(true)
+  inviteToken          String?              @unique
+  inviteTokenExpires   DateTime?
+  avatarUrl            String?
+  tokenVersion         Int                  @default(0)
+  notificationPrefs    Json?
+  Announcement         Announcement[]
+  Blog                 Blog[]
+  ConversationMember   ConversationMember[]
+  Message              Message[]
+  Notification         Notification[]
+  SupportMessage       SupportMessage[]
+  SupportSession       SupportSession[]
+  Task                 Task[]
+  PulseToken           PulseToken[]
+}
+
+model Inquiry {
+  id             String        @id @default(uuid())
+  name           String
+  email          String
+  message        String
+  status         InquiryStatus @default(NEW)
+  submissionDate DateTime      @default(now())
+  phone          String?
+  service        String?
+
+  Estimate Estimate[]
+  Scenario Scenario[]
+
+  @@index([status])
+}
+
+model Project {
+  id             String         @id @default(uuid())
+  name           String
+  description    String?
+  clientId       String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  budget         String?
+  budgetAmount   Decimal?
+  estimatedHours Int?
+  endDate        DateTime?
+  progress       Int            @default(0)
+  startDate      DateTime?
+  status         String         @default("Planning")
+  pulseFinancialsVisible Boolean @default(false)
+  columns        Column[]
+  conversations  Conversation[]
+  Client         Client?        @relation(fields: [clientId], references: [id])
+
+  ClientAccount        ClientAccount[]
+  Milestone            Milestone[]
+  PulseToken           PulseToken[]
+  ProjectRiskSnapshot  ProjectRiskSnapshot[]
+  Scenario             Scenario[]
+  ProjectScopeBaseline ProjectScopeBaseline[]
+
+  sourceEstimateId     String?
+  sourceEstimate       Estimate?      @relation(fields: [sourceEstimateId], references: [id])
+
+  RiskPredictionOutcome RiskPredictionOutcome[]
+  RiskAlertSnooze       RiskAlertSnooze[]
+}
+
+model ProjectScopeBaseline {
+  id          String   @id @default(uuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  taskCount   Int
+  columnCount Int
+  capturedAt  DateTime @default(now())
+
+  @@index([projectId])
+}
+
+model Column {
+  id            String  @id @default(uuid())
+  name          String
+  order         Int
+  clientVisible Boolean @default(false)
+  projectId     String
+  project       Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks         Task[]
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  dueDate     DateTime?
+  tags        String[]
+  order       Int
+  columnId    String
+  assigneeId  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  delayReason String?
+  isCompleted Boolean   @default(false)
+  priority    String    @default("Low")
+  startDate   DateTime?
+  Subtask     Subtask[]
+  User        User?     @relation(fields: [assigneeId], references: [id])
+  column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+}
+
+model Attachment {
+  id           String   @id @default(uuid())
+  key          String   @unique
+  filename     String
+  mimeType     String
+  size         Int
+  status       String   @default("PENDING")
+  visibility   String   @default("STAFF_ONLY")
+  uploadedById String?
+  createdAt    DateTime @default(now())
+  messageId    String?
+
+  @@index([messageId])
+  @@index([status])
+}
+
+model Conversation {
+  id                 String               @id @default(uuid())
+  type               String               @default("dm")
+  name               String?
+  projectId          String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  project            Project?             @relation(fields: [projectId], references: [id])
+  ConversationMember ConversationMember[]
+  Message            Message[]
+
+  @@index([projectId])
+}
+
+model ActivityEvent {
+  id          String   @id
+  actorId     String?
+  actorName   String?
+  action      String
+  entityType  String
+  entityId    String?
+  entityLabel String?
+  path        String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model Announcement {
+  id        String   @id
+  title     String
+  content   String
+  audience  String   @default("ALL")
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  User      User     @relation(fields: [authorId], references: [id])
+
+  @@index([audience])
+}
+
+model Blog {
+  id              String   @id
+  title           String
+  content         String
+  authorId        String
+  tags            String[]
+  imageUrl        String?
+  published       Boolean  @default(false)
+  queryPlan       Json?
+  queryPlanBefore Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime
+  slug            String?  @unique
+  User            User     @relation(fields: [authorId], references: [id])
+
+  @@index([published])
+}
+
+model Client {
+  id           String    @id
+  organization String
+  contactName  String
+  email        String?
+  createdAt    DateTime  @default(now())
+  Project      Project[]
+}
+
+model ConversationMember {
+  id             String       @id
+  conversationId String
+  userId         String
+  lastReadAt     DateTime?
+  createdAt      DateTime     @default(now())
+  Conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  User           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, userId])
+  @@index([userId])
+}
+
+model Industry {
+  id         String   @id
+  slug       String   @unique
+  name       String
+  capability String
+  icon       String?
+  order      Int      @default(0)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime
+
+  @@index([published, order])
+}
+
+model Message {
+  id             String       @id
+  conversationId String
+  senderId       String
+  body           String
+  clientNonce    String?
+  milestoneId    String?
+  taskId         String?
+  createdAt      DateTime     @default(now())
+  Conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  User           User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, clientNonce])
+  @@index([conversationId, createdAt])
+}
+
+model MetricDaily {
+  date  DateTime @id @db.Date
+  views Int      @default(0)
+}
+
+model Notification {
+  id         String    @id
+  userId     String
+  type       String
+  title      String
+  message    String
+  isRead     Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  actorId    String?
+  entityType String?
+  entityId   String?
+  url        String?
+  groupKey   String?
+  emailedAt  DateTime?
+  User       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, isRead, createdAt])
+}
+
+model PageView {
+  id        String   @id
+  path      String
+  referrer  String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([path])
+}
+
+model Service {
+  id             String        @id
+  slug           String        @unique
+  title          String
+  summary        String
+  body           String?
+  icon           String?
+  stack          String[]
+  deliverables   String[]
+  timeline       String?
+  order          Int           @default(0)
+  published      Boolean       @default(false)
+  publishedAt    DateTime?
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime
+  Testimonial    Testimonial[]
+
+  @@index([published, order])
+}
+
+model Subtask {
+  id     String  @id
+  title  String
+  isDone Boolean @default(false)
+  taskId String
+  Task   Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
+
+model SupportMessage {
+  id             String         @id
+  sessionId      String
+  staffId        String?
+  body           String
+  clientNonce    String?
+  createdAt      DateTime       @default(now())
+  SupportSession SupportSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  User           User?          @relation(fields: [staffId], references: [id])
+
+  @@unique([sessionId, clientNonce])
+  @@index([sessionId, createdAt])
+}
+
+model SupportSession {
+  id                String           @id
+  visitorId         String
+  status            String           @default("OPEN")
+  assigneeId        String?
+  subject           String?
+  lastVisitorReadAt DateTime?
+  lastStaffReadAt   DateTime?
+  inquiryId         String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime
+  SupportMessage    SupportMessage[]
+  User              User?            @relation(fields: [assigneeId], references: [id])
+  Visitor           Visitor          @relation(fields: [visitorId], references: [id], onDelete: Cascade)
+
+  @@index([assigneeId])
+  @@index([status, updatedAt])
+}
+
+model Testimonial {
+  id         String    @id
+  author     String
+  role       String?
+  company    String?
+  quote      String
+  avatarUrl  String?
+  sourceUrl  String?
+  verifiedAt DateTime?
+  serviceId  String?
+  order      Int       @default(0)
+  published  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime
+  Service    Service?  @relation(fields: [serviceId], references: [id])
+
+  @@index([published, order])
+}
+
+model Visitor {
+  id             String           @id
+  name           String?
+  email          String?
+  createdAt      DateTime         @default(now())
+  SupportSession SupportSession[]
+}
+
+model Work {
+  id          String   @id
+  title       String
+  category    String
+  description String
+  imageUrls   String[]
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+  liveUrl     String?
+  slug        String?  @unique
+
+  @@index([published])
+}
+
+model WorkCategory {
+  id        String   @id
+  name      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
+
+// Forge Additions
+model Estimate {
+  id                 String   @id @default(uuid())
+  answers            Json
+  tier               String
+  sourceIpHash       String
+  convertedInquiryId String?
+  inquiry            Inquiry? @relation(fields: [convertedInquiryId], references: [id])
+  createdAt          DateTime @default(now())
+  confidenceLow      Boolean  @default(false)
+  Project            Project[]
+}
+
+model Scenario {
+  id           String   @id @default(uuid())
+  inputs       Json
+  computedBand String
+  estimateId   String?
+  inquiryId    String?
+  inquiry      Inquiry? @relation(fields: [inquiryId], references: [id])
+  projectId    String?
+  project      Project? @relation(fields: [projectId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model ProjectRiskSnapshot {
+  id         String   @id @default(uuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id])
+  axisScores Json
+  causeSummary String?
+  computedAt DateTime @default(now())
+  RiskPredictionOutcome RiskPredictionOutcome[]
+
+  @@index([projectId, computedAt])
+}
+
+model RiskPredictionOutcome {
+  id          String   @id @default(uuid())
+  projectId   String
+  snapshotId  String
+  actualOutcome String
+  axis        String?
+  impact      Int?
+  recordedAt  DateTime @default(now())
+
+  project     Project             @relation(fields: [projectId], references: [id])
+  snapshot    ProjectRiskSnapshot @relation(fields: [snapshotId], references: [id])
+}
+
+model RiskAlertSnooze {
+  id                String   @id @default(uuid())
+  projectId         String
+  axis              String
+  acknowledgedUntil DateTime
+
+  project Project @relation(fields: [projectId], references: [id])
+}
+
+model ClientAccount {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String?
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id])
+  inviteToken   String?   @unique
+  inviteExpires DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  hasSeenOnboarding Boolean   @default(false)
+  notificationPrefs Json?
+}
+
+model Milestone {
+  id               String    @id @default(uuid())
+  title            String
+  description      String?
+  targetDate       DateTime?
+  completedAt      DateTime?
+  status           String    @default("Upcoming")
+  clientVisible    Boolean   @default(false)
+  requiresApproval Boolean   @default(false)
+  approvedAt       DateTime?
+  approvedByClientId String?
+  projectId        String
+  project          Project   @relation(fields: [projectId], references: [id])
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model PulseToken {
+  id           String    @id @default(uuid())
+  token        String    @unique
+  expiresAt    DateTime
+  projectId    String
+  project      Project   @relation(fields: [projectId], references: [id])
+  createdById  String
+  createdBy    User      @relation(fields: [createdById], references: [id])
+  createdAt    DateTime  @default(now())
+  lastViewedAt DateTime?
+
+  @@index([token])
+}
+
+enum InquiryStatus {
+  NEW
+  READ
+  REPLIED
+}
+
+enum Role {
+  SUPER_ADMIN
+  MANAGER
+  DEV
+}
+
+model Config {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ControlCentreIdea {
+  id          String                  @id @default(cuid())
+  title       String
+  slug        String                  @unique
+  content     String                  @db.Text
+  status      String                  @default("active")
+  version     Int                     @default(1)
+  createdById String
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+  revisions   ControlCentreRevision[]
+  messages    ControlCentreMessage[]
+}
+
+model ControlCentreRevision {
+  id            String            @id @default(cuid())
+  ideaId        String
+  idea          ControlCentreIdea @relation(fields: [ideaId], references: [id])
+  content       String            @db.Text
+  version       Int
+  editedById    String
+  changeSummary String?
+  messageId     String?
+  createdAt     DateTime          @default(now())
+}
+
+model ControlCentreMessage {
+  id           String            @id @default(cuid())
+  ideaId       String
+  idea         ControlCentreIdea @relation(fields: [ideaId], references: [id])
+  author       String
+  role         String
+  content      String            @db.Text
+  providerUsed String?
+  type         String?
+  createdAt    DateTime          @default(now())
+}
+
+model QuizProgressEvent {
+  id          String   @id @default(uuid())
+  sessionId   String
+  questionKey String
+  reachedAt   DateTime @default(now())
+}
+
+model DraftEstimate {
+  id        String   @id @default(uuid())
+  sessionId String   @unique
+  answers   Json
+  step      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
