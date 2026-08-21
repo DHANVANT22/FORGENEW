@@ -28,7 +28,7 @@ class DraftEstimateController {
         try {
             const { sessionId } = req.params;
             const draft = await db_1.default.draftEstimate.findUnique({
-                where: { sessionId }
+                where: { sessionId: sessionId }
             });
             if (!draft) {
                 return res.status(404).json({ error: 'Draft not found' });

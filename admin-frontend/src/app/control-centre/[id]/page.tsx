@@ -281,12 +281,13 @@ export default function ControlCentreEditor() {
         }
 
       } else {
-        const data = await res.json();
-        alert(data.error || 'Chat failed — try again');
+        const data = await res.json().catch(() => ({}));
+        const errText = data.error || `Couldn't reach ${selectedProvider.toUpperCase()} — please try again.`;
+        setChatMessages(prev => [...prev, { role: 'system', error: true, content: errText }]);
       }
     } catch (err) {
       console.error(err);
-      alert('Chat failed — try again');
+      setChatMessages(prev => [...prev, { role: 'system', error: true, content: `Couldn't reach ${selectedProvider.toUpperCase()} — please try again.` }]);
     }
     setAnalyzing(false);
   };
@@ -385,7 +386,7 @@ export default function ControlCentreEditor() {
             </div>
           </div>
           <div
-            className="flex-1 overflow-y-auto p-8 text-text-strong bg-bg prose prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary-hover prose-pre:bg-bg-deep prose-pre:border prose-pre:border-border prose-pre:font-mono prose-blockquote:border-l-primary"
+            className="flex-1 overflow-y-auto p-8 text-text-strong bg-bg prose prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-h1:text-2xl prose-h1:border-b prose-h1:border-border/40 prose-h1:pb-2 prose-h2:text-xl prose-h2:text-[#82C4DE] prose-h3:text-base prose-h3:text-neutral-200 prose-strong:text-white prose-strong:font-bold prose-em:text-[#82C4DE] prose-a:text-primary hover:prose-a:text-primary-hover prose-pre:bg-black prose-pre:border-l-2 prose-pre:border-l-[#5CA8C9] prose-pre:border prose-pre:border-border/60 prose-pre:p-4 prose-pre:font-mono prose-code:text-[#82C4DE] prose-code:bg-black/60 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:border prose-code:border-border/40 prose-ul:text-neutral-300 prose-li:marker:text-neutral-500 prose-ol:marker:text-neutral-500 prose-blockquote:border-l-2 prose-blockquote:border-l-[#5CA8C9] prose-blockquote:text-neutral-400 prose-blockquote:bg-surface-container/20 prose-blockquote:p-3 prose-blockquote:rounded-r"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
         </Panel>

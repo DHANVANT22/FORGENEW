@@ -35,11 +35,11 @@ export function CommandPaletteHint() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="absolute top-20 right-6 z-[var(--z-chrome)] bg-surface-container border border-border rounded-lg shadow-lg p-3 flex items-center gap-3"
+          className="absolute top-20 right-6 z-[var(--z-chrome)] neu-panel p-3 flex items-center gap-3"
         >
           <span className="material-symbols-outlined text-primary text-xl">terminal</span>
           <div className="text-sm text-text-strong font-mono">
-            Press <kbd className="px-1.5 py-0.5 bg-bg-deep border border-border rounded shadow-sm mx-1">Cmd/Ctrl + K</kbd> to open command palette
+            Press <kbd className="px-2 py-1 bg-[#1A1D24] border border-white/10 rounded-[4px] shadow-[0_3px_0_rgba(0,0,0,0.8),inset_1px_1px_1px_rgba(255,255,255,0.1)] mx-1 inline-block -translate-y-[1px]">Cmd/Ctrl + K</kbd> to open command palette
           </div>
           <button 
             onClick={() => {

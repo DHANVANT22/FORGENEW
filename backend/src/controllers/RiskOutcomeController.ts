@@ -14,7 +14,7 @@ export class RiskOutcomeController {
       // Create the outcome
       const outcome = await prisma.riskPredictionOutcome.create({
         data: {
-          projectId,
+          projectId: projectId as string,
           snapshotId,
           actualOutcome,
           axis,
@@ -40,7 +40,7 @@ export class RiskOutcomeController {
               prisma.projectRiskSnapshot.create({
                 data: {
                   id: uuidv4(),
-                  projectId,
+                  projectId: projectId as string,
                   axisScores: newScores,
                   causeSummary: `Adjusted by logged outcome: ${actualOutcome}`
                 }
@@ -61,7 +61,7 @@ export class RiskOutcomeController {
     try {
       const { projectId } = req.params;
       const outcomes = await prisma.riskPredictionOutcome.findMany({
-        where: { projectId },
+        where: { projectId: projectId as string },
         orderBy: { recordedAt: 'desc' },
         include: {
           snapshot: true

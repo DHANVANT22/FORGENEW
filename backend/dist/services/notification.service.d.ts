@@ -18,7 +18,6 @@ export declare class NotificationService {
         title: string;
         type: string;
         message: string;
-        userId: string;
         actorId: string | null;
         entityType: string | null;
         entityId: string | null;
@@ -26,6 +25,7 @@ export declare class NotificationService {
         url: string | null;
         groupKey: string | null;
         emailedAt: Date | null;
+        userId: string;
     }>;
     /**
      * Stub for email delivery.

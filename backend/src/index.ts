@@ -66,8 +66,9 @@ io.on('connection', (socket) => {
         });
       }
 
-      // Find a user or use a mock user ID. For demo, we'll try to find an admin.
-      const user = await prisma.user.findFirst({ where: { role: 'DEV' } });
+      // Find a default user for relation
+      const user = await prisma.user.findFirst();
+      const isClient = senderName === 'Client';
       
       if (user && conv) {
         const savedMsg = await prisma.message.create({
@@ -75,6 +76,7 @@ io.on('connection', (socket) => {
             id: Date.now().toString(),
             conversationId: conv.id,
             senderId: user.id,
+            clientNonce: isClient ? 'CLIENT_MSG' : 'ADMIN_MSG',
             body: text,
             taskId,
             milestoneId
@@ -83,7 +85,7 @@ io.on('connection', (socket) => {
         
         const message = {
           id: savedMsg.id,
-          senderName: senderName || user.name,
+          senderName: isClient ? 'Client' : (senderName || user.name || 'Team Admin'),
           text: savedMsg.body,
           createdAt: savedMsg.createdAt.toISOString(),
           taskId,
@@ -91,10 +93,9 @@ io.on('connection', (socket) => {
         };
         io.to(`project_${projectId}`).emit('receive_message', message);
       } else {
-        // Fallback if DB not seeded properly
         const message = {
           id: Date.now().toString(),
-          senderName,
+          senderName: senderName || 'Client',
           text,
           createdAt: new Date().toISOString(),
           taskId,

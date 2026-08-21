@@ -16,7 +16,7 @@ class RiskAlertController {
             const acknowledgedUntil = new Date(Date.now() + days * 24 * 3600 * 1000);
             const snooze = await db_1.default.riskAlertSnooze.create({
                 data: {
-                    projectId,
+                    projectId: projectId,
                     axis,
                     acknowledgedUntil
                 }

@@ -21,8 +21,8 @@ export const AnalyticsCharts = ({ estimatesData, tierStats }: { estimatesData: a
   return (
     <div className="space-y-8">
       {/* Time Series Area Chart */}
-      <div className="h-[300px] w-full">
-        <h3 className="text-sm font-mono text-muted uppercase tracking-wider mb-4">Lead Velocity (YTD)</h3>
+      <div className="h-[340px] w-full neu-panel bg-retro-grid p-6">
+        <h3 className="text-sm font-mono text-muted uppercase tracking-wider mb-6">Lead Velocity (YTD)</h3>
         <motion.div 
           className="w-full h-full"
           initial={{ clipPath: 'inset(0 100% 0 0)' }}
@@ -59,7 +59,7 @@ export const AnalyticsCharts = ({ estimatesData, tierStats }: { estimatesData: a
         {/* Tier Stats Table */}
         <div className="w-full">
           <h3 className="text-sm font-mono text-muted uppercase tracking-wider mb-4">Conversion Funnel by Tier</h3>
-          <div className="bg-card shadow-card rounded-2xl overflow-hidden border border-border">
+          <div className="neu-panel overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-border bg-surface-container/30 font-mono text-xs text-on-surface-variant uppercase tracking-wider">
@@ -84,7 +84,7 @@ export const AnalyticsCharts = ({ estimatesData, tierStats }: { estimatesData: a
         </div>
 
         {/* Tier Distribution Pie Chart */}
-        <div className="h-[250px] w-full flex flex-col">
+        <div className="h-[280px] w-full flex flex-col neu-panel bg-retro-grid p-6">
           <h3 className="text-sm font-mono text-muted uppercase tracking-wider mb-4">Estimate Tiers</h3>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>

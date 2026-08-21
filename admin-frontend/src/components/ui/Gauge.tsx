@@ -17,8 +17,8 @@ export function Gauge({ value, label, className = '' }: GaugeProps) {
   return (
     <div className={`relative flex flex-col items-center ${className}`}>
       <div className="relative w-32 h-16 overflow-hidden">
-        {/* Semi-circle background */}
-        <div className="absolute top-0 left-0 w-32 h-32 rounded-full border-[8px] border-border border-b-transparent border-l-transparent -rotate-45 box-border" />
+        {/* Semi-circle recessed dish background */}
+        <div className="absolute top-0 left-0 w-32 h-32 rounded-full neu-pressed box-border" />
         
         {/* Ticks */}
         {[0, 25, 50, 75, 100].map((tick) => {
@@ -44,7 +44,7 @@ export function Gauge({ value, label, className = '' }: GaugeProps) {
         />
         
         {/* Center dot */}
-        <div className="absolute bottom-[-6px] left-1/2 w-4 h-4 bg-border rounded-full transform -translate-x-1/2 shadow-[inset_1px_1px_0_rgba(255,255,255,0.1),0_2px_4px_rgba(0,0,0,0.5)] z-10" />
+        <div className="absolute bottom-[-6px] left-1/2 w-4 h-4 bg-black rounded-full transform -translate-x-1/2 neu-button z-10" />
       </div>
 
       <div className="mt-2 flex flex-col items-center">

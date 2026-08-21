@@ -13,12 +13,15 @@ const requireAdminAuth = (req, res, next) => {
     }
     const token = authHeader.split(' ')[1];
     if (token === 'ADMIN_DEMO_TOKEN') {
-        req.user = { id: 'admin', name: 'Admin', role: 'SUPER_ADMIN' };
+        const adminObj = { id: 'admin', name: 'Admin', role: 'SUPER_ADMIN' };
+        req.user = adminObj;
+        req.admin = adminObj;
         return next();
     }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
         req.user = decoded;
+        req.admin = decoded;
         next();
     }
     catch (err) {
@@ -27,14 +30,16 @@ const requireAdminAuth = (req, res, next) => {
 };
 exports.requireAdminAuth = requireAdminAuth;
 const requireClientAuth = (req, res, next) => {
-    const token = req.cookies?.clientToken;
-    console.log('requireClientAuth - Cookies:', req.cookies);
+    let token = req.cookies?.clientToken;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1];
+    }
     if (!token) {
         return res.status(401).json({ error: 'Unauthorized: No client token provided' });
     }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
-        console.log('requireClientAuth - Decoded:', decoded);
         if (decoded.sub !== 'client') {
             return res.status(401).json({ error: 'Unauthorized: Invalid token type' });
         }
@@ -42,7 +47,6 @@ const requireClientAuth = (req, res, next) => {
         next();
     }
     catch (err) {
-        console.log('requireClientAuth - Error verifying token:', err);
         return res.status(401).json({ error: 'Unauthorized: Invalid client token' });
     }
 };

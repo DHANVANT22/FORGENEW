@@ -17,21 +17,6 @@ export declare class PulseService {
         lastViewedAt: Date | null;
         createdById: string;
     }>;
-    getSnapshot(token: string): Promise<{
-        projectName: string;
-        phase: string;
-        completionRate: number;
-        status: string;
-        nextMilestone: {
-            title: string;
-            targetDate: string;
-        };
-        coarseState: string;
-        changelog: {
-            title: string;
-            completedAt: Date;
-        }[];
-        velocity: any[];
-    }>;
+    getSnapshot(token: string): Promise<any>;
 }
 //# sourceMappingURL=PulseService.d.ts.map

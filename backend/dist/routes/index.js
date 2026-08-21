@@ -19,7 +19,14 @@ const RiskAlertController_1 = require("../controllers/RiskAlertController");
 const auth_1 = require("../middleware/auth");
 const validate_1 = require("../middleware/validate");
 const schemas_1 = require("../schemas");
+const EnquiryController_1 = require("../controllers/EnquiryController");
 const router = (0, express_1.Router)();
+// Enquiries
+router.post('/v1/enquiries', EnquiryController_1.EnquiryController.createEnquiry);
+router.get('/v1/enquiries/:token', EnquiryController_1.EnquiryController.getEnquiryByToken);
+router.get('/v1/admin/enquiries', auth_1.requireAdminAuth, EnquiryController_1.EnquiryController.getAdminEnquiries);
+router.post('/v1/admin/enquiries/:id/reply', auth_1.requireAdminAuth, EnquiryController_1.EnquiryController.postAdminReply);
+router.put('/v1/admin/enquiries/:id/status', auth_1.requireAdminAuth, EnquiryController_1.EnquiryController.updateEnquiryStatus);
 // Chat
 router.get('/v1/projects/:projectId/messages', auth_1.requireClientAuth, ChatController_1.ChatController.getMessages);
 router.post('/v1/projects/:projectId/messages', auth_1.requireClientAuth, ChatController_1.ChatController.sendMessage);
@@ -45,7 +52,7 @@ router.post('/v1/config/tier-weights/preview', auth_1.requireAdminAuth, ConfigCo
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const pulseRateLimit = (0, express_rate_limit_1.default)({
     windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 5, // Limit each IP to 5 pulse snapshot reads per `window` (here, per 10 minutes)
+    max: 100, // Reasonable limit per IP window
     message: { error: 'Too many requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
@@ -55,13 +62,17 @@ router.post('/v1/projects/:id/pulse-token', auth_1.requireAdminAuth, PulseContro
 router.post('/v1/projects/:id/pulse-token/rotate', auth_1.requireAdminAuth, PulseController_1.PulseController.rotateToken);
 router.get('/v1/pulse/:token', pulseRateLimit, PulseController_1.PulseController.getSnapshot);
 // Client Auth
+router.post('/v1/client-auth/signup', ClientAuthController_1.ClientAuthController.signupClient);
 router.post('/v1/client-auth/invite', auth_1.requireAdminAuth, (0, validate_1.validate)(schemas_1.ClientInviteSchema), ClientAuthController_1.ClientAuthController.inviteClient);
 router.post('/v1/client-auth/invite/resend', auth_1.requireAdminAuth, ClientAuthController_1.ClientAuthController.resendInvite);
 router.post('/v1/client-auth/revoke/:accountId', auth_1.requireAdminAuth, ClientAuthController_1.ClientAuthController.revokeAccess);
-router.post('/v1/client-auth/login', (0, validate_1.validate)(schemas_1.ClientAuthSchema), ClientAuthController_1.ClientAuthController.loginClient);
+router.post('/v1/client-auth/login', ClientAuthController_1.ClientAuthController.loginClient);
+router.post('/v1/client-auth/logout', ClientAuthController_1.ClientAuthController.logoutClient);
+router.get('/v1/client-auth/me', auth_1.requireClientAuth, ClientAuthController_1.ClientAuthController.getMe);
 router.post('/v1/client-auth/setup', ClientAuthController_1.ClientAuthController.setupAccount);
 // Client Portal
 router.get('/v1/client/project', auth_1.requireClientAuth, ClientProjectController_1.ClientProjectController.getProject);
+router.post('/v1/client/brief', auth_1.requireClientAuth, ClientProjectController_1.ClientProjectController.submitProjectBrief);
 router.put('/v1/client/milestones/:id/approve', auth_1.requireClientAuth, ClientProjectController_1.ClientProjectController.approveMilestone);
 router.post('/v1/client/onboarding/complete', auth_1.requireClientAuth, ClientProjectController_1.ClientProjectController.updateOnboardingStatus);
 router.put('/v1/client/settings/notifications', auth_1.requireClientAuth, ClientProjectController_1.ClientProjectController.updateNotificationPrefs);
@@ -73,12 +84,14 @@ router.put('/v1/admin/projects/:id', auth_1.requireAdminAuth, AdminProjectContro
 router.put('/v1/admin/projects/:id/tasks/reorder', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.reorderTasks);
 router.put('/v1/admin/projects/:id/columns/:columnId/visibility', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.toggleColumnVisibility);
 router.put('/v1/admin/projects/:id/milestones/:milestoneId/visibility', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.toggleMilestoneVisibility);
+router.patch('/v1/admin/projects/:id/pulse-financials', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.updatePulseFinancialsVisibility);
 const MilestoneController_1 = require("../controllers/MilestoneController");
 router.post('/v1/admin/projects/:projectId/milestones', auth_1.requireAdminAuth, MilestoneController_1.MilestoneController.createMilestone);
 router.put('/v1/admin/milestones/:id', auth_1.requireAdminAuth, MilestoneController_1.MilestoneController.updateMilestone);
 router.delete('/v1/admin/milestones/:id', auth_1.requireAdminAuth, MilestoneController_1.MilestoneController.deleteMilestone);
 const AdminClientController_1 = require("../controllers/AdminClientController");
 router.get('/v1/admin/clients', auth_1.requireAdminAuth, AdminClientController_1.AdminClientController.getClients);
+router.post('/v1/admin/clients', auth_1.requireAdminAuth, AdminClientController_1.AdminClientController.createClient);
 const ActivityLogController_1 = require("../controllers/ActivityLogController");
 router.get('/v1/admin/activity', auth_1.requireAdminAuth, ActivityLogController_1.ActivityLogController.getActivityLog);
 const SearchController_1 = require("../controllers/SearchController");
@@ -106,5 +119,8 @@ router.put('/v1/control-centre/ideas/:id', auth_1.requireAdminAuth, ControlCentr
 router.get('/v1/control-centre/ideas/:id/revisions', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getRevisions);
 router.get('/v1/control-centre/ideas/:id/revisions/:revisionId', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getRevision);
 router.get('/v1/control-centre/ideas/:id/export', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.exportIdea);
+router.post('/v1/control-centre/chat', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.chatIdea);
+router.get('/v1/control-centre/ideas/:id/chat', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getIdeaChat);
+router.get('/v1/control-centre/provider-status', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getProviderStatus);
 exports.default = router;
 //# sourceMappingURL=index.js.map

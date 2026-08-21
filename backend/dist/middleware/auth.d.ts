@@ -1,5 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-export declare const requireAdminAuth: (req: Request, res: Response, next: NextFunction) => void | Response<any, Record<string, any>>;
+export interface AdminAuthRequest extends Request {
+    user?: {
+        id: string;
+        name: string;
+        role: string;
+    };
+    admin?: {
+        id: string;
+        name: string;
+        role: string;
+    };
+}
+export declare const requireAdminAuth: (req: AdminAuthRequest, res: Response, next: NextFunction) => void | Response<any, Record<string, any>>;
 export interface ClientAuthRequest extends Request {
     client?: {
         id: string;

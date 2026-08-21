@@ -9,7 +9,7 @@ function errorHandler(err, req, res, next) {
             error: {
                 code: 'VALIDATION_FAILED',
                 message: 'Invalid request data',
-                details: err.errors
+                details: err.errors || err.issues
             }
         });
     }

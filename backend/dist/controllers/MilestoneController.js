@@ -9,15 +9,16 @@ class MilestoneController {
     static async createMilestone(req, res) {
         try {
             const { projectId } = req.params;
-            const { title, description, dueDate, status } = req.body;
+            const { title, description, dueDate, targetDate, status } = req.body;
+            const dateVal = targetDate || dueDate;
             const milestone = await db_1.default.milestone.create({
                 data: {
                     title,
                     description,
-                    dueDate: dueDate ? new Date(dueDate) : null,
-                    status: status || 'Pending',
+                    targetDate: dateVal ? new Date(dateVal) : null,
+                    status: status || 'Upcoming',
                     clientVisible: false,
-                    projectId
+                    projectId: projectId
                 }
             });
             res.status(201).json(milestone);
@@ -30,15 +31,17 @@ class MilestoneController {
     static async updateMilestone(req, res) {
         try {
             const { id } = req.params;
-            const { title, description, dueDate, status, clientVisible } = req.body;
+            const { title, description, dueDate, targetDate, status, clientVisible, requiresApproval } = req.body;
+            const dateVal = targetDate || dueDate;
             const milestone = await db_1.default.milestone.update({
-                where: { id },
+                where: { id: id },
                 data: {
                     title,
                     description,
-                    dueDate: dueDate ? new Date(dueDate) : undefined,
+                    targetDate: dateVal ? new Date(dateVal) : undefined,
                     status,
-                    clientVisible
+                    clientVisible,
+                    requiresApproval
                 }
             });
             res.status(200).json(milestone);
@@ -51,7 +54,7 @@ class MilestoneController {
     static async deleteMilestone(req, res) {
         try {
             const { id } = req.params;
-            await db_1.default.milestone.delete({ where: { id } });
+            await db_1.default.milestone.delete({ where: { id: id } });
             res.status(204).send();
         }
         catch (error) {

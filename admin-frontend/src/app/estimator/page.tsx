@@ -12,18 +12,17 @@ export default function AdminRiskSimulator() {
   const [projectName, setProjectName] = useState('');
   const [isProvisioning, setIsProvisioning] = useState(false);
 
-  // Simple computed risk band
-  const riskScore = (complexity * 0.4) + (urgency * 0.3) + (roles * 10) + (integrations * 5);
-  
-  // Normalize riskScore to a 0-100 scale for the gauge
-  const normalizedRisk = Math.min(100, (riskScore / 130) * 100);
+  // Computed risk score (0-100 normalized)
+  const rawScore = (complexity * 0.4) + (urgency * 0.3) + (roles * 10) + (integrations * 5);
+  const riskScore = Math.min(100, Math.round((rawScore / 165) * 100));
+  const normalizedRisk = riskScore;
 
   let riskBand = 'Low Risk';
   let bandColorClass = 'text-success';
-  if (riskScore > 100) {
+  if (riskScore > 75) {
     riskBand = 'High Risk';
     bandColorClass = 'text-danger';
-  } else if (riskScore > 60) {
+  } else if (riskScore > 45) {
     riskBand = 'Medium Risk';
     bandColorClass = 'text-warning';
   }
@@ -66,15 +65,15 @@ export default function AdminRiskSimulator() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Panel className="p-8 border border-border">
+        <Panel className="p-8 glass-panel border-0">
           <div className="flex items-center gap-2 mb-8 border-b border-border/50 pb-4">
              <span className="material-symbols-outlined text-text-muted">tune</span>
              <h3 className="text-xl font-bold font-display text-text-strong">Scenario Levers</h3>
           </div>
           
-          <div className="space-y-8">
+          <div className="">
             <div className="group">
-              <div className="flex justify-between mb-3">
+              <div className="flex justify-between mb-2">
                 <label className="text-sm font-bold text-text-strong group-hover:text-primary transition-colors">Technical Complexity</label>
               </div>
               <LeverSlider 
@@ -84,8 +83,10 @@ export default function AdminRiskSimulator() {
               />
             </div>
 
+            <div className="h-px w-full bg-white/[0.08] my-5" />
+
             <div className="group">
-              <div className="flex justify-between mb-3">
+              <div className="flex justify-between mb-2">
                 <label className="text-sm font-bold text-text-strong group-hover:text-primary transition-colors">Timeline Urgency</label>
               </div>
               <LeverSlider 
@@ -95,8 +96,10 @@ export default function AdminRiskSimulator() {
               />
             </div>
 
+            <div className="h-px w-full bg-white/[0.08] my-5" />
+
             <div className="group">
-              <div className="flex justify-between mb-3">
+              <div className="flex justify-between mb-2">
                 <label className="text-sm font-bold text-text-strong group-hover:text-primary transition-colors">User Roles</label>
               </div>
               <LeverSlider 
@@ -105,8 +108,10 @@ export default function AdminRiskSimulator() {
               />
             </div>
 
+            <div className="h-px w-full bg-white/[0.08] my-5" />
+
             <div className="group">
-              <div className="flex justify-between mb-3">
+              <div className="flex justify-between mb-2">
                 <label className="text-sm font-bold text-text-strong group-hover:text-primary transition-colors">3rd-Party Integrations</label>
               </div>
               <LeverSlider 
@@ -117,26 +122,34 @@ export default function AdminRiskSimulator() {
           </div>
         </Panel>
 
-        <Panel className="p-8 flex flex-col justify-between border border-border" withRivets>
+        <Panel className="p-8 flex flex-col justify-between glass-panel border-0" withRivets>
           <div className="flex flex-col items-center">
-            <h3 className="text-sm text-text-muted mb-8 font-mono uppercase tracking-widest text-center">Computed Risk Band</h3>
+            <h3 className="label-eyebrow mb-4 text-center">Computed Risk Band</h3>
             
-            <div className="relative w-full max-w-sm aspect-[2/1] mb-12">
+            <div className="relative w-full max-w-[180px] aspect-[2/1] mb-6 flex flex-col items-center justify-center">
                <Gauge 
                  value={normalizedRisk} 
                  label="" 
                />
-               <div className="absolute bottom-2 w-full flex justify-center transition-all duration-700 ease-in-out">
-                 <span className={`text-2xl font-bold font-display drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-colors duration-500 ${bandColorClass}`}>
+               <div className="absolute bottom-0 w-full flex justify-center transition-all duration-700 ease-in-out">
+                 <span className={`text-xl font-bold font-display drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-colors duration-500 ${bandColorClass}`}>
                    {riskBand}
                  </span>
                </div>
             </div>
             
-            <div className="p-4 rounded border border-border bg-bg-deep shadow-inner flex items-center justify-between w-full max-w-xs mb-8">
-              <span className="font-mono text-xs uppercase tracking-widest text-text-muted">Score Readout</span>
-              <div className="text-xl text-text-strong">
-                 <ReadoutNumber value={Math.round(riskScore)} />
+            {/* Structured Findings Box */}
+            <div className="rounded-xl border border-white/[0.06] bg-black/40 shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] w-full max-w-sm overflow-hidden mb-6">
+              <div className="p-3.5 flex items-center justify-between border-b border-white/[0.06] bg-white/[0.02]">
+                <span className="label-eyebrow">Risk Score</span>
+                <div className="text-xl font-bold text-text-strong font-[family-name:var(--font-mono-readout)]">
+                   <ReadoutNumber value={Math.round(riskScore)} />
+                </div>
+              </div>
+              <div className="p-3.5 bg-black/40">
+                <p className="text-xs text-text-muted font-sans leading-relaxed">
+                  Based on current inputs, this falls in the <span className="font-bold text-text-strong">{riskBand.toLowerCase()}</span> band — {riskScore > 75 ? 'rigorous risk mitigation and sprint controls apply.' : riskScore > 45 ? 'standard milestone sign-off and timeline applies.' : 'accelerated delivery timeline applies.'}
+                </p>
               </div>
             </div>
           </div>

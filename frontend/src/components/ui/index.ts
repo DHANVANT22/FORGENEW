@@ -2,6 +2,7 @@ export * from './Button';
 export * from './Card';
 export * from './StatusChip';
 export * from './VortexCursor';
+export { CometCursor } from './CometCursor';
 export * from './ScanlineOverlay';
 export * from './AmbientBackground';
 export * from './Panel';

@@ -32,20 +32,26 @@ export function LeverSlider({ value, onChange, min = 0, max = 100, className = '
       />
       
       {/* Track */}
-      <div className="absolute inset-x-0 h-4 bg-bg-deep rounded-sm shadow-[inset_1px_1px_3px_rgba(0,0,0,0.8),inset_-1px_-1px_1px_rgba(255,255,255,0.05)] overflow-hidden">
+      <div className="absolute inset-x-0 h-4 neu-pressed overflow-hidden flex items-center px-1">
+        {/* Tick marks (retro fader) */}
+        <div className="absolute inset-0 flex justify-between px-2 items-center pointer-events-none opacity-20">
+          {[...Array(11)].map((_, i) => (
+            <div key={i} className="w-[1px] h-2 bg-white" />
+          ))}
+        </div>
         {/* Fill */}
         <div 
-          className="h-full bg-gradient-to-r from-brand-primary to-brand-primary-bright transition-all duration-75 ease-out"
+          className="h-2 rounded-full bg-brand-primary opacity-80 transition-all duration-75 ease-out shadow-[0_0_10px_rgba(92,168,201,0.5)]"
           style={{ width: `${percent}%` }}
         />
       </div>
 
       {/* Thumb / Fader */}
       <div 
-        className="absolute h-8 w-6 bg-border rounded-sm shadow-[inset_1px_1px_0_rgba(255,255,255,0.1),inset_-1px_-1px_0_rgba(0,0,0,0.4),0_2px_5px_rgba(0,0,0,0.5)] flex items-center justify-center transition-all duration-75 ease-out pointer-events-none z-10"
+        className="absolute h-8 w-6 neu-button flex items-center justify-center transition-all duration-75 ease-out pointer-events-none z-10"
         style={{ left: `calc(${percent}% - 12px)` }}
       >
-        <div className="w-3 h-0.5 bg-bg-deep shadow-[inset_0_1px_1px_rgba(0,0,0,0.8)] opacity-50" />
+        <div className="w-4 h-1 bg-black/80 rounded-full shadow-[inset_0_1px_1px_rgba(0,0,0,0.8),0_1px_0_rgba(255,255,255,0.1)]" />
       </div>
     </div>
   );

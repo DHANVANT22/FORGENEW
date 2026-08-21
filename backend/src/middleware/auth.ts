@@ -3,7 +3,20 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret_fallback_key';
 
-export const requireAdminAuth = (req: Request, res: Response, next: NextFunction) => {
+export interface AdminAuthRequest extends Request {
+  user?: {
+    id: string;
+    name: string;
+    role: string;
+  };
+  admin?: {
+    id: string;
+    name: string;
+    role: string;
+  };
+}
+
+export const requireAdminAuth = (req: AdminAuthRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized: No token provided' });
@@ -11,13 +24,16 @@ export const requireAdminAuth = (req: Request, res: Response, next: NextFunction
 
   const token = authHeader.split(' ')[1];
   if (token === 'ADMIN_DEMO_TOKEN') {
-    (req as any).user = { id: 'admin', name: 'Admin', role: 'SUPER_ADMIN' };
+    const adminObj = { id: 'admin', name: 'Admin', role: 'SUPER_ADMIN' };
+    (req as any).user = adminObj;
+    (req as any).admin = adminObj;
     return next();
   }
   
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
     (req as any).user = decoded;
+    (req as any).admin = decoded;
     next();
   } catch (err) {
     return res.status(401).json({ error: 'Unauthorized: Invalid token' });
@@ -32,22 +48,25 @@ export interface ClientAuthRequest extends Request {
 }
 
 export const requireClientAuth = (req: ClientAuthRequest, res: Response, next: NextFunction) => {
-  const token = req.cookies?.clientToken;
-  console.log('requireClientAuth - Cookies:', req.cookies);
+  let token = req.cookies?.clientToken;
+  
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.split(' ')[1];
+  }
+
   if (!token) {
     return res.status(401).json({ error: 'Unauthorized: No client token provided' });
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { id: string; projectId: string, sub: string };
-    console.log('requireClientAuth - Decoded:', decoded);
     if (decoded.sub !== 'client') {
       return res.status(401).json({ error: 'Unauthorized: Invalid token type' });
     }
     req.client = decoded;
     next();
   } catch (err) {
-    console.log('requireClientAuth - Error verifying token:', err);
     return res.status(401).json({ error: 'Unauthorized: Invalid client token' });
   }
 };

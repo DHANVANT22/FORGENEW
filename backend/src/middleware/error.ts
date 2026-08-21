@@ -9,7 +9,7 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
       error: {
         code: 'VALIDATION_FAILED',
         message: 'Invalid request data',
-        details: err.errors
+        details: (err as any).errors || (err as any).issues
       }
     });
   }

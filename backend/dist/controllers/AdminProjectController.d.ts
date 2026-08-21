@@ -9,5 +9,6 @@ export declare class AdminProjectController {
     static updateProject(req: Request, res: Response): Promise<void>;
     static getRiskHistory(req: Request, res: Response): Promise<void>;
     static previewRisk(req: Request, res: Response): Promise<void>;
+    static updatePulseFinancialsVisibility(req: Request, res: Response): Promise<void>;
 }
 //# sourceMappingURL=AdminProjectController.d.ts.map

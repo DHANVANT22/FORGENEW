@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, Sora, JetBrains_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { VortexCursor } from "@/components/ui/VortexCursor";
+import { CometCursor } from "@/components/ui/CometCursor";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { ScanlineOverlay, AudioProvider, VignetteOverlay, TransitionWrapper, ThemeToggle } from "@/components/ui";
+import { Navbar } from "@/components/ui/Navbar";
 
 const fontInter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
-const fontSora = Sora({
+const fontDisplay = Plus_Jakarta_Sans({
   variable: "--font-display",
   subsets: ["latin"],
 });
@@ -36,14 +37,15 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
       </head>
       <body
-        className={`${fontInter.variable} ${fontSora.variable} ${fontMono.variable} antialiased`}
+        className={`${fontInter.variable} ${fontDisplay.variable} ${fontMono.variable} antialiased font-sans`}
       >
         <AudioProvider>
           <AmbientBackground />
           <ScanlineOverlay />
           <VignetteOverlay />
+          <Navbar />
           <TransitionWrapper>{children}</TransitionWrapper>
-          <VortexCursor />
+          <CometCursor />
           <ThemeToggle />
         </AudioProvider>
       </body>

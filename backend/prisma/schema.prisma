@@ -459,13 +459,16 @@ model RiskAlertSnooze {
 }
 
 model ClientAccount {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  passwordHash  String?
-  projectId     String
-  project       Project   @relation(fields: [projectId], references: [id])
-  inviteToken   String?   @unique
-  inviteExpires DateTime?
+  id                String    @id @default(uuid())
+  email             String    @unique
+  passwordHash      String?
+  name              String?   @default("Client User")
+  companyName       String?
+  projectId         String?
+  project           Project?  @relation(fields: [projectId], references: [id])
+  inviteToken       String?   @unique
+  inviteExpires     DateTime?
+  lastLoginAt       DateTime?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   hasSeenOnboarding Boolean   @default(false)

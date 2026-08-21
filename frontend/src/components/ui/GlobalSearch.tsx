@@ -51,7 +51,7 @@ export function GlobalSearch() {
         <input 
           type="text" 
           placeholder="Search projects, clients, blogs..." 
-          className="w-full bg-surface-container border border-border/50 text-on-surface placeholder:text-muted rounded-full py-2 pl-10 pr-4 focus:outline-none focus:border-primary transition-colors text-sm"
+          className="neu-input w-full py-2 pl-10 pr-4 text-sm"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => { if (query.trim()) setIsOpen(true); }}

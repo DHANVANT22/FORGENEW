@@ -42,7 +42,7 @@ export class BlogController {
     try {
       const { slug } = req.params;
       const blog = await prisma.blog.findUnique({
-        where: { slug }
+        where: { slug: slug as string }
       });
 
       if (!blog) {
@@ -129,7 +129,7 @@ export class BlogController {
       if (tags !== undefined) updateData.tags = tags;
 
       const blog = await prisma.blog.update({
-        where: { id },
+        where: { id: id as string },
         data: updateData
       });
       

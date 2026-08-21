@@ -5,38 +5,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatController = void 0;
 const db_1 = __importDefault(require("../utils/db"));
+const index_1 = require("../index");
 class ChatController {
     static async getMessages(req, res) {
         try {
             const { projectId } = req.params;
             const conv = await db_1.default.conversation.findFirst({
-                where: { projectId }
+                where: { projectId: projectId }
             });
             if (!conv) {
                 return res.status(200).json([]);
             }
-            const isClient = !!req.client;
             const messages = await db_1.default.message.findMany({
                 where: { conversationId: conv.id },
                 orderBy: { createdAt: 'asc' },
                 include: {
-                    User: true,
-                    Attachment: isClient ? { where: { visibility: 'CLIENT_VISIBLE' } } : true
+                    User: true
                 }
             });
-            const formatted = messages.map(m => ({
-                id: m.id,
-                senderName: m.User?.name || 'Unknown',
-                text: m.body,
-                createdAt: m.createdAt,
-                taskId: m.taskId,
-                milestoneId: m.milestoneId,
-                attachments: m.Attachment.map(a => ({
-                    id: a.id,
-                    url: a.url,
-                    filename: a.filename
-                }))
-            }));
+            const formatted = messages.map(m => {
+                const isClient = m.clientNonce === 'CLIENT_MSG' || m.body.startsWith('📋') || m.User?.role === 'DEV' && m.clientNonce === 'client';
+                return {
+                    id: m.id,
+                    senderName: m.clientNonce === 'CLIENT_MSG' ? 'Client' : (m.User?.name || 'Team Admin'),
+                    text: m.body,
+                    createdAt: m.createdAt,
+                    taskId: m.taskId,
+                    milestoneId: m.milestoneId,
+                    attachments: []
+                };
+            });
             res.status(200).json(formatted);
         }
         catch (error) {
@@ -47,24 +45,33 @@ class ChatController {
     static async sendMessage(req, res) {
         try {
             const { projectId } = req.params;
-            const { text, taskId, milestoneId } = req.body;
-            const userId = req.user?.id || req.client?.id;
-            if (!userId) {
-                return res.status(401).json({ error: 'Unauthorized' });
+            const { text, body: reqBody, taskId, milestoneId } = req.body;
+            const messageContent = (text || reqBody || '').trim();
+            const isClientAuth = !!req.client;
+            const user = req.user;
+            if (!messageContent) {
+                return res.status(400).json({ error: 'Message body cannot be empty' });
             }
             let conv = await db_1.default.conversation.findFirst({
-                where: { projectId }
+                where: { projectId: projectId }
             });
             if (!conv) {
                 conv = await db_1.default.conversation.create({
-                    data: { projectId }
+                    data: { projectId: projectId, type: 'project', updatedAt: new Date() }
                 });
+            }
+            const defaultUser = await db_1.default.user.findFirst();
+            const senderId = user?.id || defaultUser?.id;
+            if (!senderId) {
+                return res.status(500).json({ error: 'No user account available for messaging' });
             }
             const message = await db_1.default.message.create({
                 data: {
-                    body: text,
+                    id: Date.now().toString(),
+                    body: messageContent,
                     conversationId: conv.id,
-                    userId: userId,
+                    senderId: senderId,
+                    clientNonce: isClientAuth ? 'CLIENT_MSG' : 'ADMIN_MSG',
                     taskId,
                     milestoneId
                 },
@@ -72,12 +79,14 @@ class ChatController {
             });
             const formatted = {
                 id: message.id,
-                senderName: message.User.name,
+                senderName: isClientAuth ? 'Client' : (user?.name || message.User?.name || 'Admin Team'),
                 text: message.body,
-                createdAt: message.createdAt,
+                createdAt: message.createdAt.toISOString(),
                 taskId: message.taskId,
                 milestoneId: message.milestoneId
             };
+            // Broadcast immediately to Socket.io room
+            index_1.io.to(`project_${projectId}`).emit('receive_message', formatted);
             res.status(201).json(formatted);
         }
         catch (error) {

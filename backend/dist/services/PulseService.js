@@ -6,17 +6,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PulseService = void 0;
 const db_1 = __importDefault(require("../utils/db"));
 const crypto_1 = __importDefault(require("crypto"));
+const snapshotCache = new Map();
+const CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes
 class PulseService {
     async generateToken(projectId, createdById, expiresInDays = 30) {
         const token = crypto_1.default.randomBytes(32).toString('hex');
         const expiresAt = new Date();
         expiresAt.setDate(expiresAt.getDate() + expiresInDays);
+        let validUserId = createdById;
+        const userExists = await db_1.default.user.findUnique({ where: { id: createdById } });
+        if (!userExists) {
+            const anyAdmin = await db_1.default.user.findFirst({ where: { role: 'SUPER_ADMIN' } }) || await db_1.default.user.findFirst();
+            if (anyAdmin) {
+                validUserId = anyAdmin.id;
+            }
+        }
         return db_1.default.pulseToken.create({
             data: {
                 token,
                 expiresAt,
                 projectId,
-                createdById,
+                createdById: validUserId,
             },
         });
     }
@@ -29,6 +39,16 @@ class PulseService {
         return this.generateToken(projectId, createdById, expiresInDays);
     }
     async getSnapshot(token) {
+        const now = Date.now();
+        const cached = snapshotCache.get(token);
+        if (cached && cached.expiresAt > now) {
+            // Async update lastViewedAt without blocking
+            db_1.default.pulseToken.update({
+                where: { token },
+                data: { lastViewedAt: new Date() }
+            }).catch(console.error);
+            return cached.data;
+        }
         const pulseToken = await db_1.default.pulseToken.findUnique({
             where: { token },
             include: {
@@ -51,8 +71,7 @@ class PulseService {
         if (!pulseToken || pulseToken.expiresAt < new Date()) {
             return null;
         }
-        // Rate limiting: 5 views per minute max? Wait, simpler: check if viewed recently (anti-abuse)
-        // Here we'll just update the read receipt
+        // We'll just update the read receipt
         await db_1.default.pulseToken.update({
             where: { id: pulseToken.id },
             data: { lastViewedAt: new Date() }
@@ -113,7 +132,7 @@ class PulseService {
                 velocity[6 - diffDays]++; // index 6 is today, 0 is 7 days ago
             }
         });
-        return {
+        const payload = {
             projectName: p.name,
             phase: p.status,
             completionRate,
@@ -123,6 +142,15 @@ class PulseService {
             changelog,
             velocity
         };
+        if (p.pulseFinancialsVisible) {
+            payload.budgetAmount = p.budgetAmount;
+            payload.budget = p.budget;
+        }
+        snapshotCache.set(token, {
+            data: payload,
+            expiresAt: Date.now() + CACHE_TTL_MS
+        });
+        return payload;
     }
 }
 exports.PulseService = PulseService;

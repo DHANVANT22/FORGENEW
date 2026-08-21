@@ -15,7 +15,7 @@ export class RiskAlertController {
 
       const snooze = await prisma.riskAlertSnooze.create({
         data: {
-          projectId,
+          projectId: projectId as string,
           axis,
           acknowledgedUntil
         }

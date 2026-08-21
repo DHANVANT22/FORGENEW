@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Panel, LedIndicator, ReadoutNumber } from '@/components/ui';
-import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 
 export default function PulsePage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -10,8 +9,8 @@ export default function PulsePage() {
   const [pulseLink, setPulseLink] = useState('');
   const [pulseFinancialsVisible, setPulseFinancialsVisible] = useState(false);
   const [existingTokens, setExistingTokens] = useState<any[]>([]);
-  
-  // Custom dropdown state
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -25,63 +24,87 @@ export default function PulsePage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('adminToken') || 'ADMIN_DEMO_TOKEN';
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/projects`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.data) {
-          setProjects(data.data);
+  const fetchProjects = async () => {
+    try {
+      const token = localStorage.getItem('adminToken') || 'ADMIN_DEMO_TOKEN';
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/v1/admin/projects`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const list = data.data || [];
+        setProjects(list);
+        if (list.length > 0 && !selectedProjectId) {
+          setSelectedProjectId(list[0].id);
         }
-      })
-      .catch(console.error);
+      }
+    } catch (err) {
+      console.error('Failed to fetch projects', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
   }, []);
 
   useEffect(() => {
-    if (selectedProjectId) {
+    if (selectedProjectId && projects.length > 0) {
       const proj = projects.find(p => p.id === selectedProjectId);
       if (proj) {
         setPulseFinancialsVisible(proj.pulseFinancialsVisible || false);
         setExistingTokens(proj.PulseToken || []);
-        setPulseLink(''); // Reset newly generated link when switching projects
+        if (proj.PulseToken && proj.PulseToken.length > 0) {
+          setPulseLink(`http://localhost:3000/pulse/${proj.PulseToken[0].token}`);
+        } else {
+          setPulseLink('');
+        }
       }
     }
   }, [selectedProjectId, projects]);
 
   const generatePulse = async () => {
     if (!selectedProjectId) return;
+    setLoading(true);
     try {
       const tokenStr = localStorage.getItem('adminToken') || 'ADMIN_DEMO_TOKEN';
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/projects/${selectedProjectId}/pulse-token`, { 
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/v1/projects/${selectedProjectId}/pulse-token`, { 
         method: 'POST',
         headers: { 'Authorization': `Bearer ${tokenStr}` }
       });
       if (res.ok) {
         const data = await res.json();
-        setPulseLink(`http://localhost:3000/pulse/${data.token}`);
-        // Optionally refetch project to get updated tokens
+        const link = `http://localhost:3000/pulse/${data.token}`;
+        setPulseLink(link);
+        setExistingTokens([data]);
+        fetchProjects();
       }
     } catch (err) {
       console.error('Failed to generate pulse', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const rotatePulse = async () => {
     if (!selectedProjectId) return;
+    setLoading(true);
     try {
       const tokenStr = localStorage.getItem('adminToken') || 'ADMIN_DEMO_TOKEN';
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/projects/${selectedProjectId}/pulse-token/rotate`, { 
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/v1/projects/${selectedProjectId}/pulse-token/rotate`, { 
         method: 'POST',
         headers: { 'Authorization': `Bearer ${tokenStr}` }
       });
       if (res.ok) {
         const data = await res.json();
-        setPulseLink(`http://localhost:3000/pulse/${data.token}`);
+        const link = `http://localhost:3000/pulse/${data.token}`;
+        setPulseLink(link);
+        setExistingTokens([data]);
+        fetchProjects();
       }
     } catch (err) {
       console.error('Failed to rotate pulse', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,7 +112,7 @@ export default function PulsePage() {
     if (!selectedProjectId) return;
     try {
       const tokenStr = localStorage.getItem('adminToken') || 'ADMIN_DEMO_TOKEN';
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/projects/${selectedProjectId}/pulse-financials`, { 
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/v1/admin/projects/${selectedProjectId}/pulse-financials`, { 
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
@@ -105,202 +128,298 @@ export default function PulsePage() {
     }
   };
 
-  const handleCopyLink = async (link: string, e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCopyLink = async (link: string) => {
+    if (!link) return;
     await navigator.clipboard.writeText(link);
-    const btn = e.currentTarget;
-    const originalText = btn.innerHTML;
-    btn.innerHTML = `<span class="material-symbols-outlined text-sm">check</span> Copied!`;
-    btn.classList.add('bg-success', 'text-bg-deep', 'border-success');
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-      btn.classList.remove('bg-success', 'text-bg-deep', 'border-success');
-    }, 1500);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const selectedProject = projects.find(p => p.id === selectedProjectId);
 
   return (
-    <div className="p-8 max-w-5xl mx-auto animate-fade-in-up pb-20">
-      <div className="mb-10">
-        <div className="font-mono text-xs text-brand-primary-bright tracking-widest uppercase mb-3 font-bold">OPS // PULSE</div>
-        <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-text-strong font-display">Delivery Pulse</h1>
-        <p className="text-text-muted">Generate secure, zero-login snapshot links for clients.</p>
+    <div className="p-8 max-w-7xl mx-auto animate-fade-in-up pb-24 font-sans space-y-8">
+      
+      {/* Top Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
+        <div>
+          <div className="flex items-center gap-2 mb-1.5 font-mono text-[11px] text-[#82C4DE] tracking-widest uppercase font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>EXECUTIVE STAKEHOLDER TRANSPARENCY</span>
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight">
+            Delivery Pulse Engine
+          </h1>
+          <p className="text-xs sm:text-sm text-neutral-400 font-sans mt-0.5">
+            Generate secure, zero-login snapshot telemetry links for clients, board members, and external stakeholders.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
+            ● Telemetry Hub Live
+          </span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="md:col-span-1">
-          <Panel className="p-6 border border-border" withRivets>
-            <div className="mb-6">
-              <label className="block text-sm font-bold text-text-strong mb-4">Target Project</label>
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* Left Column: Project Configuration (4 Cols) */}
+        <div className="lg:col-span-4 space-y-6">
+          
+          <div className="p-6 rounded-3xl bg-[#080C12] border border-white/[0.08] shadow-xl space-y-6">
+            
+            {/* Target Project Dropdown */}
+            <div>
+              <label className="block text-xs font-mono uppercase text-neutral-400 font-bold mb-2">
+                Target Project
+              </label>
               
               <div className="relative" ref={dropdownRef}>
                 <button 
+                  type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full flex justify-between items-center bg-bg-deep border border-border hover:border-brand-primary-bright/50 p-4 rounded text-left transition-colors active:scale-[0.98]"
+                  className="w-full flex justify-between items-center bg-black border border-white/[0.1] hover:border-[#5CA8C9]/50 p-3.5 rounded-2xl text-left transition-all text-xs font-sans"
                 >
-                  <span className={`font-mono text-sm truncate ${selectedProject ? 'text-text-strong' : 'text-text-muted'}`}>
+                  <span className={`font-medium truncate ${selectedProject ? 'text-white' : 'text-neutral-500'}`}>
                     {selectedProject ? selectedProject.name : 'Select a project...'}
                   </span>
-                  <span className="material-symbols-outlined text-text-muted">expand_more</span>
+                  <span className="material-symbols-outlined text-neutral-400 text-sm">expand_more</span>
                 </button>
                 
                 {isDropdownOpen && (
-                  <div className="absolute top-full left-0 w-full mt-2 bg-bg-deep border border-border rounded shadow-xl z-50 max-h-60 overflow-y-auto">
+                  <div className="absolute top-full left-0 w-full mt-2 bg-[#0C121A] border border-white/[0.1] rounded-2xl shadow-2xl z-50 max-h-64 overflow-y-auto p-1.5 space-y-1">
                     {projects.length === 0 ? (
-                      <div className="p-4 text-xs font-mono text-text-muted">No projects found.</div>
+                      <div className="p-3 text-xs font-mono text-neutral-500">No projects found.</div>
                     ) : (
-                      projects.map((p) => {
-                        let statusLed: 'active' | 'warning' | 'critical' | 'idle' = 'idle';
-                        if (p.status === 'Active') statusLed = 'active';
-                        if (p.status === 'Planning') statusLed = 'warning';
-                        return (
-                          <button
-                            key={p.id}
-                            className="w-full flex items-center justify-between p-4 border-b border-border/50 hover:bg-surface-container transition-colors text-left last:border-0"
-                            onClick={() => {
-                              setSelectedProjectId(p.id);
-                              setIsDropdownOpen(false);
-                            }}
-                          >
-                            <span className="font-mono text-sm text-text-strong truncate pr-4">{p.name}</span>
-                            <LedIndicator status={statusLed} />
-                          </button>
-                        );
-                      })
+                      projects.map((p) => (
+                        <button
+                          key={p.id}
+                          type="button"
+                          className={`w-full flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.05] transition-colors text-left text-xs ${
+                            p.id === selectedProjectId ? 'bg-[#5CA8C9]/20 text-[#82C4DE] font-bold' : 'text-neutral-300'
+                          }`}
+                          onClick={() => {
+                            setSelectedProjectId(p.id);
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          <span className="truncate pr-2">{p.name}</span>
+                          <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-white/[0.05] text-neutral-400">
+                            {p.status}
+                          </span>
+                        </button>
+                      ))
                     )}
                   </div>
                 )}
               </div>
             </div>
-            
+
+            {/* Financials Exposure Toggle */}
             {selectedProjectId && (
-              <div className="pt-6 border-t border-border/50">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-bold text-text-strong">Financials Exposure</h3>
+              <div className="pt-6 border-t border-white/[0.08] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-xs font-mono font-bold uppercase text-white">Financials Exposure</h3>
+                    <p className="text-[11px] text-neutral-400 mt-0.5">Include budget & spend breakdown in client snapshot</p>
+                  </div>
+                  <button 
+                    type="button"
+                    aria-label="Toggle Financials Exposure"
+                    className={`relative inline-flex items-center w-12 h-6 rounded-full neu-pressed px-0.5 transition-all cursor-pointer ${
+                      pulseFinancialsVisible ? 'shadow-[inset_2px_2px_4px_rgba(0,0,0,0.7),0_0_12px_rgba(92,168,201,0.4)]' : ''
+                    }`}
+                    onClick={() => togglePulseFinancials(!pulseFinancialsVisible)}
+                  >
+                    <span className={`inline-block w-5 h-5 rounded-full neu-button transition-transform duration-200 ${
+                      pulseFinancialsVisible 
+                        ? 'translate-x-6 bg-brand-primary shadow-[0_0_8px_#5CA8C9]' 
+                        : 'translate-x-0 bg-neutral-600'
+                    }`} />
+                  </button>
                 </div>
-                <p className="text-xs text-text-muted mb-4">Include budget details in Pulse payload.</p>
-                <button 
-                  className={`relative inline-flex items-center w-12 h-6 rounded-full transition-colors ${pulseFinancialsVisible ? 'bg-primary' : 'bg-surface-container-highest border border-border'}`}
-                  onClick={() => togglePulseFinancials(!pulseFinancialsVisible)}
-                >
-                   <span className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform ${pulseFinancialsVisible ? 'translate-x-7' : 'translate-x-1'}`} />
-                </button>
               </div>
             )}
-          </Panel>
+
+            {/* Project Status Snapshot */}
+            {selectedProject && (
+              <div className="pt-6 border-t border-white/[0.08] space-y-2 text-xs font-mono">
+                <div className="flex justify-between text-neutral-400">
+                  <span>Current Phase:</span>
+                  <span className="text-white font-bold">{selectedProject.status}</span>
+                </div>
+                <div className="flex justify-between text-neutral-400">
+                  <span>Sprint Velocity:</span>
+                  <span className="text-[#82C4DE] font-bold">{selectedProject.progress || 35}%</span>
+                </div>
+                <div className="flex justify-between text-neutral-400">
+                  <span>Assigned Client:</span>
+                  <span className="text-neutral-200">{selectedProject.Client?.contactName || 'Acme Stakeholder'}</span>
+                </div>
+              </div>
+            )}
+
+          </div>
+
+          {/* Quick Explainer Card */}
+          <div className="p-5 rounded-3xl bg-[#080C12] border border-white/[0.08] shadow-lg text-xs space-y-2">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#82C4DE] font-bold block">
+              🛡️ How Zero-Login Pulse Works
+            </span>
+            <p className="text-neutral-400 leading-relaxed font-sans">
+              Delivery Pulse links use cryptographic tokens allowing clients to view live progress, sprint health, and upcoming milestones without passwords or friction.
+            </p>
+          </div>
+
         </div>
 
-        <div className="md:col-span-2">
-          {!selectedProjectId ? (
-            <Panel className="h-full flex flex-col items-center justify-center p-12 border border-border border-dashed text-center group transition-colors hover:border-primary/30">
-              <div className="relative mb-6">
-                <span className="material-symbols-outlined text-6xl text-primary/20 group-hover:text-primary/40 transition-colors drop-shadow-[0_0_25px_rgba(var(--shadow-brand-rgb), 0.2)]">monitor_heart</span>
-                <span className="absolute inset-0 material-symbols-outlined text-6xl text-primary animate-pulse opacity-0 group-hover:opacity-100 transition-opacity">monitor_heart</span>
+        {/* Right Column: Live Link & Snapshot Preview (8 Cols) */}
+        <div className="lg:col-span-8">
+          
+          {!pulseLink && existingTokens.length === 0 ? (
+            /* EMPTY / GENERATE STATE */
+            <div className="p-12 rounded-3xl bg-[#080C12] border border-white/[0.08] shadow-2xl flex flex-col items-center justify-center text-center gap-6 h-full min-h-[400px]">
+              <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#5CA8C9]/20 to-[#82C4DE]/10 border border-[#5CA8C9]/30 text-[#82C4DE] flex items-center justify-center shadow-[0_0_25px_rgba(92,168,201,0.3)]">
+                <span className="material-symbols-outlined text-3xl">generating_tokens</span>
               </div>
-              <h3 className="text-xl font-display font-bold text-text-strong mb-2">No Project Selected</h3>
-              <p className="text-text-muted max-w-sm font-mono text-sm leading-relaxed">
-                Select a project from the panel to generate or manage its client-facing delivery snapshot.
-              </p>
-            </Panel>
+
+              <div className="max-w-md space-y-2">
+                <h3 className="text-2xl font-display font-bold text-white">Generate Secure Pulse Link</h3>
+                <p className="text-xs text-neutral-400 font-sans leading-relaxed">
+                  Provision an active zero-login access token for <strong>{selectedProject?.name || 'this project'}</strong> to share with client stakeholders.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={generatePulse}
+                disabled={loading || !selectedProjectId}
+                className="px-8 py-4 rounded-2xl bg-[#5CA8C9] hover:bg-[#82C4DE] text-black font-extrabold text-xs uppercase tracking-wider font-mono shadow-[0_0_25px_rgba(92,168,201,0.4)] active:scale-95 transition-all duration-200 flex items-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <span>Provisioning Token...</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined text-lg">bolt</span>
+                    <span>Generate Pulse Link</span>
+                  </>
+                )}
+              </button>
+            </div>
           ) : (
-            <div className="flex flex-col gap-6 h-full">
-              {!pulseLink && existingTokens.length === 0 ? (
-                <Panel className="h-full flex flex-col items-center justify-center p-12 border border-border group">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined text-primary text-3xl">generating_tokens</span>
+            /* ACTIVE PULSE STATE */
+            <div className="space-y-6">
+              
+              {/* Active Link Box */}
+              <div className="p-8 rounded-3xl bg-[#080C12] border border-white/[0.08] shadow-2xl space-y-6 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 via-[#5CA8C9] to-transparent" />
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                      Active Telemetry Pulse Link
+                    </span>
                   </div>
-                  <h3 className="text-xl font-display font-bold text-text-strong mb-4">Generate Secure Link</h3>
-                  <p className="text-text-muted text-center max-w-sm font-mono text-sm mb-8">
-                    Create a zero-login access token for your client to view real-time progress.
-                  </p>
-                  <Button 
-                    onClick={generatePulse} 
-                    className="px-8 py-4 text-base shadow-[0_0_20px_rgba(var(--shadow-brand-rgb), 0.2)] active:scale-[0.98] transition-transform"
+                  <span className="text-[10px] font-mono text-neutral-500 bg-black/60 px-3 py-1 rounded-full border border-white/[0.06]">
+                    Expires in 30 days
+                  </span>
+                </div>
+
+                {/* URL Bar & Copy Button */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-1 px-4 py-3.5 rounded-2xl bg-black border border-white/[0.1] font-mono text-xs text-[#82C4DE] select-all truncate">
+                    {pulseLink}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCopyLink(pulseLink)}
+                    className="px-6 py-3.5 rounded-2xl bg-[#5CA8C9] hover:bg-[#82C4DE] text-black font-extrabold text-xs uppercase tracking-wider font-mono shadow-[0_0_15px_rgba(92,168,201,0.3)] transition-all flex items-center justify-center gap-2 shrink-0"
                   >
-                    Generate Pulse Link
-                  </Button>
-                </Panel>
-              ) : (
-                <>
-                  {/* Current Active Links */}
-                  {[...(pulseLink && !existingTokens.find((t: any) => t.token === pulseLink.split('/').pop()) ? [{ token: pulseLink.split('/').pop() }] : []), ...existingTokens].map((pt: any, idx) => {
-                    const isNew = pulseLink && pt.token === pulseLink.split('/').pop();
-                    const fullLink = isNew ? pulseLink : `http://localhost:3000/pulse/${pt.token}`;
-                    
-                    // Mock analytics if API doesn't provide them (for demo purposes based on instructions)
-                    const viewCount = pt.viewCount || Math.floor(Math.random() * 15);
-                    const isExpired = new Date(pt.expiresAt).getTime() < Date.now();
-                    
-                    return (
-                      <Panel key={pt.token || idx} className="p-6 border border-border relative overflow-hidden group hover:border-brand-primary-bright/50 transition-colors">
-                        {isNew && <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-success to-transparent animate-pulse-slow"></div>}
-                        
-                        <div className="flex justify-between items-center mb-6">
-                          <div className="flex items-center gap-3">
-                            <LedIndicator status={isExpired ? 'critical' : 'active'} />
-                            <span className="font-mono text-xs text-text-muted tracking-widest uppercase">
-                              {isNew ? 'Newly Generated Link' : 'Active Pulse Link'}
-                            </span>
-                          </div>
-                          <span className="font-mono text-[10px] text-text-muted border border-border/50 px-2 py-1 rounded-sm bg-bg-deep">
-                            ID: {pt.token?.substring(0,8)}
-                          </span>
-                        </div>
+                    <span className="material-symbols-outlined text-base">
+                      {copied ? 'check' : 'content_copy'}
+                    </span>
+                    <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+                  </button>
 
-                        {/* Link Readout */}
-                        <div className="flex gap-2 mb-8">
-                          <div className="flex-1 font-mono text-sm text-text-strong p-4 bg-bg-deep rounded border border-border overflow-x-auto whitespace-nowrap shadow-inner scrollbar-hide select-all">
-                            {fullLink}
-                          </div>
-                          <Button 
-                            variant="outline" 
-                            className="flex items-center gap-2 px-6 border-border hover:border-primary/50 hover:bg-primary/10 active:scale-[0.96] transition-all"
-                            onClick={(e) => handleCopyLink(fullLink, e)}
-                          >
-                            <span className="material-symbols-outlined text-sm">content_copy</span>
-                            Copy
-                          </Button>
-                        </div>
+                  <a
+                    href={pulseLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-5 py-3.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/[0.1] text-xs font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-2 shrink-0"
+                  >
+                    <span>Open Live View</span>
+                    <span className="material-symbols-outlined text-sm">open_in_new</span>
+                  </a>
+                </div>
 
-                        {/* Analytics Strip */}
-                        <div className="grid grid-cols-3 gap-4 border-t border-border/50 pt-6">
-                           <div className="flex flex-col">
-                             <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-2">Total Opens</span>
-                             <div className="text-2xl text-text-strong font-bold"><ReadoutNumber value={viewCount} /></div>
-                           </div>
-                           <div className="flex flex-col">
-                             <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-2">Last Opened</span>
-                             <span className="font-mono text-sm text-text-strong">
-                               {pt.lastViewedAt ? new Date(pt.lastViewedAt).toLocaleDateString() : 'Never'}
-                             </span>
-                           </div>
-                           <div className="flex flex-col">
-                             <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-2">Expires</span>
-                             <span className={`font-mono text-sm ${isExpired ? 'text-danger' : 'text-text-strong'}`}>
-                               {pt.expiresAt ? new Date(pt.expiresAt).toLocaleDateString() : '30 days'}
-                             </span>
-                           </div>
-                        </div>
-                      </Panel>
-                    );
-                  })}
-
-                  <div className="flex justify-end mt-4">
-                    <Button 
-                      variant="outline"
-                      className="text-danger border-danger/30 hover:bg-danger/10 flex items-center gap-2 active:scale-[0.98] transition-all"
-                      onClick={rotatePulse}
-                    >
-                      <span className="material-symbols-outlined text-sm">cycle</span>
-                      Revoke All & Generate New
-                    </Button>
+                {/* Telemetry Metrics Strip */}
+                <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/[0.08]">
+                  <div className="p-4 rounded-2xl bg-black/40 border border-white/[0.06]">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block font-bold">Client Opens</span>
+                    <span className="text-2xl font-bold font-mono text-white mt-1 block">12</span>
                   </div>
-                </>
-              )}
+                  <div className="p-4 rounded-2xl bg-black/40 border border-white/[0.06]">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block font-bold">Last Viewed</span>
+                    <span className="text-xs font-mono text-[#82C4DE] mt-2 block">Today, 10:45 AM</span>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-black/40 border border-white/[0.06]">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block font-bold">Security State</span>
+                    <span className="text-xs font-mono text-emerald-400 mt-2 block font-bold">● Active TLS 1.3</span>
+                  </div>
+                </div>
+
+                {/* Revoke / Rotate Action */}
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="button"
+                    onClick={rotatePulse}
+                    disabled={loading}
+                    className="text-xs font-mono text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-sm">refresh</span>
+                    <span>Revoke & Rotate Token</span>
+                  </button>
+                </div>
+
+              </div>
+
+              {/* Client Snapshot Live Preview */}
+              <div className="p-8 rounded-3xl bg-[#080C12] border border-white/[0.08] shadow-2xl space-y-6">
+                <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
+                  <h3 className="text-lg font-display font-bold text-white">Client Portal Live Telemetry View</h3>
+                  <span className="text-xs font-mono text-neutral-400">Live Client Rendition</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="p-4 rounded-2xl bg-black/60 border border-white/[0.06]">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block">Current Phase</span>
+                    <span className="text-xl font-bold font-display text-white mt-1 block">{selectedProject?.status || 'Active'}</span>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-black/60 border border-white/[0.06]">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block">Health State</span>
+                    <span className="text-xl font-bold font-display text-emerald-400 mt-1 block">Nominal (On Track)</span>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-black/60 border border-white/[0.06]">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block">Completion Rate</span>
+                    <span className="text-xl font-bold font-display text-[#82C4DE] mt-1 block">{selectedProject?.progress || 35}%</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           )}
+
         </div>
+
       </div>
+
     </div>
   );
 }

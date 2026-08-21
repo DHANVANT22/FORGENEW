@@ -41,7 +41,7 @@ const db_1 = __importDefault(require("../utils/db"));
 class BlogController {
     static async createBlog(req, res) {
         try {
-            const { title, content, queryPlan, queryPlanBefore, authorId } = req.body;
+            const { title, content, queryPlan, queryPlanBefore, authorId, tags = [] } = req.body;
             let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
             if (!baseSlug)
                 baseSlug = 'blog-post';
@@ -63,6 +63,7 @@ class BlogController {
                     queryPlanBefore,
                     authorId,
                     slug,
+                    tags,
                     published: true,
                     updatedAt: new Date()
                 }
@@ -78,7 +79,7 @@ class BlogController {
         try {
             const { slug } = req.params;
             const blog = await db_1.default.blog.findUnique({
-                where: { slug }
+                where: { slug: slug }
             });
             if (!blog) {
                 return res.status(404).json({ error: 'Blog not found' });
@@ -94,15 +95,24 @@ class BlogController {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
+            const search = req.query.search;
+            const tag = req.query.tag;
             const skip = (page - 1) * limit;
+            let whereClause = { published: true };
+            if (search) {
+                whereClause.title = { contains: search, mode: 'insensitive' };
+            }
+            if (tag) {
+                whereClause.tags = { has: tag };
+            }
             const [blogs, total] = await Promise.all([
                 db_1.default.blog.findMany({
-                    where: { published: true },
+                    where: whereClause,
                     orderBy: { createdAt: 'desc' },
                     skip,
                     take: limit
                 }),
-                db_1.default.blog.count({ where: { published: true } })
+                db_1.default.blog.count({ where: whereClause })
             ]);
             res.json({
                 data: blogs,
@@ -122,7 +132,7 @@ class BlogController {
     static async updateBlog(req, res) {
         try {
             const { id } = req.params;
-            const { title, content, queryPlan, queryPlanBefore, published } = req.body;
+            const { title, content, queryPlan, queryPlanBefore, published, tags } = req.body;
             const { PlanValidator } = await Promise.resolve().then(() => __importStar(require('../utils/PlanValidator')));
             if (queryPlan) {
                 const validation = PlanValidator.validate(queryPlan);
@@ -147,8 +157,10 @@ class BlogController {
                 updateData.queryPlanBefore = queryPlanBefore;
             if (published !== undefined)
                 updateData.published = published;
+            if (tags !== undefined)
+                updateData.tags = tags;
             const blog = await db_1.default.blog.update({
-                where: { id },
+                where: { id: id },
                 data: updateData
             });
             res.status(200).json(blog);

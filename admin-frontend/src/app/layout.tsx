@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
-import { Inter, Sora, JetBrains_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import './globals.css';
 import { SidebarNav } from '@/components/ui/SidebarNav';
 import { VortexCursor } from '@/components/ui/VortexCursor';
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
-import { ScanlineOverlay, CommandPalette, AudioProvider, RadialMenu, FlightPathBreadcrumb, TelemetryStrip, VignetteOverlay, TransitionWrapper, CommandPaletteHint, ThemeToggle } from '@/components/ui';
+import { ScanlineOverlay, CommandPalette, AudioProvider, RadialMenu, FlightPathBreadcrumb, TelemetryStrip, VignetteOverlay, TransitionWrapper, CommandPaletteHint, ThemeToggle, CometCursor } from '@/components/ui';
 
 const fontInter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
-const fontSora = Sora({
+const fontDisplay = Plus_Jakarta_Sans({
   variable: "--font-display",
   subsets: ["latin"],
 });
@@ -36,7 +36,7 @@ export default function RootLayout({
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
       </head>
-      <body className={`${fontInter.variable} ${fontSora.variable} ${fontMono.variable} antialiased flex h-screen bg-background text-foreground`}>
+      <body className={`${fontInter.variable} ${fontDisplay.variable} ${fontMono.variable} antialiased flex h-screen bg-background text-foreground font-sans`}>
         <AudioProvider>
           <AmbientBackground />
           <ScanlineOverlay />
@@ -58,7 +58,7 @@ export default function RootLayout({
           <CommandPaletteHint />
           <CommandPalette />
           <RadialMenu />
-          <VortexCursor />
+          <CometCursor />
           <ThemeToggle />
         </AudioProvider>
       </body>

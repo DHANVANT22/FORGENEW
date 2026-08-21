@@ -15,7 +15,16 @@ import { requireClientAuth, requireAdminAuth } from '../middleware/auth';
 import { validate } from '../middleware/validate';
 import { BlogSchema, ClientAuthSchema, ClientInviteSchema } from '../schemas';
 
+import { EnquiryController } from '../controllers/EnquiryController';
+
 const router = Router();
+
+// Enquiries
+router.post('/v1/enquiries', EnquiryController.createEnquiry);
+router.get('/v1/enquiries/:token', EnquiryController.getEnquiryByToken);
+router.get('/v1/admin/enquiries', requireAdminAuth, EnquiryController.getAdminEnquiries);
+router.post('/v1/admin/enquiries/:id/reply', requireAdminAuth, EnquiryController.postAdminReply);
+router.put('/v1/admin/enquiries/:id/status', requireAdminAuth, EnquiryController.updateEnquiryStatus);
 
 // Chat
 router.get('/v1/projects/:projectId/messages', requireClientAuth, ChatController.getMessages);
@@ -48,7 +57,7 @@ import rateLimit from 'express-rate-limit';
 
 const pulseRateLimit = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 5, // Limit each IP to 5 pulse snapshot reads per `window` (here, per 10 minutes)
+  max: 100, // Reasonable limit per IP window
   message: { error: 'Too many requests, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
@@ -60,14 +69,18 @@ router.post('/v1/projects/:id/pulse-token/rotate', requireAdminAuth, PulseContro
 router.get('/v1/pulse/:token', pulseRateLimit, PulseController.getSnapshot);
 
 // Client Auth
+router.post('/v1/client-auth/signup', ClientAuthController.signupClient);
 router.post('/v1/client-auth/invite', requireAdminAuth, validate(ClientInviteSchema), ClientAuthController.inviteClient);
 router.post('/v1/client-auth/invite/resend', requireAdminAuth, ClientAuthController.resendInvite);
 router.post('/v1/client-auth/revoke/:accountId', requireAdminAuth, ClientAuthController.revokeAccess);
-router.post('/v1/client-auth/login', validate(ClientAuthSchema), ClientAuthController.loginClient);
+router.post('/v1/client-auth/login', ClientAuthController.loginClient);
+router.post('/v1/client-auth/logout', ClientAuthController.logoutClient);
+router.get('/v1/client-auth/me', requireClientAuth, ClientAuthController.getMe);
 router.post('/v1/client-auth/setup', ClientAuthController.setupAccount);
 
 // Client Portal
 router.get('/v1/client/project', requireClientAuth, ClientProjectController.getProject);
+router.post('/v1/client/brief', requireClientAuth, ClientProjectController.submitProjectBrief);
 router.put('/v1/client/milestones/:id/approve', requireClientAuth, ClientProjectController.approveMilestone);
 router.post('/v1/client/onboarding/complete', requireClientAuth, ClientProjectController.updateOnboardingStatus);
 router.put('/v1/client/settings/notifications', requireClientAuth, ClientProjectController.updateNotificationPrefs);
@@ -89,6 +102,7 @@ router.delete('/v1/admin/milestones/:id', requireAdminAuth, MilestoneController.
 
 import { AdminClientController } from '../controllers/AdminClientController';
 router.get('/v1/admin/clients', requireAdminAuth, AdminClientController.getClients);
+router.post('/v1/admin/clients', requireAdminAuth, AdminClientController.createClient);
 
 import { ActivityLogController } from '../controllers/ActivityLogController';
 router.get('/v1/admin/activity', requireAdminAuth, ActivityLogController.getActivityLog);

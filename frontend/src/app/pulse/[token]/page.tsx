@@ -6,8 +6,9 @@ import type { Metadata, ResolvingMetadata } from 'next';
 
 export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
+  const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
   try {
-    const res = await fetch(`${process.env.API_URL}/api/v1/pulse/${resolvedParams.token}`, { cache: 'no-store' });
+    const res = await fetch(`${apiUrl}/api/v1/pulse/${resolvedParams.token}`, { cache: 'no-store' });
     if (res.ok) {
       const snapshot = await res.json();
       return {
@@ -39,8 +40,10 @@ export default async function PulsePage({ params }: { params: Promise<{ token: s
   let snapshot = null;
   let error = null;
   
+  const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+  
   try {
-    const res = await fetch(`${process.env.API_URL}/api/v1/pulse/${resolvedParams.token}`, { cache: 'no-store' });
+    const res = await fetch(`${apiUrl}/api/v1/pulse/${resolvedParams.token}`, { cache: 'no-store' });
     if (!res.ok) {
       error = 'Snapshot not found or expired.';
     } else {
@@ -163,7 +166,7 @@ export default async function PulsePage({ params }: { params: Promise<{ token: s
               </div>
             </div>
             <div className="h-24 w-full opacity-80">
-              <SparklineChart data={snapshot.velocity} width={400} height={100} color="#bb1327" />
+              <SparklineChart data={snapshot.velocity} width={400} height={100} color="#5CA8C9" />
             </div>
           </Card>
 

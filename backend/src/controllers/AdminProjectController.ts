@@ -6,7 +6,7 @@ export class AdminProjectController {
     try {
       const { id } = req.params;
       const project = await prisma.project.findUnique({
-        where: { id },
+        where: { id: id as string },
         include: {
           columns: {
             orderBy: { order: 'asc' },
@@ -40,7 +40,7 @@ export class AdminProjectController {
       const { clientVisible } = req.body;
       
       const column = await prisma.column.update({
-        where: { id: columnId },
+        where: { id: columnId as string },
         data: { clientVisible }
       });
 
@@ -67,7 +67,7 @@ export class AdminProjectController {
       const { clientVisible } = req.body;
       
       const milestone = await prisma.milestone.update({
-        where: { id: milestoneId },
+        where: { id: milestoneId as string },
         data: { clientVisible }
       });
 
@@ -219,7 +219,7 @@ export class AdminProjectController {
       const { name, budgetAmount, estimatedHours, startDate, endDate, status } = req.body;
       
       const project = await prisma.project.update({
-        where: { id },
+        where: { id: id as string },
         data: {
           name,
           budgetAmount,
@@ -240,7 +240,7 @@ export class AdminProjectController {
     try {
       const { id } = req.params;
       const history = await prisma.projectRiskSnapshot.findMany({
-        where: { projectId: id },
+        where: { projectId: id as string },
         orderBy: { computedAt: 'asc' }
       });
       res.status(200).json(history);
@@ -256,7 +256,7 @@ export class AdminProjectController {
       const inputs = req.body;
       
       const latestSnapshot = await prisma.projectRiskSnapshot.findFirst({
-        where: { projectId: id },
+        where: { projectId: id as string },
         orderBy: { computedAt: 'desc' }
       });
       

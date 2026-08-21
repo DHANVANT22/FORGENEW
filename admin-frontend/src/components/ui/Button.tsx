@@ -15,12 +15,12 @@ export const Button: React.FC<ButtonProps> = ({
   children, 
   ...props 
 }) => {
-  const baseClasses = 'relative overflow-hidden inline-flex items-center justify-center font-medium rounded-full transition-all duration-300 active:scale-95 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseClasses = 'relative overflow-hidden inline-flex items-center justify-center font-medium transition-all duration-300 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
-    primary: 'bg-brand-primary text-white hover:bg-brand-primary-bright hover:shadow-[0_0_20px_rgba(var(--shadow-brand-rgb), 0.6)] shadow-[0_0_15px_rgba(var(--shadow-brand-rgb), 0.3)] border border-transparent',
-    secondary: 'bg-surface-container-high text-on-surface hover:bg-surface-container-highest hover:shadow-lg',
-    outline: 'border border-outline text-on-surface hover:border-primary hover:text-primary hover:bg-primary/5',
+    primary: 'neu-button-primary',
+    secondary: 'neu-button',
+    outline: 'neu-button border border-white/10',
     danger: 'bg-danger text-black hover:opacity-90 hover:shadow-[0_0_20px_rgba(255,138,128,0.5)]',
   };
 

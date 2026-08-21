@@ -43,7 +43,7 @@ class AdminProjectController {
         try {
             const { id } = req.params;
             const project = await db_1.default.project.findUnique({
-                where: { id },
+                where: { id: id },
                 include: {
                     columns: {
                         orderBy: { order: 'asc' },
@@ -248,7 +248,7 @@ class AdminProjectController {
             const { id } = req.params;
             const { name, budgetAmount, estimatedHours, startDate, endDate, status } = req.body;
             const project = await db_1.default.project.update({
-                where: { id },
+                where: { id: id },
                 data: {
                     name,
                     budgetAmount,
@@ -297,6 +297,21 @@ class AdminProjectController {
         }
         catch (error) {
             console.error('Error previewing risk:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+    static async updatePulseFinancialsVisibility(req, res) {
+        try {
+            const id = req.params.id;
+            const { visible } = req.body;
+            const project = await db_1.default.project.update({
+                where: { id },
+                data: { pulseFinancialsVisible: Boolean(visible) }
+            });
+            res.status(200).json(project);
+        }
+        catch (error) {
+            console.error('Failed to update pulse financials visibility:', error);
             res.status(500).json({ error: 'Internal server error' });
         }
     }

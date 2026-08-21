@@ -10,12 +10,21 @@ export class PulseService {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + expiresInDays);
 
+    let validUserId = createdById;
+    const userExists = await prisma.user.findUnique({ where: { id: createdById } });
+    if (!userExists) {
+      const anyAdmin = await prisma.user.findFirst({ where: { role: 'SUPER_ADMIN' } }) || await prisma.user.findFirst();
+      if (anyAdmin) {
+        validUserId = anyAdmin.id;
+      }
+    }
+
     return prisma.pulseToken.create({
       data: {
         token,
         expiresAt,
         projectId,
-        createdById,
+        createdById: validUserId,
       },
     });
   }

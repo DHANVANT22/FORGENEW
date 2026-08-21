@@ -8,15 +8,15 @@ interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Panel({ children, className = '', withRivets = false, interactive = false, ...props }: PanelProps) {
   return (
     <div
-      className={`group-panel relative bg-card rounded-[6px] transition-all shadow-[inset_1px_1px_0_var(--color-panel-bezel-light),inset_-1px_-1px_0_var(--color-panel-bezel-dark),0_4px_12px_rgba(0,0,0,0.3)] ${interactive ? 'hover:shadow-[0_8px_24px_rgba(0,0,0,0.5),var(--shadow-glow-red)] hover:border-brand-primary-bright/50' : ''} ${className}`}
+      className={`neu-panel group-panel transition-all ${interactive ? 'hover:-translate-y-0.5' : ''} ${className}`}
       {...props}
     >
       {withRivets && (
         <>
-          <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-border shadow-[inset_1px_1px_1px_rgba(0,0,0,0.5),0_1px_0_rgba(255,255,255,0.1)]"></div>
-          <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-border shadow-[inset_1px_1px_1px_rgba(0,0,0,0.5),0_1px_0_rgba(255,255,255,0.1)]"></div>
-          <div className="absolute bottom-2 left-2 w-1.5 h-1.5 rounded-full bg-border shadow-[inset_1px_1px_1px_rgba(0,0,0,0.5),0_1px_0_rgba(255,255,255,0.1)]"></div>
-          <div className="absolute bottom-2 right-2 w-1.5 h-1.5 rounded-full bg-border shadow-[inset_1px_1px_1px_rgba(0,0,0,0.5),0_1px_0_rgba(255,255,255,0.1)]"></div>
+          <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_1px_1px_rgba(0,0,0,0.8)] rounded-tl-[2px] pointer-events-none" />
+          <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_1px_1px_rgba(0,0,0,0.8)] rounded-tr-[2px] pointer-events-none" />
+          <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_-1px_1px_rgba(0,0,0,0.8)] rounded-bl-[2px] pointer-events-none" />
+          <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_-1px_1px_rgba(0,0,0,0.8)] rounded-br-[2px] pointer-events-none" />
         </>
       )}
       {children}

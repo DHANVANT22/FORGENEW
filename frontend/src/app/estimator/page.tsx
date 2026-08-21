@@ -2,62 +2,71 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Panel, LedIndicator } from '@/components/ui';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import { motion, AnimatePresence } from 'framer-motion';
-import html2canvas from 'html2canvas';
+import Link from 'next/link';
 
-const INTEGRATIONS_LIST = ['Stripe', 'CRM (Salesforce/HubSpot)', 'Auth0 / Okta', 'ERP (NetSuite/SAP)', 'Custom Internal API'];
+const INTEGRATIONS_LIST = ['Stripe / Payments', 'Salesforce / HubSpot CRM', 'Auth0 / SSO', 'AWS / Cloud Infrastructure', 'Custom Legacy API'];
 
 const questions = [
   {
     id: 'users',
-    text: 'Who will use this software?',
+    text: 'Who is the primary audience for this platform?',
+    subtitle: 'Select the operational boundary of the application',
+    icon: 'group',
     options: [
-      { label: 'Just my team internally', score: 1 },
-      { label: 'My customers / general public', score: 2 },
-      { label: 'Both internal staff and external customers', score: 3 },
-      { label: 'Not sure', score: null }
+      { label: 'Internal Organization Team Only', score: 1, desc: 'Low concurrency, strict RBAC' },
+      { label: 'External Customers & Public Users', score: 2, desc: 'High concurrency, public auth' },
+      { label: 'Hybrid (Enterprise Staff + Global Public)', score: 3, desc: 'Multi-tenant, granular roles' },
+      { label: 'Explore Default Profile', score: 2, desc: 'Standard baseline estimate' }
     ]
   },
   {
     id: 'data',
-    text: 'Does this need to connect to existing systems?',
+    text: 'Does this platform integrate with external APIs or databases?',
+    subtitle: 'System architecture interoperability requirements',
+    icon: 'sync_alt',
     options: [
-      { label: 'No, it stands alone', score: 0 },
-      { label: 'Yes, just one or two (like Stripe or a CRM)', score: 2 },
-      { label: 'Yes, it needs to sync with many legacy systems', score: 4 },
-      { label: 'Not sure', score: null }
+      { label: 'Standalone Green-Field Application', score: 0, desc: 'Self-contained PostgreSQL / Prisma' },
+      { label: '1–2 Core Webhook Services (Stripe, Resend)', score: 2, desc: 'Transactional events' },
+      { label: 'Deep Integration with Legacy ERP / CRM Mesh', score: 4, desc: 'Continuous sync & failover' },
+      { label: 'Standard Web Integrations', score: 2, desc: 'OAuth + Payment Gateway' }
     ]
   },
   {
     id: 'compliance',
-    text: 'What level of compliance or security is required?',
+    text: 'What regulatory & compliance level is demanded?',
+    subtitle: 'Security controls, audit logs, and data sovereignty',
+    icon: 'verified_user',
     options: [
-      { label: 'Standard web security', score: 1 },
-      { label: 'Payments or e-commerce (PCI)', score: 2 },
-      { label: 'Healthcare (HIPAA) or Enterprise (SOC2)', score: 4 },
-      { label: 'Not sure', score: null }
+      { label: 'Standard Web & API Security Protocols', score: 1, desc: 'JWT + HTTPS + CORS' },
+      { label: 'Financial / PCI-DSS Payment Handling', score: 2, desc: 'Encrypted tokens, audit logs' },
+      { label: 'SOC2 Type II / HIPAA Healthcare Tier', score: 4, desc: 'Zero-trust, immutable audit' },
+      { label: 'Standard Commercial Tier', score: 2, desc: 'Production hardened' }
     ]
   },
   {
     id: 'urgency',
-    text: 'What is your expected timeline?',
+    text: 'What is your targeted delivery velocity?',
+    subtitle: 'Sprint scheduling and dedicated engineering allocation',
+    icon: 'speed',
     options: [
-      { label: 'Flexible (6+ months)', score: 1 },
-      { label: 'Standard (3-6 months)', score: 2 },
-      { label: 'Urgent (ASAP / < 3 months)', score: 3 },
-      { label: 'Not sure', score: null }
+      { label: 'Flexible Engineering Schedule (4+ Months)', score: 1, desc: 'Standard phased rollouts' },
+      { label: 'Standard Sprint Cadence (2–3 Months)', score: 2, desc: 'Bi-weekly release gates' },
+      { label: 'Expedited Priority Sprint (< 6 Weeks)', score: 3, desc: 'Dedicated daily CI/CD push' },
+      { label: 'Standard 8-Week Build', score: 2, desc: 'Optimized delivery cycle' }
     ]
   },
   {
     id: 'scale',
-    text: 'What is the expected scale of the application?',
+    text: 'What is the projected concurrency scale?',
+    subtitle: 'Infrastructure provisioning and caching layer',
+    icon: 'cloud_queue',
     options: [
-      { label: 'Hundreds of users', score: 1 },
-      { label: 'Thousands of users', score: 2 },
-      { label: 'Millions of users / High traffic', score: 4 },
-      { label: 'Not sure', score: null }
+      { label: 'Initial Launch (< 5,000 Active Users)', score: 1, desc: 'Single-region serverless' },
+      { label: 'Scaling Production (50,000+ Active Users)', score: 2, desc: 'Edge CDN + Redis cache' },
+      { label: 'Enterprise Global Mesh (Millions of Events)', score: 4, desc: 'Distributed multi-region cluster' },
+      { label: 'Scalable Cloud Baseline', score: 2, desc: 'Auto-scaling Kubernetes' }
     ]
   }
 ];
@@ -69,11 +78,14 @@ export default function EstimatorPage() {
   const [sessionId, setSessionId] = useState<string>('');
   const [showIntegrations, setShowIntegrations] = useState(false);
   const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([]);
-  const [website, setWebsite] = useState('');
-  const [showSaved, setShowSaved] = useState(false);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
+  const [clientEmail, setClientEmail] = useState('');
+  const [clientName, setClientName] = useState('');
+  const [scopeDetails, setScopeDetails] = useState('');
+  const [submittedEnquiry, setSubmittedEnquiry] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   
   const chartRef = useRef<HTMLDivElement>(null);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
   useEffect(() => {
     let storedSessionId = localStorage.getItem('estimator_session_id');
@@ -82,331 +94,373 @@ export default function EstimatorPage() {
       localStorage.setItem('estimator_session_id', storedSessionId);
     }
     setSessionId(storedSessionId);
-
-    // Fetch existing draft if any
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/estimates/draft/${storedSessionId}`)
-      .then(res => res.ok ? res.json() : null)
-      .then(draft => {
-        if (draft && draft.answers) {
-          setAnswers(draft.answers);
-          setCurrentStep(draft.step);
-        }
-      })
-      .catch(() => {});
   }, []);
 
-  const saveDraft = async (newAnswers: any, step: number) => {
-    if (!sessionId) return;
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/estimates/draft`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, answers: newAnswers, step })
-      });
-      setShowSaved(true);
-      setTimeout(() => setShowSaved(false), 2000);
-    } catch (err) {
-      // Ignore errors for drafting
-    }
-  };
-
-  const trackProgress = async (questionKey: string) => {
-    if (!sessionId) return;
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/estimates/progress`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, questionKey })
-      });
-    } catch (err) {
-      // Ignore errors for tracking
-    }
-  };
-
-  const handleSelect = async (score: number | null, index: number) => {
-    setSelectedOptionIndex(index);
-    const q = questions[currentStep];
-
-    // small delay for UI selection flash
-    setTimeout(async () => {
-      setSelectedOptionIndex(null);
-      if (q.id === 'data' && (score === 2 || score === 4)) {
-        setAnswers(prev => ({ ...prev, [q.id]: score }));
-        setShowIntegrations(true);
-        return;
-      }
-      await completeStep(q.id, score);
-    }, 400);
-  };
-
-  const completeStep = async (questionId: string, score: number | null, integrationList?: string[]) => {
-    const newAnswers = { ...answers, [questionId]: score };
-    if (integrationList) {
-      newAnswers['integrations'] = integrationList;
-    }
-    setAnswers(newAnswers);
-
-    trackProgress(questionId);
+  const handleSelectOption = (questionId: string, option: any) => {
+    const nextAnswers = { ...answers, [questionId]: option };
+    setAnswers(nextAnswers);
 
     if (currentStep < questions.length - 1) {
-      const nextStep = currentStep + 1;
-      setCurrentStep(nextStep);
-      saveDraft(newAnswers, nextStep);
-      setShowIntegrations(false);
-      setSelectedIntegrations([]);
+      setCurrentStep(currentStep + 1);
     } else {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/estimates`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            clientEmail: 'demo@example.com',
-            answers: newAnswers,
-            website
-          })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setResult({ id: data.id, tier: data.tier, axisScores: data.axisScores, similarProjectsCount: data.similarProjectsCount });
-        } else {
-          setResult({ tier: 'Error' });
-        }
-      } catch (err) {
-        console.error('Failed to submit estimate', err);
-        setResult({ tier: 'Error' });
-      }
+      calculateResult(nextAnswers);
     }
   };
 
-  const handleIntegrationsSubmit = () => {
-    completeStep('data', answers['data'], selectedIntegrations);
-  };
+  const calculateResult = (finalAnswers: Record<string, any>) => {
+    let totalScore = 0;
+    Object.values(finalAnswers).forEach(ans => {
+      totalScore += (ans.score || 1);
+    });
 
-  const toggleIntegration = (item: string) => {
-    setSelectedIntegrations(prev => 
-      prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
-    );
-  };
-
-  const downloadImage = async () => {
-    if (chartRef.current) {
-      const canvas = await html2canvas(chartRef.current, { backgroundColor: '#131315' });
-      const dataUrl = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = 'project-fingerprint.png';
-      link.href = dataUrl;
-      link.click();
+    let tier = 'Tier 1 — Core App';
+    if (totalScore >= 12) {
+      tier = 'Tier 3 — Scaled Cloud Mesh';
+    } else if (totalScore >= 7) {
+      tier = 'Tier 2 — High-Performance Cloud';
     }
-  };
 
-  const getChartData = () => {
-    if (!result?.axisScores) return [];
-    return [
-      { subject: 'Role Complexity', A: result.axisScores.roleComplexity, fullMark: 10 },
-      { subject: 'Integration Load', A: result.axisScores.integrationLoad, fullMark: 15 },
-      { subject: 'Realtime Demand', A: result.axisScores.realtimeDemand, fullMark: 10 },
-      { subject: 'Compliance Load', A: result.axisScores.complianceLoad, fullMark: 10 },
+    const radarScores = [
+      { axis: 'Architecture', value: Math.min(100, (finalAnswers.data?.score || 1) * 25 + 20) },
+      { axis: 'Compliance', value: Math.min(100, (finalAnswers.compliance?.score || 1) * 25 + 15) },
+      { axis: 'Scale', value: Math.min(100, (finalAnswers.scale?.score || 1) * 25 + 20) },
+      { axis: 'Velocity', value: Math.min(100, (finalAnswers.urgency?.score || 1) * 30 + 10) },
+      { axis: 'Multi-Tenant', value: Math.min(100, (finalAnswers.users?.score || 1) * 30 + 10) },
     ];
+
+    setResult({
+      tier,
+      axisScores: radarScores,
+      similarProjectsCount: 14
+    });
   };
+
+  const handleSubmitScopeEnquiry = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!clientEmail || !result) return;
+    setSubmitting(true);
+
+    const enquiryPayload = {
+      clientName: clientName || 'Enterprise Lead',
+      clientEmail: clientEmail.trim(),
+      type: 'SCOPE_ESTIMATE',
+      text: `📋 [NEW PROJECT BRIEF / SCOPE REQUEST]\nTitle: ${clientName || 'Inbound Project'}\nComplexity Tier: ${result.tier}\nRequirements: ${scopeDetails || 'Estimated via AI Architecture Estimator'}\nSelected Integrations: ${selectedIntegrations.join(', ') || 'Standard stack'}`
+    };
+
+    try {
+      const res = await fetch(`${API_URL}/api/v1/enquiries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(enquiryPayload)
+      });
+
+      if (res.ok) {
+        setSubmittedEnquiry(true);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const progressPercent = Math.round(((currentStep + (result ? 1 : 0)) / questions.length) * 100);
 
   return (
-    <main className="min-h-screen bg-bg-deep py-20 px-6 flex flex-col items-center justify-center relative overflow-hidden">
-      {/* Background Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none z-0" />
-      
-      <div className="max-w-2xl w-full relative z-10 animate-fade-in-up">
-        <div className="text-center mb-12">
-          <div className="font-mono text-xs text-brand-primary-bright tracking-widest uppercase mb-3 font-bold inline-flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-brand-primary-bright animate-pulse"></span>
-            SYSTEM // ESTIMATOR
+    <main className="min-h-screen bg-[#040608] text-white pt-28 pb-24 px-6 relative overflow-hidden font-sans selection:bg-[#5CA8C9] selection:text-black">
+      {/* Background Atmosphere */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#5CA8C9]/15 rounded-full blur-[140px] pointer-events-none -z-10" />
+
+      <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up">
+        
+        {/* Step Indicator Header */}
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[#82C4DE] font-bold">
+              AI ARCHITECTURAL SCOPING MATRIX
+            </span>
           </div>
-          <h1 className="text-4xl font-display font-extrabold mb-4 text-text-strong tracking-tight">Project Estimator</h1>
-          <p className="text-text-muted text-lg font-mono">Answer a few questions to get an instant complexity tier.</p>
+
+          <h1 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-white">
+            {result ? 'Architectural Fingerprint' : 'Software Scope Estimator'}
+          </h1>
+          <p className="text-xs sm:text-sm text-neutral-400 font-sans max-w-xl mx-auto">
+            {result 
+              ? 'Multi-dimensional technical breakdown and immediate budget band modeling.'
+              : 'Answer 5 quick architecture questions to simulate complexity, timeline, and budget.'
+            }
+          </p>
         </div>
 
-        {!result ? (
-          <Panel className="p-8 border border-border">
-            <div className="mb-8">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-xs font-mono font-bold tracking-widest uppercase text-text-muted">
-                  Milestone {currentStep + 1} / {questions.length}
-                </span>
-                <AnimatePresence>
-                  {showSaved && (
-                    <motion.span
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="text-[10px] font-mono text-primary flex items-center gap-2 uppercase tracking-widest"
-                    >
-                      <LedIndicator status="active" />
-                      Saved
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </div>
-              
-              {/* Progress Timeline */}
-              <div className="flex items-center w-full gap-1 mb-10">
-                {questions.map((_, idx) => (
-                  <div key={idx} className="flex-1 h-1.5 rounded-full overflow-hidden bg-bg relative">
-                     {idx < currentStep ? (
-                       <div className="absolute inset-0 bg-primary"></div>
-                     ) : idx === currentStep ? (
-                       <motion.div 
-                         className="absolute inset-0 bg-brand-primary-bright origin-left" 
-                         initial={{ scaleX: 0 }}
-                         animate={{ scaleX: 1 }}
-                         transition={{ duration: 0.5, ease: "easeInOut" }}
-                       />
-                     ) : null}
-                  </div>
-                ))}
-              </div>
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <h2 className="text-3xl font-display font-bold mb-8 text-text-strong">{questions[currentStep].text}</h2>
-                  <input 
-                    type="text" 
-                    name="website" 
-                    value={website} 
-                    onChange={(e) => setWebsite(e.target.value)} 
-                    style={{ display: 'none' }} 
-                    tabIndex={-1} 
-                    autoComplete="off" 
-                  />
-                  
-                  {!showIntegrations ? (
-                    <div className="flex flex-col gap-4">
-                      {questions[currentStep].options.map((opt, i) => (
-                        <button
-                          key={i}
-                          onClick={() => handleSelect(opt.score, i)}
-                          className={`text-left px-6 py-5 rounded text-sm font-mono transition-all border outline-none 
-                            ${selectedOptionIndex === i 
-                              ? 'bg-primary/20 border-primary shadow-[0_0_15px_rgba(255,179,175,0.4)] text-text-strong' 
-                              : 'bg-bg border-border text-text-muted hover:border-brand-primary-bright hover:bg-surface-container hover:text-text-strong'
-                            }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className="opacity-50 text-xs">[{i + 1}]</span>
-                            {opt.label}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-4">
-                      <h3 className="text-lg font-mono text-text-muted mb-4">Which integrations do you anticipate? <br/><span className="text-xs">(Select all that apply)</span></h3>
-                      {INTEGRATIONS_LIST.map((item, i) => {
-                         const isSelected = selectedIntegrations.includes(item);
-                         return (
-                          <label key={i} className={`flex items-center gap-3 p-4 rounded cursor-pointer transition-colors border ${isSelected ? 'bg-primary/10 border-primary shadow-[0_0_10px_rgba(255,179,175,0.2)]' : 'bg-bg border-border hover:border-brand-primary-bright'}`}>
-                            <input 
-                              type="checkbox" 
-                              checked={isSelected}
-                              onChange={() => toggleIntegration(item)}
-                              className="sr-only"
-                            />
-                            <div className={`w-4 h-4 rounded-sm border flex items-center justify-center transition-colors ${isSelected ? 'border-primary bg-primary' : 'border-border bg-bg-deep'}`}>
-                               {isSelected && <span className="material-symbols-outlined text-[12px] text-bg-deep font-bold">check</span>}
-                            </div>
-                            <span className={`font-mono text-sm ${isSelected ? 'text-primary' : 'text-text-muted'}`}>{item}</span>
-                          </label>
-                        );
-                      })}
-                      <div className="mt-8 flex justify-end gap-4">
-                         <Button variant="outline" className="active:scale-95" onClick={() => setShowIntegrations(false)}>Back</Button>
-                         <Button className="active:scale-95" onClick={handleIntegrationsSubmit}>Continue <span className="material-symbols-outlined text-[18px] ml-2">arrow_forward</span></Button>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </Panel>
-        ) : (
-          <Panel className="p-10 text-center" withRivets>
-            <div ref={chartRef} className="bg-bg-deep p-6 rounded relative">
-              <div className="flex justify-center mb-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 border border-border bg-bg rounded">
-                  <LedIndicator status="active" />
-                  <span className="font-mono text-xs uppercase tracking-widest text-text-muted">Estimate Complete</span>
-                </div>
-              </div>
-              <h2 className="text-3xl font-display font-bold mb-4 text-text-strong">
-                Project Tier: <span className="text-brand-primary-bright drop-shadow-[0_0_15px_rgba(var(--shadow-brand-rgb), 0.3)]">{result.tier}</span>
-              </h2>
-              
-              {result.axisScores && (
-                 <motion.div 
-                   initial={{ opacity: 0, scale: 0.9 }}
-                   animate={{ opacity: 1, scale: 1 }}
-                   transition={{ duration: 0.8, ease: "easeOut" }}
-                   className="my-12 w-full h-[320px] flex justify-center pb-8" // pb-8 gives extra space at bottom
-                 >
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart cx="50%" cy="50%" outerRadius="65%" data={getChartData()}>
-                        <PolarGrid stroke="rgba(255,255,255,0.1)" />
-                        <PolarAngleAxis dataKey="subject" tick={{ fill: '#ab8886', fontSize: 11, fontFamily: 'monospace' }} />
-                        <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={false} axisLine={false} />
-                        <Radar 
-                          name="Project Fingerprint" 
-                          dataKey="A" 
-                          stroke="var(--color-brand-primary-bright)" 
-                          strokeWidth={2}
-                          fill="var(--color-brand-primary)" 
-                          fillOpacity={0.3} 
-                          style={{ filter: 'drop-shadow(0 0 10px rgba(var(--shadow-brand-rgb), 0.5))' }}
-                        />
-                      </RadarChart>
-                    </ResponsiveContainer>
-                 </motion.div>
-              )}
+        {/* Progress Bar */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-xs font-mono text-neutral-400">
+            <span>Progress</span>
+            <span className="text-[#82C4DE] font-bold">{progressPercent}%</span>
+          </div>
+          <div className="h-1.5 w-full neu-pressed rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-[#5CA8C9] to-[#82C4DE] rounded-full transition-all duration-300 shadow-[0_0_8px_#5CA8C9]"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+        </div>
 
-              <p className="text-text-muted mb-10 max-w-md mx-auto font-mono text-sm leading-relaxed">
-                This gives us a baseline to start from. Based on <span className="text-text-strong font-bold">{result.similarProjectsCount || 0}</span> similar projects we've scoped, this is highly accurate.
+        {/* Main Content Area */}
+        {!result ? (
+          <div className="p-8 rounded-3xl neu-panel space-y-8 relative overflow-hidden">
+            {/* Rivet Accents */}
+            <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+            <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+            <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_-1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+            <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_-1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+            
+            {/* Question Title */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#82C4DE] font-bold uppercase tracking-wider">
+                <span className="material-symbols-outlined text-[16px]">{questions[currentStep].icon}</span>
+                <span>Question {currentStep + 1} of {questions.length}</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-white">
+                {questions[currentStep].text}
+              </h2>
+              <p className="text-xs text-neutral-400 font-sans">
+                {questions[currentStep].subtitle}
               </p>
             </div>
-            
-            <div className="flex justify-center gap-4 flex-wrap mt-8">
-              <Button onClick={() => {
-                let initialComplexity = 50;
-                if (result.axisScores) {
-                  const raw = (result.axisScores.roleComplexity || 0) + (result.axisScores.integrationLoad || 0) + (result.axisScores.realtimeDemand || 0) + (result.axisScores.complianceLoad || 0);
-                  initialComplexity = Math.min(100, Math.round((raw / 45) * 100));
-                }
-                window.location.href = `http://localhost:3001/estimator?estimateId=${result.id || ''}&c=${initialComplexity}`;
-              }} size="lg" className="active:scale-[0.98] transition-transform">
-                Open in Control Centre
-              </Button>
-              <Button variant="outline" className="active:scale-[0.98] transition-transform flex items-center gap-2" onClick={downloadImage}>
-                <span className="material-symbols-outlined text-[18px]">download</span>
-                Save Image
-              </Button>
-              <Button variant="outline" className="active:scale-[0.98] transition-transform flex items-center gap-2 border-danger/30 text-danger hover:bg-danger/10" onClick={() => {
-                setResult(null);
-                setCurrentStep(0);
-                setAnswers({});
-                const newSessionId = crypto.randomUUID();
-                setSessionId(newSessionId);
-                localStorage.setItem('estimator_session_id', newSessionId);
-              }}>
-                <span className="material-symbols-outlined text-[18px]">refresh</span>
-                Restart
-              </Button>
+
+            {/* Options Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {questions[currentStep].options.map((opt, oIdx) => {
+                const isSelected = answers[questions[currentStep].id]?.score === opt.score;
+                return (
+                  <button
+                    key={oIdx}
+                    onClick={() => handleSelectOption(questions[currentStep].id, opt)}
+                    className={`p-5 rounded-2xl text-left group flex flex-col justify-between gap-3 transition-all duration-200 cursor-pointer ${
+                      isSelected
+                        ? 'neu-pressed border border-[#5CA8C9]/70 shadow-[inset_3px_3px_8px_rgba(0,0,0,0.8),0_0_20px_rgba(92,168,201,0.3)] scale-[0.99]'
+                        : 'neu-button hover:-translate-y-0.5 hover:border-[#5CA8C9]/40'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className={`font-bold text-sm font-display transition-colors ${
+                        isSelected ? 'text-[#82C4DE]' : 'text-white group-hover:text-[#82C4DE]'
+                      }`}>
+                        {opt.label}
+                      </span>
+                      <span className={`material-symbols-outlined text-sm transition-colors ${
+                        isSelected ? 'text-[#82C4DE]' : 'text-neutral-600 group-hover:text-[#82C4DE]'
+                      }`}>
+                        {isSelected ? 'check_circle' : 'arrow_forward'}
+                      </span>
+                    </div>
+                    <span className="text-xs text-neutral-400 font-mono">
+                      {opt.desc}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-          </Panel>
+
+            {/* Step Navigation Footprint */}
+            {currentStep > 0 && (
+              <div className="pt-4 border-t border-white/[0.06] flex justify-between items-center">
+                <button
+                  onClick={() => setCurrentStep(currentStep - 1)}
+                  className="text-xs font-mono text-neutral-400 hover:text-white flex items-center gap-1 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-sm">arrow_back</span>
+                  <span>Previous Question</span>
+                </button>
+              </div>
+            )}
+
+          </div>
+        ) : (
+          /* RESULT STUDIO */
+          <div className="space-y-8 animate-fade-in-up">
+            
+            {/* Top Fingerprint Card */}
+            <div className="p-8 rounded-3xl neu-panel grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative overflow-hidden">
+              <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+              <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+              
+              <div className="md:col-span-7 space-y-6">
+                <div>
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-[#82C4DE] font-bold block mb-1">
+                    ESTIMATED COMPLEXITY CLASSIFICATION
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-display font-black text-white">
+                    {result.tier}
+                  </h2>
+                  <p className="text-xs text-neutral-400 font-sans mt-2 leading-relaxed">
+                    Based on your multi-axis selections, your architecture falls in the top efficiency percentile for modern cloud delivery.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-2xl neu-pressed">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block font-bold">Estimated Budget Band</span>
+                    <span className="text-xl font-bold font-mono text-emerald-400">
+                      {result.tier.includes('Tier 3') ? '$25k – $50k' : result.tier.includes('Tier 2') ? '$12k – $25k' : '$5k – $12k'}
+                    </span>
+                  </div>
+                  <div className="p-4 rounded-2xl neu-pressed">
+                    <span className="text-[10px] font-mono uppercase text-neutral-400 block font-bold">Estimated Delivery Sprint</span>
+                    <span className="text-xl font-bold font-mono text-[#82C4DE]">
+                      {result.tier.includes('Tier 3') ? '8–12 Weeks' : result.tier.includes('Tier 2') ? '4–6 Weeks' : '2–4 Weeks'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {['React 19 / Next.js', 'PostgreSQL / Prisma', 'Tailwind CSS v4', 'Socket.IO Telemetry', 'Docker Deployment'].map((tag, tIdx) => (
+                    <span key={tIdx} className="px-3 py-1 rounded-full text-[10px] font-mono neu-pressed text-neutral-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Radar Chart */}
+              <div className="md:col-span-5 flex flex-col items-center justify-center h-64 p-2 neu-pressed bg-retro-grid rounded-2xl">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart cx="50%" cy="50%" outerRadius="70%" data={result.axisScores}>
+                    <PolarGrid stroke="rgba(255, 255, 255, 0.1)" />
+                    <PolarAngleAxis dataKey="axis" stroke="#82C4DE" tick={{ fill: '#82C4DE', fontSize: 10 }} />
+                    <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="transparent" />
+                    <Radar name="Complexity" dataKey="value" stroke="#5CA8C9" fill="#5CA8C9" fillOpacity={0.4} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+
+            </div>
+
+            {/* Scope Proposal Submission Card */}
+            <div className="p-8 rounded-3xl neu-panel">
+              {submittedEnquiry ? (
+                <div className="text-center py-8 space-y-4">
+                  <div className="w-12 h-12 rounded-full neu-pressed text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                    <span className="material-symbols-outlined text-2xl">check_circle</span>
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-white">Scope Proposal Transmitted!</h3>
+                  <p className="text-xs text-neutral-400 max-w-md mx-auto font-sans">
+                    Our lead engineering team has received your architecture brief. You can track progress or discuss requirements directly in the Client Portal.
+                  </p>
+                  <Link href="/client/login">
+                    <Button className="px-6 py-3 neu-button-primary uppercase font-mono">
+                      Proceed to Client Portal
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmitScopeEnquiry} className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-display font-bold text-white">
+                      Transmit Scope Brief to Engineering Team
+                    </h3>
+                    <p className="text-xs text-neutral-400 font-sans mt-1">
+                      Lock in this architectural estimate and initiate a private discussion channel.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] font-mono uppercase text-neutral-400 mb-1.5 font-bold">Your Name / Organization</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Acme Corp Lead"
+                        value={clientName}
+                        onChange={e => setClientName(e.target.value)}
+                        className="neu-input w-full px-4 py-3 text-xs text-white placeholder-neutral-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-mono uppercase text-neutral-400 mb-1.5 font-bold">Work Email</label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="you@company.com"
+                        value={clientEmail}
+                        onChange={e => setClientEmail(e.target.value)}
+                        className="neu-input w-full px-4 py-3 text-xs text-white placeholder-neutral-600"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-mono uppercase text-neutral-400 mb-1.5 font-bold">Additional Technical Notes or Requirements (Optional)</label>
+                    <textarea
+                      rows={3}
+                      placeholder="e.g. Needs single sign-on (SSO), data residency in EU, and dedicated test suite."
+                      value={scopeDetails}
+                      onChange={e => setScopeDetails(e.target.value)}
+                      className="neu-input w-full p-4 text-xs text-white placeholder-neutral-600"
+                    />
+                  </div>
+
+                  {/* Integrations Picker */}
+                  <div className="space-y-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowIntegrations(!showIntegrations)}
+                      className="text-xs font-mono text-[#82C4DE] hover:underline flex items-center gap-1"
+                    >
+                      <span className="material-symbols-outlined text-sm">{showIntegrations ? 'expand_less' : 'add'}</span>
+                      <span>{showIntegrations ? 'Hide Specific Integrations' : 'Specify Third-Party APIs / Integrations (Optional)'}</span>
+                    </button>
+
+                    {showIntegrations && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                        {INTEGRATIONS_LIST.map((integ, iIdx) => {
+                          const isSelected = selectedIntegrations.includes(integ);
+                          return (
+                            <button
+                              key={iIdx}
+                              type="button"
+                              onClick={() => {
+                                if (isSelected) {
+                                  setSelectedIntegrations(selectedIntegrations.filter(i => i !== integ));
+                                } else {
+                                  setSelectedIntegrations([...selectedIntegrations, integ]);
+                                }
+                              }}
+                              className={`p-3 rounded-xl text-left text-xs font-mono transition-all flex items-center justify-between ${
+                                isSelected
+                                  ? 'neu-pressed border border-[#5CA8C9]/60 text-[#82C4DE]'
+                                  : 'neu-button text-neutral-400 hover:text-white'
+                              }`}
+                            >
+                              <span>{integ}</span>
+                              <span className="material-symbols-outlined text-sm">{isSelected ? 'check_box' : 'check_box_outline_blank'}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-4 border-t border-white/[0.08] flex justify-end">
+                    <Button
+                      type="submit"
+                      disabled={submitting}
+                      className="neu-button-primary px-8 py-4 uppercase font-mono tracking-wider flex items-center gap-2"
+                    >
+                      {submitting ? 'Transmitting Scope...' : 'Transmit Scope Proposal'}
+                      <span className="material-symbols-outlined text-sm">send</span>
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </div>
+
+          </div>
         )}
+
       </div>
     </main>
   );

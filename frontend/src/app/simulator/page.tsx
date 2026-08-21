@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Panel } from '@/components/ui/Panel';
+import { LeverSlider } from '@/components/ui/LeverSlider';
+import { Gauge } from '@/components/ui/Gauge';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -21,72 +23,78 @@ function SimulatorContent() {
   // Simple computed risk band
   const riskScore = (complexity * 0.6) + (urgency * 0.4);
   
-  let riskBand = 'Low';
+  let riskBand = 'Low Risk';
   let bandColor = 'text-success';
   if (riskScore > 75) {
-    riskBand = 'High';
+    riskBand = 'High Risk';
     bandColor = 'text-danger';
   } else if (riskScore > 40) {
-    riskBand = 'Medium';
+    riskBand = 'Medium Risk';
     bandColor = 'text-warning';
   }
 
   return (
-    <main className="min-h-screen bg-background py-20 px-6">
+    <main className="min-h-screen bg-background py-20 px-6 bg-retro-grid">
       <div className="max-w-4xl mx-auto">
         <div className="mb-12">
-          <span className="text-sm font-mono text-primary mb-2 block uppercase tracking-wider">
-            Step 02
-          </span>
-          <h1 className="text-4xl font-bold mb-4">Risk &amp; Scope Simulator</h1>
-          <p className="text-muted text-lg">Adjust the levers to see how scope and timeline impact your risk profile.</p>
+          <div className="flex items-center gap-2 mb-2 font-mono text-xs text-brand-primary-bright uppercase tracking-widest font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>MISSION CONTROL // STEP 02</span>
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight mb-3 text-text-strong font-display">Risk &amp; Scope Simulator</h1>
+          <p className="text-text-muted text-base">Adjust the hardware fader levers to see how scope and timeline impact your project risk profile.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card className="p-8">
-            <h3 className="text-xl font-bold mb-6">Scenario Levers</h3>
-            
-            <div className="mb-8">
-              <div className="flex justify-between mb-2">
-                <label className="text-sm font-medium">Technical Complexity</label>
-                <span className="font-mono text-sm">{complexity}%</span>
+          <Panel withRivets={true} className="p-8 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-8 border-b border-border/50 pb-4">
+                <span className="material-symbols-outlined text-text-muted text-lg">tune</span>
+                <h3 className="text-lg font-bold font-display text-text-strong">Scenario Levers</h3>
               </div>
-              <div className="relative w-full h-2 bg-surface-container-high rounded-full overflow-hidden mt-4 mb-2">
-                <div className="absolute top-0 left-0 h-full bg-brand-primary transition-all duration-200" style={{ width: `${complexity}%` }} />
-                <input 
-                  type="range" 
-                  min="0" max="100" 
+              
+              <div className="mb-6 group">
+                <div className="flex justify-between mb-2">
+                  <label className="text-xs font-bold font-mono uppercase tracking-wider text-text-strong group-hover:text-brand-primary-bright transition-colors">
+                    Technical Complexity
+                  </label>
+                  <span className="font-mono text-xs text-brand-primary font-bold">{complexity}%</span>
+                </div>
+                <LeverSlider 
+                  min={0} 
+                  max={100} 
                   value={complexity} 
-                  onChange={(e) => setComplexity(parseInt(e.target.value))}
-                  className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                  onChange={setComplexity}
+                  readoutLabel="Technical Complexity"
                 />
+                <p className="text-[11px] text-text-muted mt-2 font-mono">Integrations, legacy systems, scaling needs.</p>
               </div>
-              <p className="text-xs text-muted mt-2">Integrations, legacy systems, scaling needs.</p>
-            </div>
 
-            <div className="mb-8">
-              <div className="flex justify-between mb-2">
-                <label className="text-sm font-medium">Timeline Urgency</label>
-                <span className="font-mono text-sm">{urgency}%</span>
-              </div>
-              <div className="relative w-full h-2 bg-surface-container-high rounded-full overflow-hidden mt-4 mb-2">
-                <div className="absolute top-0 left-0 h-full bg-brand-primary transition-all duration-200" style={{ width: `${urgency}%` }} />
-                <input 
-                  type="range" 
-                  min="0" max="100" 
+              <div className="h-px w-full bg-white/[0.06] my-6" />
+
+              <div className="mb-6 group">
+                <div className="flex justify-between mb-2">
+                  <label className="text-xs font-bold font-mono uppercase tracking-wider text-text-strong group-hover:text-brand-primary-bright transition-colors">
+                    Timeline Urgency
+                  </label>
+                  <span className="font-mono text-xs text-brand-primary font-bold">{urgency}%</span>
+                </div>
+                <LeverSlider 
+                  min={0} 
+                  max={100} 
                   value={urgency} 
-                  onChange={(e) => setUrgency(parseInt(e.target.value))}
-                  className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                  onChange={setUrgency}
+                  readoutLabel="Timeline Urgency"
                 />
+                <p className="text-[11px] text-text-muted mt-2 font-mono">Target go-to-market speed.</p>
               </div>
-              <p className="text-xs text-muted mt-2">How fast do you need to go to market?</p>
             </div>
             
             <Button 
               className="w-full mt-4"
               onClick={async () => {
                 try {
-                  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/scenarios`, {
+                  await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/v1/scenarios`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -95,48 +103,47 @@ function SimulatorContent() {
                       estimateId: estimateId || undefined
                     })
                   });
-                  alert('Enquiry sent!');
+                  alert('Enquiry sent successfully!');
                 } catch (e) {
                   alert('Failed to send enquiry');
                 }
               }}
             >
-              Send as Enquiry
+              Send as Enquiry Brief
             </Button>
-          </Card>
+          </Panel>
 
-          <Card className="p-8 flex flex-col justify-center items-center text-center bg-surface-container-low border-none overflow-hidden relative">
-            <div className="absolute inset-0 opacity-10 transition-colors duration-500" style={{ backgroundColor: bandColor === 'text-danger' ? 'var(--color-danger)' : bandColor === 'text-warning' ? 'var(--color-warning)' : 'var(--color-success)' }} />
-            <h3 className="text-lg text-muted mb-2 font-mono uppercase tracking-wider relative z-10">Computed Risk Band</h3>
-            <div className={`text-6xl font-bold mb-4 ${bandColor} transition-colors duration-500 relative z-10 min-h-[80px] flex items-center justify-center`}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={riskBand}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {riskBand}
-                </motion.div>
-              </AnimatePresence>
+          <Panel withRivets={true} className="p-8 flex flex-col justify-between items-center text-center overflow-hidden relative">
+            <div className="w-full flex items-center justify-between border-b border-border/50 pb-4 mb-6">
+              <span className="label-eyebrow">Computed Risk Telemetry</span>
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase neu-pressed ${
+                riskBand.includes('High') ? 'text-danger' : riskBand.includes('Medium') ? 'text-warning' : 'text-success'
+              }`}>
+                {riskBand}
+              </span>
             </div>
-            <div className="text-sm text-muted relative z-10 min-h-[60px]">
+
+            {/* Retro Analog VU Meter / Radar Dish Gauge */}
+            <div className="my-4 py-4 w-full flex flex-col items-center justify-center">
+              <Gauge value={riskScore} label="Risk Score Index" />
+            </div>
+
+            <div className="w-full pt-4 border-t border-border/50 text-xs text-text-muted font-mono min-h-[60px] flex items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={riskBand}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {riskBand === 'High' && 'Aggressive timelines with high complexity usually require phased rollouts to manage risk.'}
-                  {riskBand === 'Medium' && 'A balanced approach. Standard delivery processes apply.'}
-                  {riskBand === 'Low' && 'Very straightforward execution path with minimal architectural unknowns.'}
+                  {riskBand === 'High Risk' && '⚠️ Aggressive timelines with high complexity require phased rollouts & risk gates.'}
+                  {riskBand === 'Medium Risk' && '⚡ Balanced execution scope. Standard agile sprint cadence applies.'}
+                  {riskBand === 'Low Risk' && '✓ Nominal execution path with minimal architectural unknowns.'}
                 </motion.p>
               </AnimatePresence>
             </div>
-          </Card>
+          </Panel>
         </div>
       </div>
     </main>
@@ -145,8 +152,9 @@ function SimulatorContent() {
 
 export default function SimulatorPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading Simulator...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-background font-mono text-xs text-text-muted">Loading Simulator Telemetry...</div>}>
       <SimulatorContent />
     </Suspense>
   );
 }
+

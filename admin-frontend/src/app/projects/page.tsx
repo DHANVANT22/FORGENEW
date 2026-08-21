@@ -1,44 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Panel, LedIndicator, Gauge } from '@/components/ui';
-import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
-
-// Helper for relative timestamps
-function getRelativeTime(dateString: string) {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  
-  if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) return `${diffInHours}h ago`;
-  const diffInDays = Math.floor(diffInHours / 24);
-  if (diffInDays === 1) return `1 day ago`;
-  if (diffInDays < 30) return `${diffInDays} days ago`;
-  const diffInMonths = Math.floor(diffInDays / 30);
-  if (diffInMonths < 12) return `${diffInMonths} months ago`;
-  const diffInYears = Math.floor(diffInDays / 365);
-  return `${diffInYears} years ago`;
-}
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/projects?page=${page}&limit=10`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/v1/admin/projects?page=${page}&limit=12`, {
       headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' }
     })
       .then(res => res.json())
       .then(json => {
-        setProjects(json.data);
+        setProjects(json.data || []);
         setTotalPages(json.meta?.totalPages || 1);
         setLoading(false);
       })
@@ -48,96 +27,139 @@ export default function ProjectsList() {
       });
   }, [page]);
 
-  if (loading) return <div className="p-8">Loading projects...</div>;
+  const filteredProjects = projects.filter(p => {
+    const q = searchQuery.toLowerCase();
+    const clientName = (p.Client?.contactName || p.Client?.organization || '').toLowerCase();
+    return p.name.toLowerCase().includes(q) || clientName.includes(q);
+  });
 
   return (
-    <div className="space-y-12 max-w-6xl mx-auto py-8 px-6 animate-fade-in-up pb-20">
-      <div className="flex justify-between items-center pb-4 border-b border-border mb-8">
+    <div className="p-8 max-w-7xl mx-auto animate-fade-in-up pb-24 font-sans space-y-6">
+      
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
         <div>
-          <h1 className="font-display text-4xl tracking-tighter text-on-surface mb-2 font-bold text-text-strong">Projects</h1>
-          <p className="font-mono text-xs text-text-muted uppercase tracking-wider">Active Engagements</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>Prev</Button>
-            <span className="text-sm font-mono text-text-muted">{page} / {totalPages}</span>
-            <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>Next</Button>
+          <div className="flex items-center gap-2 mb-1.5 font-mono text-[11px] text-[#82C4DE] tracking-widest uppercase font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>ENGAGEMENTS PORTFOLIO</span>
           </div>
-          <Button className="flex items-center gap-2 transition-transform active:scale-[0.97] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]">
-            <span className="material-symbols-outlined text-sm">add</span>
-            New Project
-          </Button>
+          <h1 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight">
+            Active Project Workspaces
+          </h1>
+          <p className="text-xs sm:text-sm text-neutral-400 font-sans mt-0.5">
+            Deliver client sprints, manage milestone approvals, and supervise Kanban pipelines.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-black/60 border border-white/[0.08] rounded-xl p-1 px-2">
+            <button 
+              disabled={page <= 1} 
+              onClick={() => setPage(p => p - 1)}
+              className="px-3 py-1 text-xs font-mono text-neutral-400 hover:text-white disabled:opacity-30 rounded-lg hover:bg-white/[0.04]"
+            >
+              Prev
+            </button>
+            <span className="text-xs font-mono text-neutral-400">{page} / {totalPages}</span>
+            <button 
+              disabled={page >= totalPages} 
+              onClick={() => setPage(p => p + 1)}
+              className="px-3 py-1 text-xs font-mono text-neutral-400 hover:text-white disabled:opacity-30 rounded-lg hover:bg-white/[0.04]"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Grid wrapper constrained and responsive to prevent stretching */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
-        {projects.map(project => {
-          const latestRisk = project.ProjectRiskSnapshot?.[0]?.axisScores || { schedule: 0, budget: 0, communication: 0, scopeDrift: 0 };
-          const maxRisk = Math.max(latestRisk.schedule, latestRisk.budget, latestRisk.communication, latestRisk.scopeDrift);
-          
-          let statusLed: 'active' | 'warning' | 'critical' | 'idle' = 'idle';
-          if (project.status === 'Active') statusLed = 'active';
-          if (project.status === 'Planning') statusLed = 'warning';
+      {/* Toolbar */}
+      <div className="p-4 neu-panel flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="relative w-full md:w-80">
+          <span className="material-symbols-outlined absolute left-3 top-2.5 text-neutral-500 text-[18px]">search</span>
+          <input
+            type="text"
+            placeholder="Search projects or clients..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="neu-input w-full pl-10 pr-4 py-2 text-xs text-white placeholder:text-neutral-500 font-sans"
+          />
+        </div>
 
-          return (
-            <Link key={project.id} href={`/projects/${project.id}`} className="block h-full">
-              <Panel 
-                withRivets 
-                className="p-5 h-full flex flex-col group border border-border/50 hover:border-brand-primary-bright/50 transition-all duration-300"
-              >
-                <div className="flex justify-between items-start mb-4 gap-2">
-                  <h3 className="font-display text-lg font-bold text-text-strong group-hover:text-brand-primary-bright transition-colors leading-tight line-clamp-2">{project.name}</h3>
-                  <div className="flex items-center gap-2 shrink-0 bg-bg-deep px-2 py-1 rounded border border-border shadow-sm">
-                    <LedIndicator status={statusLed} />
-                    <span className="text-[10px] font-mono tracking-widest uppercase text-text-strong">{project.status}</span>
-                  </div>
-                </div>
-                
-                <div className="mb-4">
-                   <span className="inline-block px-2 py-1 bg-surface-container rounded-sm border border-border text-[10px] font-mono tracking-widest text-text-muted uppercase">
-                     {project.type || 'CLIENT'}
-                   </span>
-                </div>
-                
-                <div className="mt-auto space-y-4 pt-4 border-t border-border">
-                  <div className="flex justify-between items-center bg-bg-deep p-3 rounded border border-border shadow-sm">
-                    <div className="flex flex-col">
-                       <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-1">Max Risk</span>
-                       <span className="font-[family-name:var(--font-mono-readout)] text-sm font-bold text-text-strong">{Math.round(maxRisk)}%</span>
-                    </div>
-                    {/* Very slim gauge representation or progress bar */}
-                    <div className="w-16 h-1.5 bg-surface-container rounded-full overflow-hidden border border-border/50">
-                       <div 
-                         className="h-full bg-gradient-to-r from-warning to-brand-primary-bright transition-all" 
-                         style={{ width: `${Math.max(0, Math.min(100, maxRisk))}%` }}
-                       />
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-text-muted">Last Touched</span>
-                    <span className="text-xs font-[family-name:var(--font-mono-readout)] text-text-strong">{getRelativeTime(project.updatedAt)}</span>
-                  </div>
-                </div>
-              </Panel>
-            </Link>
-          );
-        })}
-
-        {/* Ghost Panel for New Project */}
-        <button className="block h-full text-left w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-bright rounded-[6px]" onClick={() => { /* Trigger New Project flow */ }}>
-          <Panel 
-            className="p-5 h-[280px] flex flex-col items-center justify-center border-2 border-dashed border-border/50 hover:border-brand-primary-bright/50 hover:bg-brand-primary-bright/5 transition-all duration-300 group"
-          >
-            <div className="w-12 h-12 rounded-full bg-bg-deep border border-border flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(var(--shadow-brand-rgb), 0.3)] transition-all">
-              <span className="material-symbols-outlined text-text-muted group-hover:text-brand-primary-bright transition-colors">add</span>
-            </div>
-            <span className="font-mono text-sm text-text-muted uppercase tracking-widest group-hover:text-text-strong transition-colors">Add New Project</span>
-          </Panel>
-        </button>
-
+        <div className="text-xs font-mono text-neutral-400 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34D399]" />
+          <span>{filteredProjects.length} PROJECT WORKSPACES INITIALIZED</span>
+        </div>
       </div>
+
+      {/* Project Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {loading ? (
+          <div className="col-span-full text-center py-24 text-neutral-500 font-mono text-xs">
+            Loading active engagements...
+          </div>
+        ) : filteredProjects.length === 0 ? (
+          <div className="col-span-full text-center py-24 neu-pressed rounded-3xl text-neutral-500 font-mono text-xs">
+            No projects found matching search.
+          </div>
+        ) : (
+          filteredProjects.map(project => {
+            const clientName = project.Client?.contactName || project.Client?.organization || 'Enterprise Stakeholder';
+            const progress = project.progress || 35;
+
+            return (
+              <Link key={project.id} href={`/projects/${project.id}`} className="block h-full group">
+                <div className="p-6 neu-panel group-hover:border-[#5CA8C9]/50 transition-all h-full flex flex-col justify-between gap-6 relative overflow-hidden group-hover:-translate-y-1">
+                  
+                  {/* Card Header */}
+                  <div>
+                    <div className="flex justify-between items-start mb-3">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase neu-pressed text-neutral-300">
+                        {project.status || 'Active'}
+                      </span>
+                      <span className="text-[11px] font-mono text-neutral-500">
+                        Sprint 3
+                      </span>
+                    </div>
+
+                    <h3 className="font-display font-black text-xl text-white group-hover:text-[#82C4DE] transition-colors line-clamp-1 mb-1">
+                      {project.name}
+                    </h3>
+                    <p className="text-xs font-mono text-neutral-400">
+                      Client: <strong className="text-neutral-200">{clientName}</strong>
+                    </p>
+                  </div>
+
+                  {/* Progress Meter */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-mono text-neutral-400">
+                      <span>Sprint Velocity</span>
+                      <span className="text-[#5CA8C9] font-bold">{progress}%</span>
+                    </div>
+                    <div className="h-2 w-full neu-pressed rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-[#5CA8C9] to-[#82C4DE] rounded-full transition-all duration-500 shadow-[0_0_8px_#5CA8C9]"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Card Footer */}
+                  <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-neutral-500">
+                    <div className="flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[16px] text-[#82C4DE]">view_kanban</span>
+                      <span>Kanban Active</span>
+                    </div>
+                    <span className="text-neutral-400 group-hover:text-white flex items-center gap-1 transition-colors">
+                      Open Workspace <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })
+        )}
+      </div>
+
     </div>
   );
 }

@@ -20,8 +20,8 @@ export function StatusChip({ label, variant = 'default', className = '' }: { lab
   };
 
   return (
-    <div className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full border text-xs font-medium ${colors[variant]} ${className}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${dotColors[variant]}`} />
+    <div className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full neu-pressed text-xs font-medium ${colors[variant]} border-none ${className}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${dotColors[variant]} shadow-[0_0_8px_currentColor]`} />
       {label}
     </div>
   );

@@ -26,7 +26,7 @@ export class DraftEstimateController {
     try {
       const { sessionId } = req.params;
       const draft = await prisma.draftEstimate.findUnique({
-        where: { sessionId }
+        where: { sessionId: sessionId as string }
       });
 
       if (!draft) {

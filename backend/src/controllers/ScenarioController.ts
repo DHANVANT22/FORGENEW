@@ -17,7 +17,7 @@ export class ScenarioController {
   public static async getScenariosByProject(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const scenarios = await scenarioService.getScenariosByProject(id);
+      const scenarios = await scenarioService.getScenariosByProject(id as string);
       res.status(200).json(scenarios);
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
