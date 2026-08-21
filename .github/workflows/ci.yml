@@ -7,10 +7,11 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  backend:
+    name: Backend Build & Typecheck
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js 20
@@ -18,29 +19,62 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install & Build Backend
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm install --no-audit --no-fund
+
+      - name: Generate Prisma client & Build
         working-directory: ./backend
         env:
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/haizotech?schema=public"
           JWT_SECRET: "ci-secret-key-12345"
           PORT: 5001
         run: |
-          npm ci --legacy-peer-deps
           npx prisma generate
           npm run build
 
-      - name: Install & Build Frontend
+  frontend:
+    name: Frontend Build & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm install --no-audit --no-fund
+
+      - name: Build Frontend Application
         working-directory: ./frontend
         env:
+          NEXT_TELEMETRY_DISABLED: "1"
           NEXT_PUBLIC_API_URL: "http://localhost:5001"
-        run: |
-          npm ci --legacy-peer-deps
-          npm run build
+        run: npm run build
 
-      - name: Install & Build Admin Frontend
+  admin-frontend:
+    name: Admin Frontend Build & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./admin-frontend
+        run: npm install --no-audit --no-fund
+
+      - name: Build Admin Frontend Application
         working-directory: ./admin-frontend
         env:
+          NEXT_TELEMETRY_DISABLED: "1"
           NEXT_PUBLIC_API_URL: "http://localhost:5001"
-        run: |
-          npm ci --legacy-peer-deps
-          npm run build
+        run: npm run build
