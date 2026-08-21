@@ -10,35 +10,37 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Install Backend Dependencies
+      - name: Install & Build Backend
         working-directory: ./backend
-        run: npm ci
-
-      - name: Build Backend
-        working-directory: ./backend
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/haizotech?schema=public"
+          JWT_SECRET: "ci-secret-key-12345"
+          PORT: 5001
         run: |
+          npm ci --legacy-peer-deps
           npx prisma generate
           npm run build
 
-      - name: Install Frontend Dependencies
+      - name: Install & Build Frontend
         working-directory: ./frontend
-        run: npm ci
+        env:
+          NEXT_PUBLIC_API_URL: "http://localhost:5001"
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
 
-      - name: Build Frontend
-        working-directory: ./frontend
-        run: npm run build
-
-      - name: Install Admin Dependencies
+      - name: Install & Build Admin Frontend
         working-directory: ./admin-frontend
-        run: npm ci
-
-      - name: Build Admin Frontend
-        working-directory: ./admin-frontend
-        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: "http://localhost:5001"
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
