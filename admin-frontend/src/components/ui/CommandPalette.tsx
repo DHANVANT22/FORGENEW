@@ -39,7 +39,8 @@ export function CommandPalette() {
     const delayDebounceFn = setTimeout(async () => {
       if (query.trim()) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/search?q=${encodeURIComponent(query)}`, {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+          const res = await fetch(`${apiUrl}/api/v1/admin/search?q=${encodeURIComponent(query)}`, {
             headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' }
           });
           if (res.ok) {

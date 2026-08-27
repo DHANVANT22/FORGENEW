@@ -19,7 +19,8 @@ export default async function BlogListPage({
   if (search) queryParams.set('search', search);
   if (tag) queryParams.set('tag', tag);
   
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs?${queryParams.toString()}`;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+  const url = `${apiUrl}/api/v1/blogs?${queryParams.toString()}`;
   let blogs: any[] = [];
   try {
     const res = await fetch(url, { cache: 'no-store' });

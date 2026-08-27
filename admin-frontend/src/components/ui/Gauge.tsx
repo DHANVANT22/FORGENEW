@@ -14,48 +14,103 @@ export function Gauge({ value, label, className = '' }: GaugeProps) {
   // Needle rotation: -90deg is 0, 90deg is 100
   const rotation = (clampedValue / 100) * 180 - 90;
 
-  return (
-    <div className={`relative flex flex-col items-center ${className}`}>
-      <div className="relative w-32 h-16 overflow-hidden">
-        {/* Semi-circle recessed dish background */}
-        <div className="absolute top-0 left-0 w-32 h-32 rounded-full neu-pressed box-border" />
-        
-        {/* Ticks */}
-        {[0, 25, 50, 75, 100].map((tick) => {
-          const tickRot = (tick / 100) * 180 - 90;
-          return (
-            <div 
-              key={tick} 
-              className="absolute bottom-0 left-1/2 w-0.5 h-16 origin-bottom -translate-x-1/2"
-              style={{ transform: `translateX(-50%) rotate(${tickRot}deg)` }}
-            >
-              <div className="w-0.5 h-2 bg-text-muted opacity-50" />
-            </div>
-          );
-        })}
+  // Determine risk band color and text label
+  let strokeColor = '#34D399'; // Green (Low Risk)
+  let riskBandLabel = 'LOW RISK';
 
-        {/* Needle */}
+  if (clampedValue > 35 && clampedValue <= 69) {
+    strokeColor = '#FBBF24'; // Amber (Medium Risk)
+    riskBandLabel = 'MEDIUM RISK';
+  } else if (clampedValue > 69) {
+    strokeColor = '#F87171'; // Red (High Risk)
+    riskBandLabel = 'HIGH RISK';
+  }
+
+  // SVG Radial Arc calculation
+  const radius = 65;
+  const strokeWidth = 10;
+  const circumference = Math.PI * radius; // Half circle arc length (~204.2)
+  const strokeDashoffset = circumference - (clampedValue / 100) * circumference;
+
+  return (
+    <div className={`relative flex flex-col items-center justify-center ${className}`}>
+      <div className="relative w-48 h-28 flex justify-center overflow-hidden">
+        <svg viewBox="0 0 180 100" className="w-full h-full">
+          {/* Background Track Arc */}
+          <path
+            d="M 25 85 A 65 65 0 0 1 155 85"
+            fill="none"
+            stroke="rgba(255, 255, 255, 0.08)"
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+          />
+          {/* Active Value Progress Arc */}
+          <motion.path
+            d="M 25 85 A 65 65 0 0 1 155 85"
+            fill="none"
+            stroke={strokeColor}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            initial={{ strokeDashoffset: circumference }}
+            animate={{ strokeDashoffset }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          />
+          
+          {/* Ticks around arc */}
+          {[0, 25, 50, 75, 100].map((tick) => {
+            const angleDeg = -180 + (tick / 100) * 180;
+            const angleRad = (angleDeg * Math.PI) / 180;
+            const innerR = radius - 12;
+            const outerR = radius - 6;
+            const x1 = 90 + innerR * Math.cos(angleRad);
+            const y1 = 85 + innerR * Math.sin(angleRad);
+            const x2 = 90 + outerR * Math.cos(angleRad);
+            const y2 = 85 + outerR * Math.sin(angleRad);
+            return (
+              <line
+                key={tick}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="rgba(255, 255, 255, 0.25)"
+                strokeWidth="1.5"
+              />
+            );
+          })}
+        </svg>
+
+        {/* Dynamic Needle */}
         <motion.div
-          className="absolute bottom-0 left-1/2 w-1 h-14 bg-brand-primary-bright origin-bottom rounded-t-full shadow-[0_0_6px_rgba(var(--shadow-brand-rgb), 0.6)]"
+          className="absolute bottom-4 left-1/2 w-0.5 h-14 bg-slate-200 origin-bottom shadow-[0_0_8px_rgba(255,255,255,0.4)]"
           initial={{ rotate: -90 }}
           animate={{ rotate: rotation }}
-          transition={{ type: "spring", stiffness: 60, damping: 12 }}
+          transition={{ type: "spring", stiffness: 50, damping: 14 }}
           style={{ x: "-50%" }}
-        />
+        >
+          <div className="w-2 h-2 -translate-x-[3px] -translate-y-1 bg-slate-100 rounded-full" />
+        </motion.div>
         
-        {/* Center dot */}
-        <div className="absolute bottom-[-6px] left-1/2 w-4 h-4 bg-black rounded-full transform -translate-x-1/2 neu-button z-10" />
+        {/* Center Pivot Dot */}
+        <div className="absolute bottom-2 left-1/2 w-4 h-4 bg-slate-900 border-2 border-slate-400 rounded-full -translate-x-1/2 z-10" />
       </div>
 
-      <div className="mt-2 flex flex-col items-center">
-        <span className="text-xl font-[family-name:var(--font-mono-readout)] text-text-strong tracking-wider leading-none">
+      {/* Numerical Readout & Label */}
+      <div className="flex flex-col items-center mt-1">
+        <span className="text-3xl font-mono font-bold text-slate-100 tracking-tight leading-none">
           {Math.round(clampedValue)}
         </span>
-        {label && (
-          <span className="text-xs text-text-muted uppercase tracking-widest mt-1">
-            {label}
-          </span>
-        )}
+        <span 
+          className="text-xs font-semibold uppercase tracking-widest px-2 py-0.5 mt-2 rounded-full border"
+          style={{ 
+            color: strokeColor, 
+            borderColor: `${strokeColor}40`,
+            backgroundColor: `${strokeColor}10` 
+          }}
+        >
+          {label || riskBandLabel}
+        </span>
       </div>
     </div>
   );

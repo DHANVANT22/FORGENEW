@@ -16,40 +16,51 @@ export const AnalyticsCharts = ({ estimatesData, tierStats }: { estimatesData: a
     { name: 'Jul', leads: Math.max(estimatesData.length, 30), conversions: tierStats.reduce((a, b) => a + b.converted, 0) || 15 },
   ];
 
-  const COLORS = ['#1c1b1c', '#ab8886', 'var(--color-brand-primary-bright)', 'var(--color-brand-primary)'];
+  // System Semantic Color Palette (Cyan, Green, Amber, Slate)
+  const COLORS = ['#38BDF8', '#34D399', '#FBBF24', '#64748B'];
 
   return (
     <div className="space-y-8">
       {/* Time Series Area Chart */}
-      <div className="h-[340px] w-full neu-panel bg-retro-grid p-6">
-        <h3 className="text-sm font-mono text-muted uppercase tracking-wider mb-6">Lead Velocity (YTD)</h3>
+      <div className="h-[340px] w-full card-level-1 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xs font-mono text-slate-400 uppercase tracking-widest">Lead Velocity (YTD)</h3>
+          <div className="flex items-center gap-4 text-xs font-medium">
+            <span className="flex items-center gap-1.5 text-cyan-400">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 inline-block" /> Total Leads
+            </span>
+            <span className="flex items-center gap-1.5 text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" /> Conversions
+            </span>
+          </div>
+        </div>
         <motion.div 
-          className="w-full h-full"
-          initial={{ clipPath: 'inset(0 100% 0 0)' }}
-          animate={{ clipPath: 'inset(0 0% 0 0)' }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="w-full h-[250px]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
           <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={timeSeriesData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+          <AreaChart data={timeSeriesData} margin={{ top: 10, right: 20, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorLeads" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#ab8886" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#ab8886" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#38BDF8" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="#38BDF8" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="colorConversions" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-brand-primary-bright)" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="var(--color-brand-primary-bright)" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#34D399" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="#34D399" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2b" vertical={false} />
-            <XAxis dataKey="name" stroke="#a9a6a7" tick={{ fill: '#a9a6a7', fontSize: 12 }} axisLine={false} tickLine={false} />
-            <YAxis stroke="#a9a6a7" tick={{ fill: '#a9a6a7', fontSize: 12 }} axisLine={false} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" vertical={false} />
+            <XAxis dataKey="name" stroke="#64748B" tick={{ fill: '#94A3B8', fontSize: 12 }} axisLine={false} tickLine={false} />
+            <YAxis stroke="#64748B" tick={{ fill: '#94A3B8', fontSize: 12 }} axisLine={false} tickLine={false} />
             <Tooltip 
-              contentStyle={{ backgroundColor: 'var(--color-card-elevated)', borderColor: 'var(--color-border)', borderRadius: '12px', color: '#e5e2e3', backdropFilter: 'blur(8px)' }}
-              itemStyle={{ color: '#e5e2e3' }}
+              contentStyle={{ backgroundColor: '#111827', borderColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '8px', color: '#F8FAFC', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
+              itemStyle={{ color: '#E2E8F0', fontSize: '13px' }}
             />
-            <Area type="monotone" dataKey="leads" stroke="#ab8886" fillOpacity={1} fill="url(#colorLeads)" animationDuration={1500} />
-            <Area type="monotone" dataKey="conversions" stroke="var(--color-brand-primary-bright)" fillOpacity={1} fill="url(#colorConversions)" animationDuration={0} />
+            <Area type="monotone" dataKey="leads" stroke="#38BDF8" strokeWidth={2} fillOpacity={1} fill="url(#colorLeads)" animationDuration={1200} />
+            <Area type="monotone" dataKey="conversions" stroke="#34D399" strokeWidth={2} fillOpacity={1} fill="url(#colorConversions)" animationDuration={1200} />
           </AreaChart>
         </ResponsiveContainer>
         </motion.div>
@@ -58,24 +69,24 @@ export const AnalyticsCharts = ({ estimatesData, tierStats }: { estimatesData: a
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Tier Stats Table */}
         <div className="w-full">
-          <h3 className="text-sm font-mono text-muted uppercase tracking-wider mb-4">Conversion Funnel by Tier</h3>
-          <div className="neu-panel overflow-hidden">
+          <h3 className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-4">Conversion Funnel by Tier</h3>
+          <div className="card-level-1 overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border bg-surface-container/30 font-mono text-xs text-on-surface-variant uppercase tracking-wider">
-                  <th className="p-3 font-medium">Tier</th>
-                  <th className="p-3 font-medium text-right">Est.</th>
-                  <th className="p-3 font-medium text-right">Conv.</th>
-                  <th className="p-3 font-medium text-right">Rate</th>
+                <tr className="border-b border-white/5 bg-white/[0.02] font-mono text-xs text-slate-400 uppercase tracking-wider">
+                  <th className="p-3.5 font-medium">Tier</th>
+                  <th className="p-3.5 font-medium text-right">Est.</th>
+                  <th className="p-3.5 font-medium text-right">Conv.</th>
+                  <th className="p-3.5 font-medium text-right">Rate</th>
                 </tr>
               </thead>
-              <tbody className="text-sm text-on-surface divide-y divide-border">
+              <tbody className="text-sm text-slate-200 divide-y divide-white/5">
                 {tierStats.map((tier, idx) => (
-                  <tr key={idx} className="hover:bg-surface-container transition-colors group">
-                    <td className="p-3 font-medium group-hover:text-primary transition-colors">{tier.name}</td>
-                    <td className="p-3 font-mono text-right">{tier.total}</td>
-                    <td className="p-3 font-mono text-right">{tier.converted}</td>
-                    <td className="p-3 font-mono text-right text-success">{tier.rate}%</td>
+                  <tr key={idx} className="hover:bg-white/[0.04] transition-colors group">
+                    <td className="p-3.5 font-medium text-slate-200 group-hover:text-cyan-400 transition-colors">{tier.name}</td>
+                    <td className="p-3.5 font-mono text-right text-slate-300">{tier.total}</td>
+                    <td className="p-3.5 font-mono text-right text-slate-300">{tier.converted}</td>
+                    <td className="p-3.5 font-mono text-right font-semibold text-emerald-400">{tier.rate}%</td>
                   </tr>
                 ))}
               </tbody>
@@ -84,8 +95,8 @@ export const AnalyticsCharts = ({ estimatesData, tierStats }: { estimatesData: a
         </div>
 
         {/* Tier Distribution Pie Chart */}
-        <div className="h-[280px] w-full flex flex-col neu-panel bg-retro-grid p-6">
-          <h3 className="text-sm font-mono text-muted uppercase tracking-wider mb-4">Estimate Tiers</h3>
+        <div className="h-[280px] w-full flex flex-col card-level-1 p-6">
+          <h3 className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-2">Estimate Tiers</h3>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -94,20 +105,20 @@ export const AnalyticsCharts = ({ estimatesData, tierStats }: { estimatesData: a
                 cy="50%"
                 innerRadius={60}
                 outerRadius={80}
-                paddingAngle={5}
+                paddingAngle={4}
                 dataKey="value"
                 stroke="none"
-                animationDuration={1500}
+                animationDuration={1200}
               >
                 {estimatesData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip 
-                contentStyle={{ backgroundColor: 'var(--color-card-elevated)', borderColor: 'var(--color-border)', borderRadius: '12px', backdropFilter: 'blur(8px)' }}
-                itemStyle={{ color: '#e5e2e3' }}
+                contentStyle={{ backgroundColor: '#111827', borderColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '8px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
+                itemStyle={{ color: '#E2E8F0', fontSize: '13px' }}
               />
-              <Legend verticalAlign="middle" align="right" layout="vertical" wrapperStyle={{ color: '#a9a6a7', fontSize: '12px' }}/>
+              <Legend verticalAlign="middle" align="right" layout="vertical" wrapperStyle={{ color: '#94A3B8', fontSize: '12px' }}/>
             </PieChart>
           </ResponsiveContainer>
         </div>

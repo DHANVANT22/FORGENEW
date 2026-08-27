@@ -205,7 +205,7 @@ export default function ProjectsDashboard({ params }: { params: Promise<{ id: st
 
   const handleSnooze = async (axis: string) => {
     try {
-      await fetch(`${API_URL}/api/v1/projects/${projectId}/risk/snooze`, {
+      await fetch(`${API_URL}/api/v1/admin/projects/${projectId}/risk/snooze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ axis, days: 7 })

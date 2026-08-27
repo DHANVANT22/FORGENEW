@@ -48,7 +48,8 @@ export default function BlogEditor() {
 
   const fetchBlogs = async (currentPage = 1) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs?page=${currentPage}&limit=10`);
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+      const res = await fetch(`${apiUrl}/api/v1/blogs?page=${currentPage}&limit=10`);
       if (res.ok) {
         const json = await res.json();
         setBlogs(json.data);
@@ -140,9 +141,10 @@ export default function BlogEditor() {
       if (error) return alert('Fix JSON errors before publishing');
       
       const token = 'ADMIN_DEMO_TOKEN';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
       const url = selectedBlogId 
-        ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs/${selectedBlogId}`
-        : `${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs`;
+        ? `${apiUrl}/api/v1/blogs/${selectedBlogId}`
+        : `${apiUrl}/api/v1/blogs`;
       const method = selectedBlogId ? 'PUT' : 'POST';
 
       const res = await fetch(url, {

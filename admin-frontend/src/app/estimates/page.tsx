@@ -8,7 +8,8 @@ export default function StaleEstimatesList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/estimates/stale?days=14`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    fetch(`${apiUrl}/api/v1/admin/estimates/stale?days=14`, {
       headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' }
     })
       .then(res => res.json())

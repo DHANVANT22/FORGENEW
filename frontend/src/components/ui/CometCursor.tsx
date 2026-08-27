@@ -26,20 +26,20 @@ function catmullRom2bezier(points: { x: number, y: number }[]) {
   if (points.length === 0) return '';
   if (points.length === 1) return `M ${points[0].x} ${points[0].y}`;
   if (points.length === 2) return `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y}`;
-  
+
   let d = `M ${points[0].x} ${points[0].y}`;
   for (let i = 0; i < points.length - 1; i++) {
     const p0 = points[i === 0 ? 0 : i - 1];
     const p1 = points[i];
     const p2 = points[i + 1];
     const p3 = points[i + 2 < points.length ? i + 2 : i + 1];
-    
+
     const k = 0.2; // tension
     const cp1x = p1.x + (p2.x - p0.x) * k;
     const cp1y = p1.y + (p2.y - p0.y) * k;
     const cp2x = p2.x - (p3.x - p1.x) * k;
     const cp2y = p2.y - (p3.y - p1.y) * k;
-    
+
     d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
   }
   return d;
@@ -51,12 +51,12 @@ export function CometCursor() {
   const ringRef = useRef<SVGRectElement>(null);
   const tailGroupRef = useRef<SVGGElement>(null);
   const flareGroupRef = useRef<SVGGElement>(null);
-  
+
   const pointerPos = useRef({ x: -100, y: -100 });
   const magneticPos = useRef({ x: -100, y: -100 });
   const points = useRef<{ x: number, y: number }[]>([]);
   const isHovering = useRef(false);
-  const hoverRect = useRef<{x: number, y: number, w: number, h: number} | null>(null);
+  const hoverRect = useRef<{ x: number, y: number, w: number, h: number } | null>(null);
 
   useEffect(() => {
     if (
@@ -69,14 +69,14 @@ export function CometCursor() {
 
     let rAF: number;
     let lastTime = performance.now();
-    
+
     // Spark particles
     const sparks: { x: number, y: number, vx: number, vy: number, life: number, maxLife: number, elem: SVGCircleElement }[] = [];
     const MAX_POINTS = 16;
 
     const onMouseMove = (e: MouseEvent) => {
       pointerPos.current = { x: e.clientX, y: e.clientY };
-      
+
       const target = e.target as Element;
       const interactive = target.closest('a, button, input, [role="button"], .interactive');
       if (interactive) {
@@ -111,7 +111,7 @@ export function CometCursor() {
           circle.setAttribute('r', '1.5');
           circle.setAttribute('fill', 'var(--color-brand-primary-bright)');
           flareGroupRef.current.appendChild(circle);
-          
+
           sparks.push({
             x: pointerPos.current.x,
             y: pointerPos.current.y,
@@ -135,7 +135,7 @@ export function CometCursor() {
       if (isHovering.current && hoverRect.current) {
         const cx = hoverRect.current.x + hoverRect.current.w / 2;
         const cy = hoverRect.current.y + hoverRect.current.h / 2;
-        
+
         magneticPos.current.x += ((pointerPos.current.x * 0.9 + cx * 0.1) - magneticPos.current.x) * 0.4;
         magneticPos.current.y += ((pointerPos.current.y * 0.9 + cy * 0.1) - magneticPos.current.y) * 0.4;
       } else {
@@ -148,16 +148,16 @@ export function CometCursor() {
 
       let totalDist = 0;
       for (let i = 0; i < points.current.length - 1; i++) {
-        totalDist += Math.hypot(points.current[i].x - points.current[i+1].x, points.current[i].y - points.current[i+1].y);
+        totalDist += Math.hypot(points.current[i].x - points.current[i + 1].x, points.current[i].y - points.current[i + 1].y);
       }
-      
+
       if (tailGroupRef.current) {
         const paths = tailGroupRef.current.children;
         const pathData = catmullRom2bezier(points.current);
         for (let i = 0; i < paths.length; i++) {
           const path = paths[i] as SVGPathElement;
           path.setAttribute('d', pathData);
-          
+
           const len = totalDist;
           if (len > 0) {
             path.style.strokeDasharray = `${len * (1 - i * 0.2)} 10000`;
@@ -188,8 +188,8 @@ export function CometCursor() {
           const perim = (hoverRect.current.w + hoverRect.current.h) * 2 + 48;
           ringRef.current.style.strokeDasharray = `${perim}`;
           if (!ringRef.current.classList.contains('drawing')) {
-             ringRef.current.classList.add('drawing');
-             ringRef.current.style.strokeDashoffset = '0';
+            ringRef.current.classList.add('drawing');
+            ringRef.current.style.strokeDashoffset = '0';
           }
         } else {
           ringRef.current.style.opacity = '0';
@@ -228,7 +228,7 @@ export function CometCursor() {
         s.elem.setAttribute('cx', String(s.x));
         s.elem.setAttribute('cy', String(s.y));
         s.elem.style.opacity = String(1 - s.life / s.maxLife);
-        
+
         if (s.life >= s.maxLife) {
           s.elem.remove();
           sparks.splice(i, 1);
@@ -244,7 +244,7 @@ export function CometCursor() {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mousedown', onClick);
       cancelAnimationFrame(rAF);
-      
+
       // Cleanup sparks to prevent memory leaks
       sparks.forEach(s => s.elem.remove());
       sparks.length = 0;
@@ -257,7 +257,8 @@ export function CometCursor() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         * { cursor: none !important; }
         .comet-nucleus-coma {
           transition: transform 0.2s ease, opacity 0.2s ease;
@@ -349,7 +350,7 @@ export function CometCursor() {
         </div>
 
         <div className="absolute comet-nucleus-coma w-[24px] h-[24px] rounded-full bg-brand-primary blur-[6px] opacity-20"></div>
-        
+
         <div className="absolute comet-core w-full h-full rounded-full bg-brand-primary-bright shadow-[0_0_12px_rgba(var(--shadow-brand-rgb),0.9)]"></div>
       </div>
     </>

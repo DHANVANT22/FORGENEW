@@ -33,9 +33,10 @@ export default function AdminRiskSimulator() {
     // Brief "settle" animation delay
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem('adminToken') || 'ADMIN_DEMO_TOKEN';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/projects`, {
+      const res = await fetch(`${apiUrl}/api/v1/admin/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,32 +124,28 @@ export default function AdminRiskSimulator() {
         </Panel>
 
         <Panel className="p-8 flex flex-col justify-between glass-panel border-0" withRivets>
-          <div className="flex flex-col items-center">
-            <h3 className="label-eyebrow mb-4 text-center">Computed Risk Band</h3>
+          <div className="flex flex-col items-center w-full">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 mb-6 text-center">Computed Risk Band</h3>
             
-            <div className="relative w-full max-w-[180px] aspect-[2/1] mb-6 flex flex-col items-center justify-center">
+            <div className="w-full max-w-sm mb-6 flex flex-col items-center justify-center">
                <Gauge 
                  value={normalizedRisk} 
-                 label="" 
+                 label={riskBand}
+                 className="w-full bg-slate-950/60 border border-white/10 rounded-2xl p-6 shadow-xl"
                />
-               <div className="absolute bottom-0 w-full flex justify-center transition-all duration-700 ease-in-out">
-                 <span className={`text-xl font-bold font-display drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-colors duration-500 ${bandColorClass}`}>
-                   {riskBand}
-                 </span>
-               </div>
             </div>
             
             {/* Structured Findings Box */}
-            <div className="rounded-xl border border-white/[0.06] bg-black/40 shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] w-full max-w-sm overflow-hidden mb-6">
-              <div className="p-3.5 flex items-center justify-between border-b border-white/[0.06] bg-white/[0.02]">
-                <span className="label-eyebrow">Risk Score</span>
-                <div className="text-xl font-bold text-text-strong font-[family-name:var(--font-mono-readout)]">
+            <div className="rounded-2xl border border-white/10 bg-slate-950/80 shadow-xl w-full max-w-sm overflow-hidden mb-6">
+              <div className="p-4 flex items-center justify-between border-b border-white/10 bg-white/[0.02]">
+                <span className="text-xs font-mono font-bold uppercase text-slate-400">Risk Score Metric</span>
+                <div className="text-2xl font-bold text-slate-100 font-mono">
                    <ReadoutNumber value={Math.round(riskScore)} />
                 </div>
               </div>
-              <div className="p-3.5 bg-black/40">
-                <p className="text-xs text-text-muted font-sans leading-relaxed">
-                  Based on current inputs, this falls in the <span className="font-bold text-text-strong">{riskBand.toLowerCase()}</span> band — {riskScore > 75 ? 'rigorous risk mitigation and sprint controls apply.' : riskScore > 45 ? 'standard milestone sign-off and timeline applies.' : 'accelerated delivery timeline applies.'}
+              <div className="p-4 bg-slate-900/40">
+                <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                  Based on current inputs, this falls in the <span className={`font-bold uppercase font-mono ${bandColorClass}`}>{riskBand}</span> band — {riskScore > 75 ? 'rigorous risk mitigation and sprint controls apply.' : riskScore > 45 ? 'standard milestone sign-off and timeline applies.' : 'accelerated delivery timeline applies.'}
                 </p>
               </div>
             </div>

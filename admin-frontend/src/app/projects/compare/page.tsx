@@ -11,7 +11,8 @@ export default function CompareProjectsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/projects`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    fetch(`${apiUrl}/api/v1/admin/projects`, {
       headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' }
     })
       .then(res => res.json())

@@ -10,7 +10,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   let error = null;
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/blogs/${resolvedParams.slug}`, { cache: 'no-store' });
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    const res = await fetch(`${apiUrl}/api/v1/blogs/${resolvedParams.slug}`, { cache: 'no-store' });
     if (!res.ok) {
       console.warn(`[Blog 404] Failed to load blog post with slug: ${resolvedParams.slug} (Status: ${res.status})`);
       error = 'Blog post not found.';

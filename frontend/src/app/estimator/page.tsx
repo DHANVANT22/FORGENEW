@@ -167,25 +167,25 @@ export default function EstimatorPage() {
   const progressPercent = Math.round(((currentStep + (result ? 1 : 0)) / questions.length) * 100);
 
   return (
-    <main className="min-h-screen bg-[#040608] text-white pt-28 pb-24 px-6 relative overflow-hidden font-sans selection:bg-[#5CA8C9] selection:text-black">
+    <main className="min-h-screen bg-[#05070A] text-slate-100 pt-28 pb-24 px-6 relative overflow-hidden font-sans selection:bg-cyan-400 selection:text-slate-950">
       {/* Background Atmosphere */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#5CA8C9]/15 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up">
+      <div className="max-w-4xl mx-auto space-y-8">
         
         {/* Step Indicator Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.03] border border-white/10">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px] font-mono uppercase tracking-widest text-[#82C4DE] font-bold">
+            <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">
               AI ARCHITECTURAL SCOPING MATRIX
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-white">
+          <h1 className="text-display-2xl font-bold text-slate-100">
             {result ? 'Architectural Fingerprint' : 'Software Scope Estimator'}
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-400 font-sans max-w-xl mx-auto">
+          <p className="text-ui-sm text-slate-400 max-w-xl mx-auto font-sans">
             {result 
               ? 'Multi-dimensional technical breakdown and immediate budget band modeling.'
               : 'Answer 5 quick architecture questions to simulate complexity, timeline, and budget.'
@@ -195,13 +195,13 @@ export default function EstimatorPage() {
 
         {/* Progress Bar */}
         <div className="space-y-2">
-          <div className="flex justify-between text-xs font-mono text-neutral-400">
+          <div className="flex justify-between text-xs font-mono text-slate-400">
             <span>Progress</span>
-            <span className="text-[#82C4DE] font-bold">{progressPercent}%</span>
+            <span className="text-cyan-400 font-bold">{progressPercent}%</span>
           </div>
-          <div className="h-1.5 w-full neu-pressed rounded-full overflow-hidden">
+          <div className="h-2 w-full bg-slate-950 rounded-full overflow-hidden border border-white/10 p-0.5">
             <div 
-              className="h-full bg-gradient-to-r from-[#5CA8C9] to-[#82C4DE] rounded-full transition-all duration-300 shadow-[0_0_8px_#5CA8C9]"
+              className="h-full bg-gradient-to-r from-cyan-500 to-sky-400 rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(56,189,248,0.6)]"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -209,23 +209,18 @@ export default function EstimatorPage() {
 
         {/* Main Content Area */}
         {!result ? (
-          <div className="p-8 rounded-3xl neu-panel space-y-8 relative overflow-hidden">
-            {/* Rivet Accents */}
-            <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
-            <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
-            <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_-1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
-            <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_-1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+          <div className="p-8 rounded-3xl bg-[#080B10]/90 border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_30px_rgba(56,189,248,0.06)] backdrop-blur-2xl space-y-8 relative overflow-hidden">
             
             {/* Question Title */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-xs font-mono text-[#82C4DE] font-bold uppercase tracking-wider">
-                <span className="material-symbols-outlined text-[16px]">{questions[currentStep].icon}</span>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider">
+                <span className="material-symbols-outlined text-[18px]">{questions[currentStep].icon}</span>
                 <span>Question {currentStep + 1} of {questions.length}</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-white">
+              <h2 className="text-ui-lg font-bold text-slate-100">
                 {questions[currentStep].text}
               </h2>
-              <p className="text-xs text-neutral-400 font-sans">
+              <p className="text-ui-sm text-slate-400 font-sans">
                 {questions[currentStep].subtitle}
               </p>
             </div>
@@ -238,25 +233,25 @@ export default function EstimatorPage() {
                   <button
                     key={oIdx}
                     onClick={() => handleSelectOption(questions[currentStep].id, opt)}
-                    className={`p-5 rounded-2xl text-left group flex flex-col justify-between gap-3 transition-all duration-200 cursor-pointer ${
+                    className={`p-6 rounded-2xl text-left group flex flex-col justify-between gap-4 transition-all duration-200 cursor-pointer ${
                       isSelected
-                        ? 'neu-pressed border border-[#5CA8C9]/70 shadow-[inset_3px_3px_8px_rgba(0,0,0,0.8),0_0_20px_rgba(92,168,201,0.3)] scale-[0.99]'
-                        : 'neu-button hover:-translate-y-0.5 hover:border-[#5CA8C9]/40'
+                        ? 'bg-cyan-500/10 border-cyan-400 ring-2 ring-cyan-400/40 shadow-[0_0_20px_rgba(56,189,248,0.2)]'
+                        : 'bg-slate-950/80 border-white/10 hover:border-cyan-400/40 hover:bg-white/[0.03]'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className={`font-bold text-sm font-display transition-colors ${
-                        isSelected ? 'text-[#82C4DE]' : 'text-white group-hover:text-[#82C4DE]'
+                      <span className={`font-bold text-sm transition-colors ${
+                        isSelected ? 'text-cyan-400' : 'text-slate-100 group-hover:text-cyan-400'
                       }`}>
                         {opt.label}
                       </span>
-                      <span className={`material-symbols-outlined text-sm transition-colors ${
-                        isSelected ? 'text-[#82C4DE]' : 'text-neutral-600 group-hover:text-[#82C4DE]'
+                      <span className={`material-symbols-outlined text-base transition-colors shrink-0 ${
+                        isSelected ? 'text-cyan-400' : 'text-slate-500 group-hover:text-cyan-400'
                       }`}>
                         {isSelected ? 'check_circle' : 'arrow_forward'}
                       </span>
                     </div>
-                    <span className="text-xs text-neutral-400 font-mono">
+                    <span className="text-xs text-slate-400 font-mono">
                       {opt.desc}
                     </span>
                   </button>
@@ -266,12 +261,12 @@ export default function EstimatorPage() {
 
             {/* Step Navigation Footprint */}
             {currentStep > 0 && (
-              <div className="pt-4 border-t border-white/[0.06] flex justify-between items-center">
+              <div className="pt-4 border-t border-white/10 flex justify-between items-center">
                 <button
                   onClick={() => setCurrentStep(currentStep - 1)}
-                  className="text-xs font-mono text-neutral-400 hover:text-white flex items-center gap-1 transition-colors"
+                  className="text-xs font-mono text-slate-400 hover:text-slate-100 flex items-center gap-1.5 transition-colors font-bold"
                 >
-                  <span className="material-symbols-outlined text-sm">arrow_back</span>
+                  <span className="material-symbols-outlined text-sm shrink-0">arrow_back</span>
                   <span>Previous Question</span>
                 </button>
               </div>
@@ -280,36 +275,34 @@ export default function EstimatorPage() {
           </div>
         ) : (
           /* RESULT STUDIO */
-          <div className="space-y-8 animate-fade-in-up">
+          <div className="space-y-8">
             
             {/* Top Fingerprint Card */}
-            <div className="p-8 rounded-3xl neu-panel grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative overflow-hidden">
-              <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-dotted border-white/20 opacity-50 shadow-[inset_1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
-              <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-dotted border-white/20 opacity-50 shadow-[inset_-1px_1px_1px_rgba(0,0,0,0.8)] pointer-events-none" />
+            <div className="p-8 card-level-1 grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative overflow-hidden">
               
               <div className="md:col-span-7 space-y-6">
                 <div>
-                  <span className="text-[11px] font-mono uppercase tracking-widest text-[#82C4DE] font-bold block mb-1">
+                  <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold block mb-1">
                     ESTIMATED COMPLEXITY CLASSIFICATION
                   </span>
-                  <h2 className="text-3xl sm:text-4xl font-display font-black text-white">
+                  <h2 className="text-display-xl font-bold text-slate-100">
                     {result.tier}
                   </h2>
-                  <p className="text-xs text-neutral-400 font-sans mt-2 leading-relaxed">
+                  <p className="text-ui-sm text-slate-400 font-sans mt-2 leading-relaxed">
                     Based on your multi-axis selections, your architecture falls in the top efficiency percentile for modern cloud delivery.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-2xl neu-pressed">
-                    <span className="text-[10px] font-mono uppercase text-neutral-400 block font-bold">Estimated Budget Band</span>
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-white/5">
+                    <span className="text-[10px] font-mono uppercase text-slate-400 block font-semibold">Estimated Budget Band</span>
                     <span className="text-xl font-bold font-mono text-emerald-400">
                       {result.tier.includes('Tier 3') ? '$25k – $50k' : result.tier.includes('Tier 2') ? '$12k – $25k' : '$5k – $12k'}
                     </span>
                   </div>
-                  <div className="p-4 rounded-2xl neu-pressed">
-                    <span className="text-[10px] font-mono uppercase text-neutral-400 block font-bold">Estimated Delivery Sprint</span>
-                    <span className="text-xl font-bold font-mono text-[#82C4DE]">
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-white/5">
+                    <span className="text-[10px] font-mono uppercase text-slate-400 block font-semibold">Estimated Delivery Sprint</span>
+                    <span className="text-xl font-bold font-mono text-cyan-400">
                       {result.tier.includes('Tier 3') ? '8–12 Weeks' : result.tier.includes('Tier 2') ? '4–6 Weeks' : '2–4 Weeks'}
                     </span>
                   </div>
@@ -317,7 +310,7 @@ export default function EstimatorPage() {
 
                 <div className="flex flex-wrap gap-2">
                   {['React 19 / Next.js', 'PostgreSQL / Prisma', 'Tailwind CSS v4', 'Socket.IO Telemetry', 'Docker Deployment'].map((tag, tIdx) => (
-                    <span key={tIdx} className="px-3 py-1 rounded-full text-[10px] font-mono neu-pressed text-neutral-300">
+                    <span key={tIdx} className="px-3 py-1 rounded-full text-[10px] font-mono bg-slate-900 text-slate-300 border border-white/5">
                       {tag}
                     </span>
                   ))}
@@ -325,13 +318,13 @@ export default function EstimatorPage() {
               </div>
 
               {/* Radar Chart */}
-              <div className="md:col-span-5 flex flex-col items-center justify-center h-64 p-2 neu-pressed bg-retro-grid rounded-2xl">
+              <div className="md:col-span-5 flex flex-col items-center justify-center h-64 p-2 bg-slate-900/60 rounded-xl border border-white/5">
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart cx="50%" cy="50%" outerRadius="70%" data={result.axisScores}>
-                    <PolarGrid stroke="rgba(255, 255, 255, 0.1)" />
-                    <PolarAngleAxis dataKey="axis" stroke="#82C4DE" tick={{ fill: '#82C4DE', fontSize: 10 }} />
+                    <PolarGrid stroke="rgba(255, 255, 255, 0.08)" />
+                    <PolarAngleAxis dataKey="axis" stroke="#38BDF8" tick={{ fill: '#38BDF8', fontSize: 10 }} />
                     <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="transparent" />
-                    <Radar name="Complexity" dataKey="value" stroke="#5CA8C9" fill="#5CA8C9" fillOpacity={0.4} />
+                    <Radar name="Complexity" dataKey="value" stroke="#38BDF8" fill="#38BDF8" fillOpacity={0.35} />
                   </RadarChart>
                 </ResponsiveContainer>
               </div>
@@ -339,18 +332,18 @@ export default function EstimatorPage() {
             </div>
 
             {/* Scope Proposal Submission Card */}
-            <div className="p-8 rounded-3xl neu-panel">
+            <div className="p-8 card-level-1">
               {submittedEnquiry ? (
                 <div className="text-center py-8 space-y-4">
-                  <div className="w-12 h-12 rounded-full neu-pressed text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-[0_0_15px_rgba(52,211,153,0.3)]">
                     <span className="material-symbols-outlined text-2xl">check_circle</span>
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-white">Scope Proposal Transmitted!</h3>
-                  <p className="text-xs text-neutral-400 max-w-md mx-auto font-sans">
+                  <h3 className="text-ui-lg font-semibold text-slate-100">Scope Proposal Transmitted!</h3>
+                  <p className="text-ui-sm text-slate-400 max-w-md mx-auto font-sans">
                     Our lead engineering team has received your architecture brief. You can track progress or discuss requirements directly in the Client Portal.
                   </p>
                   <Link href="/client/login">
-                    <Button className="px-6 py-3 neu-button-primary uppercase font-mono">
+                    <Button variant="primary" size="md">
                       Proceed to Client Portal
                     </Button>
                   </Link>
@@ -358,48 +351,48 @@ export default function EstimatorPage() {
               ) : (
                 <form onSubmit={handleSubmitScopeEnquiry} className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-display font-bold text-white">
+                    <h3 className="text-ui-lg font-semibold text-slate-100">
                       Transmit Scope Brief to Engineering Team
                     </h3>
-                    <p className="text-xs text-neutral-400 font-sans mt-1">
+                    <p className="text-ui-sm text-slate-400 font-sans mt-1">
                       Lock in this architectural estimate and initiate a private discussion channel.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] font-mono uppercase text-neutral-400 mb-1.5 font-bold">Your Name / Organization</label>
+                      <label className="block text-xs font-mono uppercase text-slate-400 mb-1.5 font-semibold">Your Name / Organization</label>
                       <input
                         type="text"
                         required
                         placeholder="e.g. Acme Corp Lead"
                         value={clientName}
                         onChange={e => setClientName(e.target.value)}
-                        className="neu-input w-full px-4 py-3 text-xs text-white placeholder-neutral-600"
+                        className="neu-input w-full px-4 py-3 text-xs text-slate-100 placeholder:text-slate-400"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-mono uppercase text-neutral-400 mb-1.5 font-bold">Work Email</label>
+                      <label className="block text-xs font-mono uppercase text-slate-400 mb-1.5 font-semibold">Work Email</label>
                       <input
                         type="email"
                         required
                         placeholder="you@company.com"
                         value={clientEmail}
                         onChange={e => setClientEmail(e.target.value)}
-                        className="neu-input w-full px-4 py-3 text-xs text-white placeholder-neutral-600"
+                        className="neu-input w-full px-4 py-3 text-xs text-slate-100 placeholder:text-slate-400"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-mono uppercase text-neutral-400 mb-1.5 font-bold">Additional Technical Notes or Requirements (Optional)</label>
+                    <label className="block text-xs font-mono uppercase text-slate-400 mb-1.5 font-semibold">Additional Technical Notes or Requirements (Optional)</label>
                     <textarea
                       rows={3}
                       placeholder="e.g. Needs single sign-on (SSO), data residency in EU, and dedicated test suite."
                       value={scopeDetails}
                       onChange={e => setScopeDetails(e.target.value)}
-                      className="neu-input w-full p-4 text-xs text-white placeholder-neutral-600"
+                      className="neu-input w-full p-4 text-xs text-slate-100 placeholder:text-slate-400"
                     />
                   </div>
 
@@ -408,7 +401,7 @@ export default function EstimatorPage() {
                     <button
                       type="button"
                       onClick={() => setShowIntegrations(!showIntegrations)}
-                      className="text-xs font-mono text-[#82C4DE] hover:underline flex items-center gap-1"
+                      className="text-xs font-mono text-cyan-400 hover:underline flex items-center gap-1"
                     >
                       <span className="material-symbols-outlined text-sm">{showIntegrations ? 'expand_less' : 'add'}</span>
                       <span>{showIntegrations ? 'Hide Specific Integrations' : 'Specify Third-Party APIs / Integrations (Optional)'}</span>
@@ -431,8 +424,8 @@ export default function EstimatorPage() {
                               }}
                               className={`p-3 rounded-xl text-left text-xs font-mono transition-all flex items-center justify-between ${
                                 isSelected
-                                  ? 'neu-pressed border border-[#5CA8C9]/60 text-[#82C4DE]'
-                                  : 'neu-button text-neutral-400 hover:text-white'
+                                  ? 'card-level-2 border-cyan-400 text-cyan-400'
+                                  : 'card-level-1 text-slate-400 hover:text-slate-100'
                               }`}
                             >
                               <span>{integ}</span>
@@ -444,11 +437,12 @@ export default function EstimatorPage() {
                     )}
                   </div>
 
-                  <div className="pt-4 border-t border-white/[0.08] flex justify-end">
+                  <div className="pt-4 border-t border-white/5 flex justify-end">
                     <Button
                       type="submit"
                       disabled={submitting}
-                      className="neu-button-primary px-8 py-4 uppercase font-mono tracking-wider flex items-center gap-2"
+                      variant="primary"
+                      size="lg"
                     >
                       {submitting ? 'Transmitting Scope...' : 'Transmit Scope Proposal'}
                       <span className="material-symbols-outlined text-sm">send</span>

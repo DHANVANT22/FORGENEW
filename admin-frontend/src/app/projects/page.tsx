@@ -73,20 +73,20 @@ export default function ProjectsList() {
       </div>
 
       {/* Toolbar */}
-      <div className="p-4 neu-panel flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="p-4 rounded-2xl bg-[#080B10]/90 border border-white/10 shadow-xl flex flex-col md:flex-row justify-between items-center gap-4 backdrop-blur-2xl">
         <div className="relative w-full md:w-80">
-          <span className="material-symbols-outlined absolute left-3 top-2.5 text-neutral-500 text-[18px]">search</span>
+          <span className="material-symbols-outlined absolute left-3.5 top-2.5 text-neutral-500 text-[18px]">search</span>
           <input
             type="text"
             placeholder="Search projects or clients..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="neu-input w-full pl-10 pr-4 py-2 text-xs text-white placeholder:text-neutral-500 font-sans"
+            className="w-full bg-black/60 border border-white/10 focus:border-cyan-400 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder:text-neutral-500 font-sans outline-none transition-colors"
           />
         </div>
 
         <div className="text-xs font-mono text-neutral-400 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34D399]" />
+          <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34D399]" />
           <span>{filteredProjects.length} PROJECT WORKSPACES INITIALIZED</span>
         </div>
       </div>
@@ -98,7 +98,7 @@ export default function ProjectsList() {
             Loading active engagements...
           </div>
         ) : filteredProjects.length === 0 ? (
-          <div className="col-span-full text-center py-24 neu-pressed rounded-3xl text-neutral-500 font-mono text-xs">
+          <div className="col-span-full text-center py-24 bg-[#080B10]/60 border border-white/10 rounded-3xl text-neutral-500 font-mono text-xs">
             No projects found matching search.
           </div>
         ) : (
@@ -108,20 +108,20 @@ export default function ProjectsList() {
 
             return (
               <Link key={project.id} href={`/projects/${project.id}`} className="block h-full group">
-                <div className="p-6 neu-panel group-hover:border-[#5CA8C9]/50 transition-all h-full flex flex-col justify-between gap-6 relative overflow-hidden group-hover:-translate-y-1">
+                <div className="p-6 rounded-3xl bg-[#080B10]/90 border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.6)] group-hover:border-cyan-400/50 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.15)] transition-all duration-300 h-full flex flex-col justify-between gap-6 relative overflow-hidden group-hover:-translate-y-1 backdrop-blur-2xl">
                   
                   {/* Card Header */}
                   <div>
                     <div className="flex justify-between items-start mb-3">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase neu-pressed text-neutral-300">
+                      <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase bg-white/[0.04] border border-white/10 text-cyan-400">
                         {project.status || 'Active'}
                       </span>
-                      <span className="text-[11px] font-mono text-neutral-500">
+                      <span className="text-[11px] font-mono text-neutral-400 font-semibold">
                         Sprint 3
                       </span>
                     </div>
 
-                    <h3 className="font-display font-black text-xl text-white group-hover:text-[#82C4DE] transition-colors line-clamp-1 mb-1">
+                    <h3 className="font-display font-bold text-xl text-white group-hover:text-cyan-400 transition-colors line-clamp-1 mb-1">
                       {project.name}
                     </h3>
                     <p className="text-xs font-mono text-neutral-400">
@@ -133,24 +133,24 @@ export default function ProjectsList() {
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs font-mono text-neutral-400">
                       <span>Sprint Velocity</span>
-                      <span className="text-[#5CA8C9] font-bold">{progress}%</span>
+                      <span className="text-cyan-400 font-bold">{progress}%</span>
                     </div>
-                    <div className="h-2 w-full neu-pressed rounded-full overflow-hidden">
+                    <div className="h-2 w-full bg-black/60 border border-white/10 rounded-full overflow-hidden p-0.5">
                       <div 
-                        className="h-full bg-gradient-to-r from-[#5CA8C9] to-[#82C4DE] rounded-full transition-all duration-500 shadow-[0_0_8px_#5CA8C9]"
+                        className="h-full bg-gradient-to-r from-cyan-500 to-sky-400 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(56,189,248,0.5)]"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
                   </div>
 
                   {/* Card Footer */}
-                  <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-neutral-500">
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-neutral-400">
                     <div className="flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px] text-[#82C4DE]">view_kanban</span>
+                      <span className="material-symbols-outlined text-[16px] text-cyan-400 shrink-0">view_kanban</span>
                       <span>Kanban Active</span>
                     </div>
-                    <span className="text-neutral-400 group-hover:text-white flex items-center gap-1 transition-colors">
-                      Open Workspace <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    <span className="text-neutral-300 group-hover:text-cyan-400 flex items-center gap-1 transition-colors font-bold">
+                      Open Workspace <span className="material-symbols-outlined text-sm shrink-0">arrow_forward</span>
                     </span>
                   </div>
                 </div>

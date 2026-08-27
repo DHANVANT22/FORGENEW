@@ -22,10 +22,12 @@ export default function EstimatorSettings() {
   const [shifts, setShifts] = useState<Record<string, number>>({});
   const [previewing, setPreviewing] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+
   useEffect(() => {
     Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/config/tier-weights`).then(r => r.json()),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/config/tier-cutoffs`).then(r => r.json())
+      fetch(`${API_URL}/api/v1/config/tier-weights`).then(r => r.json()),
+      fetch(`${API_URL}/api/v1/config/tier-cutoffs`).then(r => r.json())
     ])
     .then(([weightsData, cutoffsData]) => {
       setWeights(weightsData);
@@ -37,14 +39,14 @@ export default function EstimatorSettings() {
       setLoading(false);
       setMessage('Failed to load settings.');
     });
-  }, []);
+  }, [API_URL]);
 
   useEffect(() => {
     if (loading) return;
     
     setPreviewing(true);
     const timer = setTimeout(() => {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/config/tier-weights/preview`, {
+      fetch(`${API_URL}/api/v1/config/tier-weights/preview`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' },
         body: JSON.stringify({ cutoffs })
@@ -58,18 +60,18 @@ export default function EstimatorSettings() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [cutoffs, loading]);
+  }, [cutoffs, loading, API_URL]);
 
   const handleSave = async () => {
     setSaving(true);
     setMessage('');
     try {
-      const resWeights = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/config/tier-weights`, {
+      const resWeights = await fetch(`${API_URL}/api/v1/config/tier-weights`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' },
         body: JSON.stringify(weights)
       });
-      const resCutoffs = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/config/tier-cutoffs`, {
+      const resCutoffs = await fetch(`${API_URL}/api/v1/config/tier-cutoffs`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' },
         body: JSON.stringify(cutoffs)

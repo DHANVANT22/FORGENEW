@@ -32,7 +32,7 @@ export default function PulsePage() {
       });
       if (res.ok) {
         const data = await res.json();
-        const list = data.data || [];
+        const list = Array.isArray(data) ? data : (data.data || []);
         setProjects(list);
         if (list.length > 0 && !selectedProjectId) {
           setSelectedProjectId(list[0].id);

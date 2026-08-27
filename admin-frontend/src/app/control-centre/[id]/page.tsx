@@ -42,12 +42,14 @@ export default function ControlCentreEditor() {
   const [showHistory, setShowHistory] = useState(false);
   const [selectedRevision, setSelectedRevision] = useState<any>(null);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+
   const fetchIdea = async () => {
     try {
       const [ideaRes, revRes, statusRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } }),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}/revisions`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } }),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/provider-status`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } })
+        fetch(`${API_URL}/api/v1/control-centre/ideas/${id}`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } }),
+        fetch(`${API_URL}/api/v1/control-centre/ideas/${id}/revisions`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } }),
+        fetch(`${API_URL}/api/v1/control-centre/provider-status`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } })
       ]);
 
       if (ideaRes.ok) {
@@ -73,7 +75,7 @@ export default function ControlCentreEditor() {
 
   const fetchChat = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}/chat`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
+      const res = await fetch(`${API_URL}/api/v1/control-centre/ideas/${id}/chat`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
       if (res.ok) {
         const data = await res.json();
         setChatMessages(data.map((m: any) => {
@@ -110,7 +112,7 @@ export default function ControlCentreEditor() {
     setSaving(true);
     try {
       const reqVersion = forceOverwrite ? conflict?.currentVersion || version : version;
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/control-centre/ideas/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +138,7 @@ export default function ControlCentreEditor() {
         setVersion(updated.version);
         setConflict(null);
         // Refresh revisions
-        const revRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}/revisions`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
+        const revRes = await fetch(`${API_URL}/api/v1/control-centre/ideas/${id}/revisions`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
         if (revRes.ok) setRevisions(await revRes.json());
         
         // Success flash
@@ -154,7 +156,7 @@ export default function ControlCentreEditor() {
 
   const handleRestore = async (revId: string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}/revisions/${revId}`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
+      const res = await fetch(`${API_URL}/api/v1/control-centre/ideas/${id}/revisions/${revId}`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
       if (res.ok) {
         const revData = await res.json();
         setContent(revData.content);
@@ -169,7 +171,7 @@ export default function ControlCentreEditor() {
 
   const downloadMarkdown = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}/export`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
+      const res = await fetch(`${API_URL}/api/v1/control-centre/ideas/${id}/export`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
       if (res.ok) {
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
@@ -206,7 +208,7 @@ export default function ControlCentreEditor() {
     setAnalyzing(true);
     
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/chat`, {
+      const res = await fetch(`${API_URL}/api/v1/control-centre/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -255,7 +257,7 @@ export default function ControlCentreEditor() {
         if (parsedType === 'document') {
           downloadContentAsMarkdown(parsedContent, `${slug}-v${version + 1}-${new Date().toISOString().split('T')[0]}.md`);
           try {
-            const saveRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}`, {
+            const saveRes = await fetch(`${API_URL}/api/v1/control-centre/ideas/${id}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -272,7 +274,7 @@ export default function ControlCentreEditor() {
                const updated = await saveRes.json();
                setVersion(updated.version);
                setContent(updated.content);
-               const revRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/control-centre/ideas/${id}/revisions`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
+               const revRes = await fetch(`${API_URL}/api/v1/control-centre/ideas/${id}/revisions`, { headers: { 'Authorization': 'Bearer ADMIN_DEMO_TOKEN' } });
                if (revRes.ok) setRevisions(await revRes.json());
             }
           } catch(e) {

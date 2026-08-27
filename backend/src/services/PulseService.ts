@@ -16,6 +16,19 @@ export class PulseService {
       const anyAdmin = await prisma.user.findFirst({ where: { role: 'SUPER_ADMIN' } }) || await prisma.user.findFirst();
       if (anyAdmin) {
         validUserId = anyAdmin.id;
+      } else {
+        const systemAdmin = await prisma.user.upsert({
+          where: { email: 'admin@forge.dev' },
+          update: {},
+          create: {
+            id: 'demo-admin',
+            email: 'admin@forge.dev',
+            name: 'System Admin',
+            password: 'demo-admin-password-hash',
+            role: 'SUPER_ADMIN'
+          }
+        });
+        validUserId = systemAdmin.id;
       }
     }
 
