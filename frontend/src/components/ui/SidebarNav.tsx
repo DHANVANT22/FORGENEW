@@ -38,7 +38,7 @@ export function SidebarNav() {
       className={`bg-surface-container border-r border-border flex flex-col z-10 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}
     >
       <div className={`p-6 border-b border-border font-display font-bold text-lg text-brand-primary-bright flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
-        {!isCollapsed && <span>Forge Terminal</span>}
+        {!isCollapsed && <span>Haizo Workspace</span>}
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)} 
           className="text-text-muted hover:text-text-strong transition-colors"

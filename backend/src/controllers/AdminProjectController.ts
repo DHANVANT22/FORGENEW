@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { randomUUID } from 'crypto';
 import prisma from '../utils/db';
 
 export class AdminProjectController {
@@ -46,7 +47,7 @@ export class AdminProjectController {
 
       await prisma.activityEvent.create({
         data: {
-          id: Date.now().toString(),
+          id: randomUUID(),
           actorName: 'Admin',
           action: clientVisible ? 'Made Column Visible' : 'Hid Column',
           entityType: 'Column',
@@ -73,7 +74,7 @@ export class AdminProjectController {
 
       await prisma.activityEvent.create({
         data: {
-          id: Date.now().toString(),
+          id: randomUUID(),
           actorName: 'Admin',
           action: clientVisible ? 'Made Milestone Visible' : 'Hid Milestone',
           entityType: 'Milestone',

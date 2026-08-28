@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 export function Navbar() {
@@ -34,15 +35,19 @@ export function Navbar() {
         
         {/* Brand */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#5CA8C9] to-[#2E6B87] flex items-center justify-center text-black font-black text-xs font-mono shadow-[0_0_15px_rgba(92,168,201,0.4)] group-hover:scale-105 transition-transform">
-            F2
-          </div>
+          <Image
+            src="/logo/haizo-icon.png"
+            alt="Haizo Workspace"
+            width={32}
+            height={32}
+            className="w-8 h-8 rounded-xl object-contain drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] group-hover:scale-105 transition-transform"
+          />
           <div className="flex flex-col">
-            <span className="font-display font-black text-sm tracking-wider text-white group-hover:text-[#82C4DE] transition-colors">
-              FORGE 2.0
+            <span className="font-display font-black text-sm tracking-wider text-white group-hover:text-[#38BDF8] transition-colors">
+              HAIZO WORKSPACE
             </span>
-            <span className="font-mono text-[9px] uppercase tracking-widest text-[#82C4DE]">
-              Lifecycle Platform
+            <span className="font-mono text-[9px] uppercase tracking-widest text-[#38BDF8]">
+              Client Platform
             </span>
           </div>
         </Link>

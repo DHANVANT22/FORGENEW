@@ -5,6 +5,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'crypto';
 import router from './routes';
 import './jobs/riskNightly';
 import './jobs/tierCountsCache';
@@ -73,7 +74,7 @@ io.on('connection', (socket) => {
       if (user && conv) {
         const savedMsg = await prisma.message.create({
           data: {
-            id: Date.now().toString(),
+            id: randomUUID(),
             conversationId: conv.id,
             senderId: user.id,
             clientNonce: isClient ? 'CLIENT_MSG' : 'ADMIN_MSG',
@@ -94,7 +95,7 @@ io.on('connection', (socket) => {
         io.to(`project_${projectId}`).emit('receive_message', message);
       } else {
         const message = {
-          id: Date.now().toString(),
+          id: randomUUID(),
           senderName: senderName || 'Client',
           text,
           createdAt: new Date().toISOString(),
@@ -120,7 +121,7 @@ io.on('connection', (socket) => {
         await prisma.conversationMember.upsert({
           where: { conversationId_userId: { conversationId: conv.id, userId: data.userId } },
           update: { lastReadAt: now },
-          create: { id: Date.now().toString(), conversationId: conv.id, userId: data.userId, lastReadAt: now }
+          create: { id: randomUUID(), conversationId: conv.id, userId: data.userId, lastReadAt: now }
         });
         socket.to(`project_${data.projectId}`).emit('messages_read', { userId: data.userId, time: now.toISOString() });
       }

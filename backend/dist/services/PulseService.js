@@ -20,6 +20,20 @@ class PulseService {
             if (anyAdmin) {
                 validUserId = anyAdmin.id;
             }
+            else {
+                const systemAdmin = await db_1.default.user.upsert({
+                    where: { email: 'admin@forge.dev' },
+                    update: {},
+                    create: {
+                        id: 'demo-admin',
+                        email: 'admin@forge.dev',
+                        name: 'System Admin',
+                        password: 'demo-admin-password-hash',
+                        role: 'SUPER_ADMIN'
+                    }
+                });
+                validUserId = systemAdmin.id;
+            }
         }
         return db_1.default.pulseToken.create({
             data: {

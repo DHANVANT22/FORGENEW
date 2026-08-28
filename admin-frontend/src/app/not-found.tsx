@@ -8,7 +8,7 @@ export default function NotFound() {
           <span className="material-symbols-outlined text-3xl">explore_off</span>
         </div>
         <h2 className="font-display text-2xl font-bold text-text-strong mb-3">Signal Lost (404)</h2>
-        <p className="text-text-muted mb-8 text-sm">The requested sector could not be located within the Forge system. It may have been relocated or purged.</p>
+        <p className="text-text-muted mb-8 text-sm">The requested sector could not be located within the Haizo Workspace system. It may have been relocated or purged.</p>
         <Link href="/" className="btn-primary px-6 py-2.5 text-sm font-medium inline-block">
           Return to Dashboard
         </Link>

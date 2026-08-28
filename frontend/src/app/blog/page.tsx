@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Engineering Blog | Forge',
+  title: 'Engineering Blog | Haizo Workspace',
   description: 'Technical deep dives, optimization wins, and engineering stories.',
 };
 
@@ -37,7 +37,7 @@ export default async function BlogListPage({
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-display font-bold mb-6 text-on-surface">Engineering Blog</h1>
         <p className="text-xl text-on-surface-variant font-light mb-12">
-          Technical deep dives, optimization wins, and engineering stories from the Forge team.
+          Technical deep dives, optimization wins, and engineering stories from the Haizo Workspace team.
         </p>
 
         <form className="mb-12 flex flex-col sm:flex-row gap-4" method="GET" action="/blog">

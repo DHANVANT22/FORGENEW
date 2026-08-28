@@ -482,19 +482,19 @@ export default function ProjectsDashboard({ params }: { params: Promise<{ id: st
                     </div>
                     <div>
                       <div className="flex justify-between mb-2"><label className="text-xs font-mono text-on-surface">External Integrations</label><span className="text-primary font-mono text-xs">{riskInputs.integrations}</span></div>
-                      <input type="range" min="0" max="10" className="w-full accent-primary" value={riskInputs.integrations} onChange={e => setRiskInputs({...riskInputs, integrations: parseInt(e.target.value)})} />
+                      <input type="range" aria-label="External Integrations" min="0" max="10" className="w-full accent-primary" value={riskInputs.integrations} onChange={e => setRiskInputs({...riskInputs, integrations: parseInt(e.target.value)})} />
                     </div>
                     <div>
                       <div className="flex justify-between mb-2"><label className="text-xs font-mono text-on-surface">Stakeholder Roles</label><span className="text-primary font-mono text-xs">{riskInputs.roles}</span></div>
-                      <input type="range" min="0" max="5" className="w-full accent-primary" value={riskInputs.roles} onChange={e => setRiskInputs({...riskInputs, roles: parseInt(e.target.value)})} />
+                      <input type="range" aria-label="Stakeholder Roles" min="0" max="5" className="w-full accent-primary" value={riskInputs.roles} onChange={e => setRiskInputs({...riskInputs, roles: parseInt(e.target.value)})} />
                     </div>
                     <div className="flex gap-4">
                       <label className="flex items-center gap-2 text-xs font-mono text-on-surface cursor-pointer">
-                        <input type="checkbox" className="accent-primary w-4 h-4" checked={riskInputs.realTime} onChange={e => setRiskInputs({...riskInputs, realTime: e.target.checked})} />
+                        <input type="checkbox" aria-label="Real-time Req" className="accent-primary w-4 h-4" checked={riskInputs.realTime} onChange={e => setRiskInputs({...riskInputs, realTime: e.target.checked})} />
                         Real-time Req
                       </label>
                       <label className="flex items-center gap-2 text-xs font-mono text-on-surface cursor-pointer">
-                        <input type="checkbox" className="accent-primary w-4 h-4" checked={riskInputs.compliance} onChange={e => setRiskInputs({...riskInputs, compliance: e.target.checked})} />
+                        <input type="checkbox" aria-label="Strict Compliance" className="accent-primary w-4 h-4" checked={riskInputs.compliance} onChange={e => setRiskInputs({...riskInputs, compliance: e.target.checked})} />
                         Strict Compliance
                       </label>
                     </div>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { KanbanBoard } from '@/components/ui/KanbanBoard';
 import { MilestoneTracker } from '@/components/ui/MilestoneTracker';
 import { Panel } from '@/components/ui/Panel';
@@ -441,7 +442,7 @@ export default function ClientDashboard() {
           </div>
           <div className="flex items-center gap-3">
             <LedIndicator status="active" />
-            <span className="text-xs font-bold tracking-widest text-[#82C4DE]">INITIALIZING FORGE 2.0 CLIENT GATEWAY...</span>
+            <span className="text-xs font-bold tracking-widest text-[#82C4DE]">INITIALIZING HAIZO WORKSPACE CLIENT GATEWAY...</span>
           </div>
         </div>
       </div>
@@ -463,12 +464,16 @@ export default function ClientDashboard() {
         <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#5CA8C9] to-[#2B637B] flex items-center justify-center text-black font-black text-xs font-mono shadow-[0_0_15px_rgba(92,168,201,0.4)]">
-                F2
-              </div>
+              <Image
+                src="/logo/haizo-icon.png"
+                alt="Haizo Workspace"
+                width={32}
+                height={32}
+                className="w-8 h-8 rounded-lg object-contain drop-shadow-[0_0_15px_rgba(92,168,201,0.4)]"
+              />
               <div className="flex flex-col">
                 <span className="text-sm font-display font-black tracking-wider text-white group-hover:text-[#82C4DE] transition-colors">
-                  FORGE 2.0
+                  HAIZO WORKSPACE
                 </span>
                 <span className="text-[9px] font-mono text-neutral-400 tracking-widest uppercase">
                   Executive Client Gateway

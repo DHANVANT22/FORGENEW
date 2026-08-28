@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
@@ -73,22 +74,30 @@ export function SidebarNav() {
       <div className={`p-5 border-b border-white/[0.08] flex items-center ${effectiveCollapsed ? 'justify-center' : 'justify-between'}`}>
         {!effectiveCollapsed ? (
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#5CA8C9] to-[#2E6B87] flex items-center justify-center text-black font-black text-xs font-mono shadow-[0_0_15px_rgba(92,168,201,0.4)] shrink-0">
-              F2
-            </div>
+            <Image
+              src="/logo/haizo-icon.png"
+              alt="Haizo Workspace"
+              width={32}
+              height={32}
+              className="w-8 h-8 rounded-xl object-contain drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] shrink-0"
+            />
             <div className="flex flex-col min-w-0">
-              <span className="font-display font-black text-sm tracking-wider text-white group-hover:text-[#82C4DE] transition-colors truncate">
-                FORGE OPS
+              <span className="font-display font-black text-sm tracking-wider text-white group-hover:text-[#38BDF8] transition-colors truncate">
+                HAIZO WORKSPACE
               </span>
-              <span className="font-mono text-[9px] uppercase tracking-widest text-[#82C4DE] truncate">
-                Management Hub
+              <span className="font-mono text-[9px] uppercase tracking-widest text-[#38BDF8] truncate">
+                Ops Console
               </span>
             </div>
           </Link>
         ) : (
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#5CA8C9] to-[#2E6B87] flex items-center justify-center text-black font-black text-xs font-mono shadow-[0_0_15px_rgba(92,168,201,0.4)] shrink-0">
-            F2
-          </div>
+          <Image
+            src="/logo/haizo-icon.png"
+            alt="Haizo Workspace"
+            width={32}
+            height={32}
+            className="w-8 h-8 rounded-xl object-contain drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] shrink-0"
+          />
         )}
 
         {!effectiveCollapsed && (
@@ -98,7 +107,7 @@ export function SidebarNav() {
               if (isPinned) setIsCollapsed(true);
             }} 
             className={`p-1.5 rounded-lg transition-colors flex items-center justify-center ${
-              isPinned ? 'text-[#82C4DE] bg-[#5CA8C9]/20 border border-[#5CA8C9]/40' : 'text-neutral-400 hover:text-white hover:bg-white/[0.05]'
+              isPinned ? 'text-[#38BDF8] bg-[#38BDF8]/20 border border-[#38BDF8]/40' : 'text-neutral-400 hover:text-white hover:bg-white/[0.05]'
             }`}
             title={isPinned ? "Unpin Sidebar (Auto-Minimize)" : "Pin Sidebar Always Open"}
           >
@@ -129,7 +138,7 @@ export function SidebarNav() {
                 className={`
                   relative flex items-center px-3.5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-200 group
                   ${isActive 
-                    ? 'bg-[#5CA8C9]/15 text-white font-bold border border-[#5CA8C9]/30 shadow-[0_0_15px_rgba(92,168,201,0.15)]' 
+                    ? 'bg-[#38BDF8]/15 text-white font-bold border border-[#38BDF8]/30 shadow-[0_0_15px_rgba(56,189,248,0.15)]' 
                     : 'text-neutral-400 hover:text-white hover:bg-white/[0.05] border border-transparent'
                   }
                 `}
@@ -138,14 +147,14 @@ export function SidebarNav() {
                 {isActive && (
                   <motion.div
                     layoutId="active-nav-glow"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#5CA8C9] rounded-r-full shadow-[0_0_10px_#5CA8C9]"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#38BDF8] rounded-r-full shadow-[0_0_10px_#38BDF8]"
                   />
                 )}
                 
                 <div className={`flex items-center gap-3 w-full ${effectiveCollapsed ? 'justify-center' : ''}`}>
                   <span 
                     className={`material-symbols-outlined text-[20px] transition-colors shrink-0 ${
-                      isActive ? 'text-[#82C4DE]' : 'text-neutral-500 group-hover:text-neutral-300'
+                      isActive ? 'text-[#38BDF8]' : 'text-neutral-500 group-hover:text-neutral-300'
                     }`}
                   >
                     {item.icon}
@@ -162,7 +171,7 @@ export function SidebarNav() {
           <div className={`p-2.5 rounded-2xl bg-black/60 border border-white/[0.06] flex items-center ${effectiveCollapsed ? 'justify-center' : 'justify-between'}`}>
             {!effectiveCollapsed && (
               <div className="flex items-center gap-2.5 min-w-0 pr-2">
-                <div className="w-8 h-8 rounded-full bg-[#5CA8C9]/20 border border-[#5CA8C9]/40 text-[#82C4DE] flex items-center justify-center font-mono font-bold text-xs shrink-0">
+                <div className="w-8 h-8 rounded-full bg-[#38BDF8]/20 border border-[#38BDF8]/40 text-[#38BDF8] flex items-center justify-center font-mono font-bold text-xs shrink-0">
                   {adminName ? adminName.charAt(0).toUpperCase() : 'A'}
                 </div>
                 <div className="min-w-0">

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { randomUUID } from 'crypto';
 import prisma from '../utils/db';
 
 export class BlogController {
@@ -6,6 +7,24 @@ export class BlogController {
     try {
       const { title, content, queryPlan, queryPlanBefore, authorId, tags = [] } = req.body;
       
+      let effectiveAuthorId = authorId || (req as any).user?.id || (req as any).admin?.id;
+      if (!effectiveAuthorId) {
+        const firstUser = await prisma.user.findFirst();
+        if (firstUser) {
+          effectiveAuthorId = firstUser.id;
+        } else {
+          const newUser = await prisma.user.create({
+            data: {
+              email: 'admin@forge.internal',
+              password: 'default_hashed_pass',
+              name: 'Forge Admin',
+              role: 'SUPER_ADMIN'
+            }
+          });
+          effectiveAuthorId = newUser.id;
+        }
+      }
+
       let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
       if (!baseSlug) baseSlug = 'blog-post';
       let slug = baseSlug;
@@ -18,12 +37,12 @@ export class BlogController {
       }
       const blog = await prisma.blog.create({
         data: {
-          id: Date.now().toString(),
+          id: randomUUID(),
           title,
           content,
           queryPlan,
           queryPlanBefore,
-          authorId,
+          authorId: effectiveAuthorId,
           slug,
           tags,
           published: true,

@@ -145,12 +145,22 @@ export default function ClientLogin() {
       <div className="w-full max-w-md relative z-10 space-y-6">
         {/* Header Branding */}
         <div className="text-center space-y-2">
-          <Link href="/" className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/10 hover:border-cyan-400/40 transition-all backdrop-blur-md">
+          <Link href="/" className="inline-block group mb-1">
+            <Image
+              src="/logo/haizo-lockup.png"
+              alt="Haizo Workspace"
+              width={180}
+              height={132}
+              priority
+              className="h-16 w-auto object-contain mx-auto drop-shadow-[0_0_25px_rgba(92,168,201,0.35)] group-hover:scale-105 transition-transform"
+            />
+          </Link>
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/10 hover:border-cyan-400/40 transition-all backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400">
-              FORGE 2.0 ENTERPRISE GATEWAY
+              HAIZO WORKSPACE ENTERPRISE GATEWAY
             </span>
-          </Link>
+          </div>
           <h1 className="text-display-2xl font-bold text-slate-100 tracking-tight">
             {mode === 'signup' ? 'Create Client Workspace' : 'Client Executive Sign In'}
           </h1>

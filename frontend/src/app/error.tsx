@@ -13,7 +13,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
           <span className="material-symbols-outlined text-3xl">error</span>
         </div>
         <h2 className="font-display text-2xl font-bold text-text-strong mb-3">System Error</h2>
-        <p className="text-text-muted mb-8 text-sm">An unexpected disruption occurred in the Forge system. Our diagnostics have logged the event.</p>
+        <p className="text-text-muted mb-8 text-sm">An unexpected disruption occurred in the Haizo Workspace system. Our diagnostics have logged the event.</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="/" className="btn-secondary px-4 py-2 text-sm flex items-center justify-center">Return Home</a>
           <button onClick={() => reset()} className="btn-primary px-4 py-2 text-sm font-medium">Try Again</button>

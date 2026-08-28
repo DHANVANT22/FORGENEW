@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import { randomUUID } from 'crypto';
 import { ClientAuthRequest } from '../middleware/auth';
 import prisma from '../utils/db';
 import { io } from '../index';
@@ -195,7 +196,7 @@ export class ClientProjectController {
 
       const message = await prisma.message.create({
         data: {
-          id: Date.now().toString(),
+          id: randomUUID(),
           conversationId: conv.id,
           senderId: defaultUser.id,
           body: briefText,
@@ -205,7 +206,7 @@ export class ClientProjectController {
       // Create an activity event for admin
       await prisma.activityEvent.create({
         data: {
-          id: Date.now().toString(),
+          id: randomUUID(),
           action: 'project_brief_submitted',
           entityType: 'Project',
           entityId: projectId,
@@ -265,7 +266,7 @@ export class ClientProjectController {
       // Log to ActivityEvent
       const event = await prisma.activityEvent.create({
         data: {
-          id: Date.now().toString(),
+          id: randomUUID(),
           action: 'milestone_approved',
           entityType: 'Milestone',
           entityId: milestone.id,

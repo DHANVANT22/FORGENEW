@@ -120,8 +120,10 @@ export default function EstimatorSettings() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
             {Object.entries(weights).map(([tier, weight]) => (
               <div key={tier} className="flex flex-col gap-2">
-                <label className="text-xs font-mono font-medium text-muted uppercase tracking-wider">{tier} Weight</label>
+                <label htmlFor={`weight-${tier}`} className="text-xs font-mono font-medium text-muted uppercase tracking-wider">{tier} Weight</label>
                 <input 
+                  id={`weight-${tier}`}
+                  aria-label={`${tier} Weight`}
                   className="w-full bg-surface-container-lowest border border-border/50 p-3 font-mono text-sm leading-relaxed rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-on-surface transition-all shadow-sm" 
                   type="number" 
                   value={weight} 
@@ -140,8 +142,10 @@ export default function EstimatorSettings() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
             {Object.entries(cutoffs).map(([tier, cutoff]) => (
               <div key={tier} className="flex flex-col gap-2">
-                <label className="text-xs font-mono font-medium text-muted uppercase tracking-wider">{tier} Cutoff</label>
+                <label htmlFor={`cutoff-${tier}`} className="text-xs font-mono font-medium text-muted uppercase tracking-wider">{tier} Cutoff</label>
                 <input 
+                  id={`cutoff-${tier}`}
+                  aria-label={`${tier} Cutoff`}
                   className="w-full bg-surface-container-lowest border border-border/50 p-3 font-mono text-sm leading-relaxed rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-on-surface transition-all shadow-sm" 
                   type="number" 
                   value={cutoff} 

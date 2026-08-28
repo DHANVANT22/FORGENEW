@@ -37,6 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminProjectController = void 0;
+const crypto_1 = require("crypto");
 const db_1 = __importDefault(require("../utils/db"));
 class AdminProjectController {
     static async getProject(req, res) {
@@ -79,7 +80,7 @@ class AdminProjectController {
             });
             await db_1.default.activityEvent.create({
                 data: {
-                    id: Date.now().toString(),
+                    id: (0, crypto_1.randomUUID)(),
                     actorName: 'Admin',
                     action: clientVisible ? 'Made Column Visible' : 'Hid Column',
                     entityType: 'Column',
@@ -103,7 +104,7 @@ class AdminProjectController {
             });
             await db_1.default.activityEvent.create({
                 data: {
-                    id: Date.now().toString(),
+                    id: (0, crypto_1.randomUUID)(),
                     actorName: 'Admin',
                     action: clientVisible ? 'Made Milestone Visible' : 'Hid Milestone',
                     entityType: 'Milestone',

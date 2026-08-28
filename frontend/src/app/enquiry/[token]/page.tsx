@@ -145,7 +145,7 @@ export default function EnquiryPage() {
               {enquiry.messages?.map((msg: any) => (
                 <div key={msg.id} className={`flex flex-col max-w-[85%] ${msg.sender === 'client' ? 'self-end items-end' : 'self-start items-start'}`}>
                   <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest mb-1 mx-1">
-                    {msg.sender === 'client' ? 'You' : 'Forge Team'}
+                    {msg.sender === 'client' ? 'You' : 'Haizo Team'}
                   </span>
                   <div className={`p-4 rounded-lg font-mono text-sm shadow-sm ${msg.sender === 'client' ? 'bg-primary-container/20 border border-primary/30 text-text-strong rounded-tr-sm' : 'bg-surface-container border border-border text-text-strong rounded-tl-sm'}`}>
                     {msg.body}

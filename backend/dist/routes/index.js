@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const EstimateController_1 = require("../controllers/EstimateController");
 const DraftEstimateController_1 = require("../controllers/DraftEstimateController");
 const ScenarioController_1 = require("../controllers/ScenarioController");
@@ -16,10 +17,16 @@ const AdminProjectController_1 = require("../controllers/AdminProjectController"
 const ControlCentreController_1 = require("../controllers/ControlCentreController");
 const RiskOutcomeController_1 = require("../controllers/RiskOutcomeController");
 const RiskAlertController_1 = require("../controllers/RiskAlertController");
+const EnquiryController_1 = require("../controllers/EnquiryController");
+const MilestoneController_1 = require("../controllers/MilestoneController");
+const AdminClientController_1 = require("../controllers/AdminClientController");
+const ActivityLogController_1 = require("../controllers/ActivityLogController");
+const SearchController_1 = require("../controllers/SearchController");
+const BlogController_1 = require("../controllers/BlogController");
+const AuthController_1 = require("../controllers/AuthController");
 const auth_1 = require("../middleware/auth");
 const validate_1 = require("../middleware/validate");
 const schemas_1 = require("../schemas");
-const EnquiryController_1 = require("../controllers/EnquiryController");
 const router = (0, express_1.Router)();
 // Enquiries
 router.post('/v1/enquiries', EnquiryController_1.EnquiryController.createEnquiry);
@@ -49,7 +56,6 @@ router.put('/v1/config/tier-weights', auth_1.requireAdminAuth, ConfigController_
 router.get('/v1/config/tier-cutoffs', ConfigController_1.ConfigController.getTierCutoffs);
 router.put('/v1/config/tier-cutoffs', auth_1.requireAdminAuth, ConfigController_1.ConfigController.updateTierCutoffs);
 router.post('/v1/config/tier-weights/preview', auth_1.requireAdminAuth, ConfigController_1.ConfigController.previewTierWeights);
-const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const pulseRateLimit = (0, express_rate_limit_1.default)({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 100, // Reasonable limit per IP window
@@ -85,16 +91,12 @@ router.put('/v1/admin/projects/:id/tasks/reorder', auth_1.requireAdminAuth, Admi
 router.put('/v1/admin/projects/:id/columns/:columnId/visibility', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.toggleColumnVisibility);
 router.put('/v1/admin/projects/:id/milestones/:milestoneId/visibility', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.toggleMilestoneVisibility);
 router.patch('/v1/admin/projects/:id/pulse-financials', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.updatePulseFinancialsVisibility);
-const MilestoneController_1 = require("../controllers/MilestoneController");
 router.post('/v1/admin/projects/:projectId/milestones', auth_1.requireAdminAuth, MilestoneController_1.MilestoneController.createMilestone);
 router.put('/v1/admin/milestones/:id', auth_1.requireAdminAuth, MilestoneController_1.MilestoneController.updateMilestone);
 router.delete('/v1/admin/milestones/:id', auth_1.requireAdminAuth, MilestoneController_1.MilestoneController.deleteMilestone);
-const AdminClientController_1 = require("../controllers/AdminClientController");
 router.get('/v1/admin/clients', auth_1.requireAdminAuth, AdminClientController_1.AdminClientController.getClients);
 router.post('/v1/admin/clients', auth_1.requireAdminAuth, AdminClientController_1.AdminClientController.createClient);
-const ActivityLogController_1 = require("../controllers/ActivityLogController");
 router.get('/v1/admin/activity', auth_1.requireAdminAuth, ActivityLogController_1.ActivityLogController.getActivityLog);
-const SearchController_1 = require("../controllers/SearchController");
 router.get('/v1/admin/search', auth_1.requireAdminAuth, SearchController_1.SearchController.search);
 // Risk Simulator
 router.get('/v1/projects/:id/risk/history', auth_1.requireAdminAuth, AdminProjectController_1.AdminProjectController.getRiskHistory);
@@ -102,8 +104,24 @@ router.post('/v1/projects/:id/risk/preview', auth_1.requireAdminAuth, AdminProje
 router.post('/v1/admin/projects/:projectId/risk/outcome', auth_1.requireAdminAuth, RiskOutcomeController_1.RiskOutcomeController.logOutcome);
 router.get('/v1/admin/projects/:projectId/risk/outcome', auth_1.requireAdminAuth, RiskOutcomeController_1.RiskOutcomeController.getOutcomes);
 router.post('/v1/admin/projects/:projectId/risk/snooze', auth_1.requireAdminAuth, RiskAlertController_1.RiskAlertController.snoozeAlert);
-const BlogController_1 = require("../controllers/BlogController");
-const AuthController_1 = require("../controllers/AuthController");
+// Auth
+router.post('/v1/auth/admin/login', AuthController_1.AuthController.adminLogin);
+// Blog
+router.post('/v1/blogs', auth_1.requireAdminAuth, (0, validate_1.validate)(schemas_1.BlogSchema), BlogController_1.BlogController.createBlog);
+router.put('/v1/blogs/:id', auth_1.requireAdminAuth, (0, validate_1.validate)(schemas_1.BlogSchema), BlogController_1.BlogController.updateBlog);
+router.get('/v1/blogs', BlogController_1.BlogController.getBlogs);
+router.get('/v1/blogs/:slug', BlogController_1.BlogController.getBlogBySlug);
+// Control Centre
+router.post('/v1/control-centre/ideas', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.createIdea);
+router.get('/v1/control-centre/ideas', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getIdeas);
+router.get('/v1/control-centre/ideas/:id', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getIdea);
+router.put('/v1/control-centre/ideas/:id', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.updateIdea);
+router.get('/v1/control-centre/ideas/:id/revisions', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getRevisions);
+router.get('/v1/control-centre/ideas/:id/revisions/:revisionId', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getRevision);
+router.get('/v1/control-centre/ideas/:id/export', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.exportIdea);
+router.post('/v1/control-centre/chat', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.chatIdea);
+router.get('/v1/control-centre/ideas/:id/chat', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getIdeaChat);
+router.get('/v1/control-centre/provider-status', auth_1.requireAdminAuth, ControlCentreController_1.ControlCentreController.getProviderStatus);
 // Auth
 router.post('/v1/auth/admin/login', AuthController_1.AuthController.adminLogin);
 // Blog

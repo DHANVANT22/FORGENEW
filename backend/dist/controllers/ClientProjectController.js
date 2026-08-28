@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClientProjectController = void 0;
+const crypto_1 = require("crypto");
 const db_1 = __importDefault(require("../utils/db"));
 const index_1 = require("../index");
 class ClientProjectController {
@@ -181,7 +182,7 @@ class ClientProjectController {
             }
             const message = await db_1.default.message.create({
                 data: {
-                    id: Date.now().toString(),
+                    id: (0, crypto_1.randomUUID)(),
                     conversationId: conv.id,
                     senderId: defaultUser.id,
                     body: briefText,
@@ -190,7 +191,7 @@ class ClientProjectController {
             // Create an activity event for admin
             await db_1.default.activityEvent.create({
                 data: {
-                    id: Date.now().toString(),
+                    id: (0, crypto_1.randomUUID)(),
                     action: 'project_brief_submitted',
                     entityType: 'Project',
                     entityId: projectId,
@@ -242,7 +243,7 @@ class ClientProjectController {
             // Log to ActivityEvent
             const event = await db_1.default.activityEvent.create({
                 data: {
-                    id: Date.now().toString(),
+                    id: (0, crypto_1.randomUUID)(),
                     action: 'milestone_approved',
                     entityType: 'Milestone',
                     entityId: milestone.id,

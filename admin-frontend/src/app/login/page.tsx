@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -87,11 +88,23 @@ export default function AdminLogin() {
 
       <div className="w-full max-w-md relative z-10 space-y-6">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#82C4DE]">
-              FORGE TERMINAL OPS
-            </span>
+          <Link href="/" className="inline-block group mb-1">
+            <Image
+              src="/logo/haizo-lockup.png"
+              alt="Haizo Workspace"
+              width={180}
+              height={132}
+              priority
+              className="h-16 w-auto object-contain mx-auto drop-shadow-[0_0_25px_rgba(92,168,201,0.35)] group-hover:scale-105 transition-transform"
+            />
+          </Link>
+          <div className="block">
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#82C4DE]">
+                HAIZO WORKSPACE OPS
+              </span>
+            </div>
           </div>
           <h1 className="text-3xl font-display font-black tracking-tight text-white">
             Administrator Gateway
@@ -128,7 +141,7 @@ export default function AdminLogin() {
                 className={`neu-input w-full px-4 py-3 text-xs font-sans placeholder-neutral-600 transition-all ${
                   touched.email && email && !emailValid ? 'border-rose-500/50 bg-rose-950/10' : emailValid ? 'border-emerald-500/40' : ''
                 }`}
-                placeholder="admin@forge.dev"
+                placeholder="admin@haizo.dev"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 onBlur={() => setTouched(t => ({ ...t, email: true }))}

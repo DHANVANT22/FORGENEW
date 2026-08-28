@@ -37,11 +37,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlogController = void 0;
+const crypto_1 = require("crypto");
 const db_1 = __importDefault(require("../utils/db"));
 class BlogController {
     static async createBlog(req, res) {
         try {
             const { title, content, queryPlan, queryPlanBefore, authorId, tags = [] } = req.body;
+            let effectiveAuthorId = authorId || req.user?.id || req.admin?.id;
+            if (!effectiveAuthorId) {
+                const firstUser = await db_1.default.user.findFirst();
+                if (firstUser) {
+                    effectiveAuthorId = firstUser.id;
+                }
+                else {
+                    const newUser = await db_1.default.user.create({
+                        data: {
+                            email: 'admin@forge.internal',
+                            password: 'default_hashed_pass',
+                            name: 'Forge Admin',
+                            role: 'SUPER_ADMIN'
+                        }
+                    });
+                    effectiveAuthorId = newUser.id;
+                }
+            }
             let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
             if (!baseSlug)
                 baseSlug = 'blog-post';
@@ -56,12 +75,12 @@ class BlogController {
             }
             const blog = await db_1.default.blog.create({
                 data: {
-                    id: Date.now().toString(),
+                    id: (0, crypto_1.randomUUID)(),
                     title,
                     content,
                     queryPlan,
                     queryPlanBefore,
-                    authorId,
+                    authorId: effectiveAuthorId,
                     slug,
                     tags,
                     published: true,

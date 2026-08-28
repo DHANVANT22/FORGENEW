@@ -9,7 +9,7 @@ export default function DesignSystemPage() {
   return (
     <div className="p-8 pb-20 max-w-4xl mx-auto space-y-12">
       <div className="mb-12 border-b border-border pb-4">
-        <h1 className="text-3xl font-display text-brand-primary-bright mb-2">Forge Terminal</h1>
+        <h1 className="text-3xl font-display text-brand-primary-bright mb-2">Haizo Workspace</h1>
         <p className="text-text-muted font-mono">Phase 0: Primitive Components Preview</p>
       </div>
 

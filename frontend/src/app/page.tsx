@@ -27,7 +27,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md hover:border-cyan-400/40 transition-all shadow-lg">
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#38BDF8]" />
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400">
-              FORGE 2.0 // ENTERPRISE DELIVERY ENGINE
+              HAIZO WORKSPACE // ENTERPRISE DELIVERY ENGINE
             </span>
           </div>
           

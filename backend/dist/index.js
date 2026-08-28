@@ -11,6 +11,7 @@ const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const dotenv_1 = __importDefault(require("dotenv"));
 const client_1 = require("@prisma/client");
+const crypto_1 = require("crypto");
 const routes_1 = __importDefault(require("./routes"));
 require("./jobs/riskNightly");
 require("./jobs/tierCountsCache");
@@ -64,7 +65,7 @@ exports.io.on('connection', (socket) => {
             if (user && conv) {
                 const savedMsg = await prisma.message.create({
                     data: {
-                        id: Date.now().toString(),
+                        id: (0, crypto_1.randomUUID)(),
                         conversationId: conv.id,
                         senderId: user.id,
                         clientNonce: isClient ? 'CLIENT_MSG' : 'ADMIN_MSG',
@@ -85,7 +86,7 @@ exports.io.on('connection', (socket) => {
             }
             else {
                 const message = {
-                    id: Date.now().toString(),
+                    id: (0, crypto_1.randomUUID)(),
                     senderName: senderName || 'Client',
                     text,
                     createdAt: new Date().toISOString(),
@@ -110,7 +111,7 @@ exports.io.on('connection', (socket) => {
                 await prisma.conversationMember.upsert({
                     where: { conversationId_userId: { conversationId: conv.id, userId: data.userId } },
                     update: { lastReadAt: now },
-                    create: { id: Date.now().toString(), conversationId: conv.id, userId: data.userId, lastReadAt: now }
+                    create: { id: (0, crypto_1.randomUUID)(), conversationId: conv.id, userId: data.userId, lastReadAt: now }
                 });
                 socket.to(`project_${data.projectId}`).emit('messages_read', { userId: data.userId, time: now.toISOString() });
             }

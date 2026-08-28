@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 import { EstimateController } from '../controllers/EstimateController';
 import { DraftEstimateController } from '../controllers/DraftEstimateController';
 import { ScenarioController } from '../controllers/ScenarioController';
@@ -11,11 +12,16 @@ import { AdminProjectController } from '../controllers/AdminProjectController';
 import { ControlCentreController } from '../controllers/ControlCentreController';
 import { RiskOutcomeController } from '../controllers/RiskOutcomeController';
 import { RiskAlertController } from '../controllers/RiskAlertController';
+import { EnquiryController } from '../controllers/EnquiryController';
+import { MilestoneController } from '../controllers/MilestoneController';
+import { AdminClientController } from '../controllers/AdminClientController';
+import { ActivityLogController } from '../controllers/ActivityLogController';
+import { SearchController } from '../controllers/SearchController';
+import { BlogController } from '../controllers/BlogController';
+import { AuthController } from '../controllers/AuthController';
 import { requireClientAuth, requireAdminAuth } from '../middleware/auth';
 import { validate } from '../middleware/validate';
 import { BlogSchema, ClientAuthSchema, ClientInviteSchema } from '../schemas';
-
-import { EnquiryController } from '../controllers/EnquiryController';
 
 const router = Router();
 
@@ -52,8 +58,6 @@ router.put('/v1/config/tier-weights', requireAdminAuth, ConfigController.updateT
 router.get('/v1/config/tier-cutoffs', ConfigController.getTierCutoffs);
 router.put('/v1/config/tier-cutoffs', requireAdminAuth, ConfigController.updateTierCutoffs);
 router.post('/v1/config/tier-weights/preview', requireAdminAuth, ConfigController.previewTierWeights);
-
-import rateLimit from 'express-rate-limit';
 
 const pulseRateLimit = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
@@ -95,19 +99,15 @@ router.put('/v1/admin/projects/:id/columns/:columnId/visibility', requireAdminAu
 router.put('/v1/admin/projects/:id/milestones/:milestoneId/visibility', requireAdminAuth, AdminProjectController.toggleMilestoneVisibility);
 router.patch('/v1/admin/projects/:id/pulse-financials', requireAdminAuth, AdminProjectController.updatePulseFinancialsVisibility);
 
-import { MilestoneController } from '../controllers/MilestoneController';
 router.post('/v1/admin/projects/:projectId/milestones', requireAdminAuth, MilestoneController.createMilestone);
 router.put('/v1/admin/milestones/:id', requireAdminAuth, MilestoneController.updateMilestone);
 router.delete('/v1/admin/milestones/:id', requireAdminAuth, MilestoneController.deleteMilestone);
 
-import { AdminClientController } from '../controllers/AdminClientController';
 router.get('/v1/admin/clients', requireAdminAuth, AdminClientController.getClients);
 router.post('/v1/admin/clients', requireAdminAuth, AdminClientController.createClient);
 
-import { ActivityLogController } from '../controllers/ActivityLogController';
 router.get('/v1/admin/activity', requireAdminAuth, ActivityLogController.getActivityLog);
 
-import { SearchController } from '../controllers/SearchController';
 router.get('/v1/admin/search', requireAdminAuth, SearchController.search);
 
 // Risk Simulator
@@ -118,8 +118,26 @@ router.post('/v1/admin/projects/:projectId/risk/outcome', requireAdminAuth, Risk
 router.get('/v1/admin/projects/:projectId/risk/outcome', requireAdminAuth, RiskOutcomeController.getOutcomes);
 router.post('/v1/admin/projects/:projectId/risk/snooze', requireAdminAuth, RiskAlertController.snoozeAlert);
 
-import { BlogController } from '../controllers/BlogController';
-import { AuthController } from '../controllers/AuthController';
+// Auth
+router.post('/v1/auth/admin/login', AuthController.adminLogin);
+
+// Blog
+router.post('/v1/blogs', requireAdminAuth, validate(BlogSchema), BlogController.createBlog);
+router.put('/v1/blogs/:id', requireAdminAuth, validate(BlogSchema), BlogController.updateBlog);
+router.get('/v1/blogs', BlogController.getBlogs);
+router.get('/v1/blogs/:slug', BlogController.getBlogBySlug);
+
+// Control Centre
+router.post('/v1/control-centre/ideas', requireAdminAuth, ControlCentreController.createIdea);
+router.get('/v1/control-centre/ideas', requireAdminAuth, ControlCentreController.getIdeas);
+router.get('/v1/control-centre/ideas/:id', requireAdminAuth, ControlCentreController.getIdea);
+router.put('/v1/control-centre/ideas/:id', requireAdminAuth, ControlCentreController.updateIdea);
+router.get('/v1/control-centre/ideas/:id/revisions', requireAdminAuth, ControlCentreController.getRevisions);
+router.get('/v1/control-centre/ideas/:id/revisions/:revisionId', requireAdminAuth, ControlCentreController.getRevision);
+router.get('/v1/control-centre/ideas/:id/export', requireAdminAuth, ControlCentreController.exportIdea);
+router.post('/v1/control-centre/chat', requireAdminAuth, ControlCentreController.chatIdea);
+router.get('/v1/control-centre/ideas/:id/chat', requireAdminAuth, ControlCentreController.getIdeaChat);
+router.get('/v1/control-centre/provider-status', requireAdminAuth, ControlCentreController.getProviderStatus);
 
 // Auth
 router.post('/v1/auth/admin/login', AuthController.adminLogin);

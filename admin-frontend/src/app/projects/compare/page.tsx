@@ -17,7 +17,8 @@ export default function CompareProjectsPage() {
     })
       .then(res => res.json())
       .then(data => {
-        setProjects(data.filter((p: any) => p.status !== 'Completed' && p.status !== 'Archived'));
+        const list = Array.isArray(data) ? data : (data?.data || []);
+        setProjects(list.filter((p: any) => p.status !== 'Completed' && p.status !== 'Archived'));
         setLoading(false);
       })
       .catch(err => {
@@ -74,6 +75,7 @@ export default function CompareProjectsPage() {
               <label key={p.id} className="flex items-center gap-3 p-3 rounded-lg border border-border cursor-pointer hover:bg-surface-container-high transition-colors">
                 <input 
                   type="checkbox" 
+                  aria-label={`Select project ${p.name}`}
                   checked={selectedProjectIds.includes(p.id)}
                   onChange={() => toggleProject(p.id)}
                   className="w-4 h-4 accent-primary"
