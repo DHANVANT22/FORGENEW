@@ -17,7 +17,7 @@ function assert(condition, message) {
 }
 async function runSecurityTests() {
     console.log('====================================================');
-    console.log('       FORGE 2.0 SECURITY & AUDIT SUITE EXECUTION    ');
+    console.log('     HAIZO WORKSPACE SECURITY & AUDIT SUITE EXEC    ');
     console.log('====================================================\n');
     const clientAuthService = new ClientAuthService_1.ClientAuthService();
     // 1. Weak Password & Input Validation Guard

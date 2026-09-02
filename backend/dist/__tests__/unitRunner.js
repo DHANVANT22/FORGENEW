@@ -14,7 +14,7 @@ function assert(condition, message) {
 }
 async function runUnitTests() {
     console.log('====================================================');
-    console.log('        FORGE 2.0 UNIT TEST SUITE EXECUTION        ');
+    console.log('      HAIZO WORKSPACE UNIT TEST SUITE EXECUTION     ');
     console.log('====================================================\n');
     const cutoffs = { simple: 8, standard: 16, complex: 26 };
     // --- TierEngine Unit Tests ---

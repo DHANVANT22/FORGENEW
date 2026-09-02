@@ -18,7 +18,7 @@ function assert(condition, message) {
 }
 async function runE2ETests() {
     console.log('====================================================');
-    console.log('         FORGE 2.0 E2E INTEGRATION TEST SUITE       ');
+    console.log('       HAIZO WORKSPACE E2E INTEGRATION SUITE        ');
     console.log('====================================================\n');
     const testEmail = `e2e_client_${Date.now()}@forge.internal`;
     const clientAuthService = new ClientAuthService_1.ClientAuthService();

@@ -21,14 +21,20 @@ dotenv_1.default.config();
 (0, weeklyPulseEmail_1.startWeeklyPulseEmailJob)();
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'http://localhost:3000',
+    'http://localhost:3001'
+].filter((origin) => Boolean(origin));
 exports.io = new socket_io_1.Server(httpServer, {
     cors: {
-        origin: '*',
+        origin: allowedOrigins,
+        credentials: true
     }
 });
 const prisma = new client_1.PrismaClient();
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: allowedOrigins,
     credentials: true
 }));
 app.use(express_1.default.json());

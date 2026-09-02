@@ -18,15 +18,24 @@ startWeeklyPulseEmailJob();
 
 const app = express();
 const httpServer = createServer(app);
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+  'http://localhost:3001'
+].filter((origin): origin is string => Boolean(origin));
+
 export const io = new Server(httpServer, {
   cors: {
-    origin: '*',
+    origin: allowedOrigins,
+    credentials: true
   }
 });
+
 const prisma = new PrismaClient();
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
@@ -57,7 +66,7 @@ io.on('connection', (socket) => {
 
   socket.on('send_message', async (data) => {
     const { projectId, senderName, text, taskId, milestoneId } = data;
-    
+
     try {
       // Find or create conversation for project
       let conv = await prisma.conversation.findFirst({ where: { projectId } });
@@ -70,7 +79,7 @@ io.on('connection', (socket) => {
       // Find a default user for relation
       const user = await prisma.user.findFirst();
       const isClient = senderName === 'Client';
-      
+
       if (user && conv) {
         const savedMsg = await prisma.message.create({
           data: {
@@ -83,7 +92,7 @@ io.on('connection', (socket) => {
             milestoneId
           }
         });
-        
+
         const message = {
           id: savedMsg.id,
           senderName: isClient ? 'Client' : (senderName || user.name || 'Team Admin'),
@@ -135,7 +144,7 @@ io.on('connection', (socket) => {
     const projectId = activeClients.get(socket.id);
     if (projectId) {
       activeClients.delete(socket.id);
-      
+
       // Debounce offline status to prevent flicker on refresh
       setTimeout(() => {
         const stillOnline = Array.from(activeClients.values()).includes(projectId);
